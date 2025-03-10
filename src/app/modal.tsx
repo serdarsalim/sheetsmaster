@@ -1,7 +1,19 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const Modal = ({ template, onClose }) => {
+interface TemplateProps {
+  template: {
+    id: number;
+    name: string;
+    price: string;
+    category: string;
+    description: string;
+    image: string;
+  };
+  onClose: () => void;
+}
+
+const Modal: React.FC<TemplateProps> = ({ template, onClose }) => {
   const [activeTab, setActiveTab] = useState("overview");
 
   const templateDetails = {
