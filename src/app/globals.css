@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+/* Add this to your CSS file to match the body background to your hero */
+
+body {
+  background-color: #d3ecf6; /* Base color that matches your hero gradient */
+  position: relative;
+}
+
+/* Modified grid pattern with higher opacity and proper z-index */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0; /* Changed from -1 to 0 */
+  
+  /* Grid pattern with increased opacity */
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.016) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.023) 1px, transparent 1px),
+    linear-gradient(to right, rgba(255, 255, 255, 0.3) 1px, transparent 1px 98%),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 1px, transparent 1px 98%);
+  background-size: 5% 5%, 2% 2%, 100% 100%, 100% 100%;
+  background-position: 0 0, 0 0, 5% 0, 0 5%;
+}
+
+/* Premium subtle gradient animation */
+.animate-gradient {
+  background: linear-gradient(
+    135deg,
+    rgba(19, 23, 34, 0.95) 0%,
+    rgba(33, 39, 55, 0.95) 25%,
+    rgba(49, 55, 84, 0.98) 50%,
+    rgba(39, 50, 79, 0.95) 75%,
+    rgba(27, 32, 52, 0.95) 100%
+  );
+  background-size: 300% 300%;
+  animation: subtleGradientFlow 20s ease infinite;
+  position: relative;
+}
+
+/* Elegant overlay for depth and sophistication */
+.animate-gradient::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(
+      circle at 30% 20%, 
+      rgba(151, 157, 187, 0.12) 0%, 
+      rgba(20, 30, 60, 0.05) 40%, 
+      transparent 70%
+    ),
+    radial-gradient(
+      circle at 70% 65%, 
+      rgba(188, 193, 208, 0.1) 0%, 
+      rgba(190, 202, 227, 0.03) 40%, 
+      transparent 70%
+    );
+  pointer-events: none;
+}
+
+/* Optional noise texture for added sophistication */
+.animate-gradient::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+  opacity: 0.4;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+
+@keyframes gradientFlow {
+  0% { background-position: 0% 50% }
+  50% { background-position: 100% 50% }
+  100% { background-position: 0% 50% }
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+
+.hero-gradient {
+  position: relative;
+  background: linear-gradient(to right, white 0%, rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, 0) 80%, white 100%);
+}
+
+.hero-gradient::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to right, white 0%, rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, 0) 80%, white 100%);
+  pointer-events: none;
+}
