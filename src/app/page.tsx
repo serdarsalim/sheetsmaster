@@ -5,6 +5,12 @@ import Particles from "@tsparticles/react";
 import { loadStarsPreset } from "@tsparticles/preset-stars";
 import Fuse from "fuse.js";
 import Modal from "./modal"; // Import the Modal component
+import type { Engine } from "@tsparticles/engine";
+
+
+const particlesInit = async (engine: Engine): Promise<void> => {
+  await loadStarsPreset(engine);
+};
 
 const templates = [
   {
@@ -177,18 +183,17 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-transparent text-white relative overflow-hidden">
-      <Particles
-        init={particlesInit}
-        options={{
-          preset: "stars",
-          background: { color: "#0a0b1d" },
-          particles: {
-            number: { value: 100 },
-            size: { value: 1 },
-          },
-        }}
-        className="absolute inset-0"
-      />
+<Particles
+  options={{
+    preset: "stars",
+    background: { color: "#0a0b1d" },
+    particles: {
+      number: { value: 100 },
+      size: { value: 1 },
+    },
+  }}
+  className="absolute inset-0"
+/>
 
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md backdrop-blur-md bg-opacity-90">
         <div className="max-w-6xl mx-auto flex justify-between items-center py-4 px-6">

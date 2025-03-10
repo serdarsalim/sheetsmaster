@@ -9,6 +9,11 @@ interface TemplateProps {
     category: string;
     description: string;
     image: string;
+    previewUrl?: string;   // 👈 Make it optional
+    buyUrl?: string;       // 👈 Add this
+    hasFreeVersion?: boolean;  // 👈 Add this
+    isPaid?: boolean;      // 👈 Add this
+    freeVersionUrl?: string;  // 👈 Add this
   };
   onClose: () => void;
 }
@@ -134,6 +139,9 @@ const Modal: React.FC<TemplateProps> = ({ template, onClose }) => {
               </div>
             )}
           </div>
+
+
+
 
           {/* Buttons */}
           <div className="border-t border-gray-300 p-6 flex flex-col sm:flex-row sm:justify-between items-center gap-3 bg-white">
