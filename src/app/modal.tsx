@@ -102,10 +102,11 @@ const Modal: React.FC<TemplateProps> = ({ template, onClose }) => {
                     Template Overview
                   </h3>
                   <p className="text-gray-700 leading-relaxed mb-4">
-                    This premium {template.category} template is skillfully developed from scratch.
-                    Preview it and watch our YouTube video to learn more.
-                    The preview is read-only and does not allow making copies.
-                    Purchase the premium version for full access, lifetime usage, and free updates.
+                    This premium {template.category} template is skillfully
+                    developed from scratch. Preview it and watch our YouTube
+                    video to learn more. The preview is read-only and does not
+                    allow making copies. Purchase the premium version for full
+                    access, lifetime usage, and free updates.
                   </p>
 
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">
@@ -139,26 +140,26 @@ const Modal: React.FC<TemplateProps> = ({ template, onClose }) => {
 
           {/* Buttons */}
           <div className="border-t border-gray-300 p-6 flex flex-col sm:flex-row sm:justify-between items-center gap-3 bg-white">
-            <span className="text-2xl font-bold text-gray-800">{template.price}</span>
-            <div className="flex space-x-3 w-full sm:w-auto">
-              
-            {template.tutorialUrl && (
+            <span className="text-2xl font-bold text-gray-800 mb-3 sm:mb-0">
+              {template.price}
+            </span>
+            <div className="flex flex-wrap gap-3 w-full sm:w-auto">
+              {template.tutorialUrl && (
                 <a
                   href={template.tutorialUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto px-6 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg font-medium text-center"
+                  className="flex-1 sm:flex-none px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg font-medium text-center min-w-[90px]"
                 >
                   Tutorial
                 </a>
               )}
-              
               {template.previewUrl && (
                 <a
                   href={template.previewUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto px-6 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-medium text-center"
+                  className="flex-1 sm:flex-none px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-medium text-center min-w-[90px]"
                 >
                   Preview
                 </a>
@@ -168,7 +169,7 @@ const Modal: React.FC<TemplateProps> = ({ template, onClose }) => {
                   href={template.buyUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto px-6 py-2 bg-yellow-600 hover:bg-yellow-500 text-white rounded-lg font-medium text-center"
+                  className="flex-1 sm:flex-none px-4 py-2 bg-yellow-600 hover:bg-yellow-500 text-white rounded-lg font-medium text-center min-w-[90px]"
                 >
                   Buy on Ko-Fi
                 </a>
@@ -178,7 +179,7 @@ const Modal: React.FC<TemplateProps> = ({ template, onClose }) => {
                   href={template.freeVersionUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto px-6 py-2 bg-green-600 hover:bg-green-500 text-white rounded-lg font-medium text-center"
+                  className="flex-1 sm:flex-none px-4 py-2 bg-green-600 hover:bg-green-500 text-white rounded-lg font-medium text-center min-w-[90px]"
                 >
                   Free Version
                 </a>
