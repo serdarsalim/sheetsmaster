@@ -9,11 +9,10 @@ interface TemplateProps {
     category: string;
     description: string;
     image: string;
-    previewUrl?: string;   // 👈 Make it optional
-    buyUrl?: string;       // 👈 Add this
-    hasFreeVersion?: boolean;  // 👈 Add this
-    isPaid?: boolean;      // 👈 Add this
-    freeVersionUrl?: string;  // 👈 Add this
+    previewUrl?: string;
+    buyUrl?: string;
+    freeVersionUrl?: string;
+    tutorialUrl?: string; // NEW: Tutorial URL added
   };
   onClose: () => void;
 }
@@ -48,21 +47,17 @@ const Modal: React.FC<TemplateProps> = ({ template, onClose }) => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 50 }}
           transition={{ type: "spring", damping: 25, stiffness: 300 }}
-          className="rounded-xl shadow-2xl w-full max-w-4xl h-[85vh] flex flex-col bg-white" // Changed background color to white
+          className="rounded-xl shadow-2xl w-full max-w-4xl h-[85vh] flex flex-col bg-white"
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Shorter Header */}
+          {/* Header */}
           <div className="px-6 py-4 flex justify-between items-center border-b border-gray-300">
             <div>
-              <span className="inline-block px-3 py-1 text-xs bg-green-500 text-white rounded-full font-medium">
-                {template.category}
-              </span>
-              <h2 className="text-2xl font-bold text-gray-900 tracking-tight mt-1">
+              <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
                 {template.name}
               </h2>
               <p className="text-gray-700 mt-1">{template.description}</p>
             </div>
-            {/* Wider Close Button */}
             <button
               onClick={onClose}
               className="text-gray-900 hover:text-indigo-300 transition-colors bg-gray-100 hover:bg-gray-200 rounded-lg px-5 py-2 text-lg"
@@ -92,7 +87,7 @@ const Modal: React.FC<TemplateProps> = ({ template, onClose }) => {
           <div className="flex-grow overflow-y-auto p-6 md:p-8 bg-white">
             {activeTab === "overview" && (
               <div className="flex flex-col md:flex-row gap-6 items-start">
-                {/* Image (Narrower to fit text) */}
+                {/* Image */}
                 <div className="w-full md:w-1/2 flex justify-center">
                   <img
                     src={template.image}
@@ -108,7 +103,9 @@ const Modal: React.FC<TemplateProps> = ({ template, onClose }) => {
                   </h3>
                   <p className="text-gray-700 leading-relaxed mb-4">
                     This premium {template.category} template is skillfully developed from scratch.
-                    Preview it and watch our YouTube video to learn more. All templates come with one time purchase life time usage and free updates.
+                    Preview it and watch our YouTube video to learn more.
+                    The preview is read-only and does not allow making copies.
+                    Purchase the premium version for full access, lifetime usage, and free updates.
                   </p>
 
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">
@@ -140,34 +137,43 @@ const Modal: React.FC<TemplateProps> = ({ template, onClose }) => {
             )}
           </div>
 
-
-
-
           {/* Buttons */}
           <div className="border-t border-gray-300 p-6 flex flex-col sm:flex-row sm:justify-between items-center gap-3 bg-white">
-            <span className="text-2xl font-bold text-red-500">
-              {template.price}
-            </span>
+            <span className="text-2xl font-bold text-gray-800">{template.price}</span>
             <div className="flex space-x-3 w-full sm:w-auto">
-              <a
-                href={template.previewUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full sm:w-auto px-6 py-2 bg-yellow-500 hover:bg-yellow-400 text-white rounded-lg font-medium text-center"
-              >
-                Preview
-              </a>
-              {template.isPaid && (
+              
+            {template.tutorialUrl && (
                 <a
-                  href={template.buyUrl}
+                  href={template.tutorialUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto px-6 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg font-medium text-center"
+                >
+                  Tutorial
+                </a>
+              )}
+              
+              {template.previewUrl && (
+                <a
+                  href={template.previewUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full sm:w-auto px-6 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-medium text-center"
                 >
+                  Preview
+                </a>
+              )}
+              {template.buyUrl && (
+                <a
+                  href={template.buyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto px-6 py-2 bg-yellow-600 hover:bg-yellow-500 text-white rounded-lg font-medium text-center"
+                >
                   Buy on Ko-Fi
                 </a>
               )}
-              {template.hasFreeVersion && (
+              {template.freeVersionUrl && (
                 <a
                   href={template.freeVersionUrl}
                   target="_blank"
@@ -175,16 +181,6 @@ const Modal: React.FC<TemplateProps> = ({ template, onClose }) => {
                   className="w-full sm:w-auto px-6 py-2 bg-green-600 hover:bg-green-500 text-white rounded-lg font-medium text-center"
                 >
                   Free Version
-                </a>
-              )}
-              {!template.isPaid && !template.hasFreeVersion && (
-                <a
-                  href={template.previewUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full sm:w-auto px-6 py-2 bg-green-600 hover:bg-green-500 text-white rounded-lg font-medium text-center"
-                >
-                  Free
                 </a>
               )}
             </div>
