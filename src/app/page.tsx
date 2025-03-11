@@ -7,6 +7,8 @@ import Fuse from "fuse.js";
 import Modal from "./modal"; // Import the Modal component
 import type { Engine } from "@tsparticles/engine";
 
+
+
 const particlesInit = async (engine: Engine): Promise<void> => {
   await loadStarsPreset(engine);
 };
@@ -32,7 +34,7 @@ const templates = [
     name: "Subscription Tracker",
     price: "$10",
     categories: ["finances"],
-    description: "Track all your subscriptions and fixed expenses effectively.",
+    description: "Track all your subscriptions and fixed expenses effortlessly.",
     image: "/subscription_tracker.png",
     hasFreeVersion: false,
     isPaid: true,
@@ -45,7 +47,7 @@ const templates = [
     name: "Net Worth Tracker",
     price: "$10",
     categories: ["finances"],
-    description: "Track your net worth over time and build wealth.",
+    description: "Track your net worth over time and build wealth. ",
     image: "/net_worth.png",
     hasFreeVersion: false,
     isPaid: true,
@@ -210,21 +212,27 @@ export default function Home() {
   className="absolute inset-0"
 />
 
-<nav className="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm backdrop-blur-md bg-opacity-80">
+<nav className="top-0 left-0 right-0 z-50 bg-white shadow-sm backdrop-blur-md bg-opacity-80">
   <div className="max-w-6xl mx-auto flex justify-between items-center py-4 px-6">
-    <h1 className="text-xl font-bold text-gray-900">Simplify Labs</h1>
-    <div className="space-x-6">
-            <a href="#home" className="text-gray-700 hover:text-gray-900 transition">
-              Home
-            </a>
-            <a href="/about" className="text-gray-700 hover:text-gray-900 transition">
-              About
-            </a>
-          </div>
-        </div>
-      </nav>
+    
+    {/* Logo and Title together */}
+    <div className="flex items-center space-x-3">
+      <img src="/logo.png" alt="Premium Sheets Logo" className="h-10 w-auto" /> 
+      <h1 className="text-xl font-bold text-gray-900">Premium Sheets</h1>
+    </div>
 
-      <main className="relative z-10 flex flex-col items-center justify-center text-center px-6 py-24 min-h-[28vh] select-none max-w-6xl mx-auto">
+    {/* Navigation Links */}
+    <div className="space-x-6">
+      <a href="#home" className="text-gray-700 hover:text-gray-900 transition">
+        Home
+      </a>
+      <a href="/about" className="text-gray-700 hover:text-gray-900 transition">
+        About
+      </a>
+    </div>
+  </div>
+</nav>
+      <main className="relative z-10 flex flex-col items-center justify-center text-center px-6 py-14 min-h-[28vh] select-none max-w-6xl mx-auto">
         <div className="absolute inset-0 rounded-lg shadow-2xl overflow-hidden">
         <div
   className="absolute inset-0"
@@ -268,7 +276,7 @@ export default function Home() {
 </div>
         </div>
 
-        <div className="absolute top-15 left-20 bg-green-500 text-white px-6 py-2 rounded-b-lg shadow-md text-sm font-medium">
+        <div className="absolute top-0 left-20 bg-green-500 text-white px-6 py-2 rounded-b-lg shadow-md text-sm font-medium">
   Free Templates Available!
 </div>
         <motion.div
@@ -288,7 +296,7 @@ export default function Home() {
               animate={{ rotate: [0, 5, 0, -5, 0] }}
               transition={{ duration: 5, repeat: Infinity }}
             >
-              <img src="/gsheet.png" width="42" height="42" alt="Google Sheets Icon" />
+              <img src="/gsheet.png" width="50" height="50" alt="Google Sheets Icon" />
             </motion.div>
 
             <motion.h1
@@ -311,12 +319,12 @@ export default function Home() {
           </motion.div>
 
           <motion.p
-            className="text-gray-500 text-lg"
+            className="text-gray-700 text-lg"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Ready-to-use, professionally designed templates to streamline your workflow and save hours of setup time.
+            Hand-curated, ready-to-use templates to help you achieve your goals and save hours of setup time.
           </motion.p>
 
           <motion.div
@@ -335,7 +343,7 @@ export default function Home() {
               className="inline-flex items-center px-3 py-1 text-gray-600 bg-blue-50 border border-blue-100 rounded-full"
              
             >
-              📊 Beautiful Dashboards
+              👩🏻‍💻 User Friendly
             </motion.span>
             <motion.span
               className="inline-flex items-center px-3 py-1 text-gray-600 bg-blue-50 border border-blue-100 rounded-full"
@@ -361,11 +369,11 @@ export default function Home() {
   initial={{ opacity: 0, y: 20 }}
   animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
   transition={{ duration: 0.5 }}
-  className="backdrop-blur-md rounded-xl p-6 shadow-xl max-w-6xl mx-auto"
-  style={{ backgroundColor: "#a7d5ed" }}
+  className="bg-[#FCFCF2] backdrop-blur-md rounded-xl p-6 shadow-xl max-w-6xl mx-auto"
+  
 >
           <div>
-            <p className="text-gray-900 text-center mb-3">
+            <p className="text-gray-700 text-center mb-3">
               Browse our collection of professional Google Sheets templates
             </p>
           </div>
@@ -380,7 +388,7 @@ export default function Home() {
                   className={`px-4 py-2 rounded-lg transition-all duration-300 ${
                     selectedCategories.includes(cat)
                        ? "bg-blue-500 font-semibold shadow-sm text-white"
-  : "bg-gray-300 hover:bg-gray-400 text-gray-800"
+  : "bg-gray-200 hover:bg-gray-400 text-gray-800"
                   }`}
                 >
                   {cat.charAt(0).toUpperCase() + cat.slice(1)}
@@ -434,7 +442,7 @@ export default function Home() {
 
                         {/* Card Content */}
 
-                  <div className="p-5 flex flex-col justify-between bg-slate-200 rounded-b-xl">
+                  <div className="p-5 flex flex-col justify-between bg-white rounded-b-xl border-t border-gray-200">
                     <div className="mb-3 flex justify-between items-center">
                       <div className="flex flex-wrap gap-1">
                         {template.categories.map((cat) => (
@@ -470,17 +478,16 @@ export default function Home() {
 
       {selectedTemplate && <Modal template={selectedTemplate} onClose={closeModal} />}
 
-      <footer className="relative z-10 p-6 text-center bg-gray-100 text-gray-600 text-sm border-t border-gray-200 mt-12">
-        <div className="flex justify-center gap-4 mb-2">
-          <a href="/about" className="hover:text-white transition-colors">
-            About
-          </a>
-        </div>
-        <p>© {new Date().getFullYear()} Simplify Labs. All Rights Reserved.</p>
-        <p className="mt-2">
-          Professionally designed Google Sheets templates for your productivity needs.
-        </p>
-      </footer>
+      <footer className="relative mt-auto p-6 text-center bg-gray-100 text-gray-600 text-sm border-t border-gray-200">
+  <div className="flex justify-center gap-4 mb-2">
+    <a href="/" className="hover:text-gray-800 transition-colors">Home</a>
+    <a href="/about" className="hover:text-gray-800 transition-colors">About</a>
+    <a href="/terms" className="hover:text-gray-800 transition-colors">Terms of Service</a>
+    <a href="/privacy" className="hover:text-gray-800 transition-colors">Privacy Policy</a>
+  </div>
+  <p>© {new Date().getFullYear()} Premium Sheets. All Rights Reserved.</p>
+</footer>
+  
     </div>
   );
 }
