@@ -38,9 +38,8 @@ const templates = [
     image: "/subscription_tracker.png",
     hasFreeVersion: false,
     isPaid: true,
-    previewUrl: "https://example.com/preview/budget-tracker",
-    buyUrl: "https://example.com/buy/budget-tracker",
-    freeVersionUrl: "https://example.com/free/budget-tracker",
+    previewUrl: "https://docs.google.com/spreadsheets/d/1y0MMoneThIIZdbmrr2sas21MOIjqYlqwgh7N-84i_QA/edit?gid=2061588169#gid=2061588169",
+    buyUrl: "https://ko-fi.com/s/6441e917de",
   },
   {
     id: 3,
@@ -51,9 +50,8 @@ const templates = [
     image: "/net_worth.png",
     hasFreeVersion: false,
     isPaid: true,
-    previewUrl: "https://example.com/preview/budget-tracker",
-    buyUrl: "https://example.com/buy/budget-tracker",
-    freeVersionUrl: "https://example.com/free/budget-tracker",
+    previewUrl: "https://docs.google.com/spreadsheets/d/1_XQgRBvtdYrL_Gi8im02SpeFqLXz4rKHfDKEe_enAps/edit?gid=1749557257#gid=1749557257",
+    buyUrl: "https://ko-fi.com/s/9e1d1d3633",
   },
   {
     id: 4,
@@ -73,7 +71,7 @@ const templates = [
     id: 5,
     name: "OKR Tracker",
     price: "Free",
-    categories: ["productivity","free"],
+    categories: ["productivity","free", "business"],
     description:
       "Set your personal or professional SMART goals and grow your success.",
     image: "/okr_tracker.png",
@@ -115,7 +113,7 @@ const templates = [
     isPaid: true,
     previewUrl: "https://docs.google.com/spreadsheets/d/1ByPANkhI7RyLmFxKdlkMO_KJXUbE32TFH06mNqBdUgA/edit?gid=910630012#gid=910630012",
     buyUrl: "https://ko-fi.com/s/d21a52d720",
-    freeVersionUrl: "https://example.com/free/budget-tracker",
+    freeVersionUrl: "https://docs.google.com/spreadsheets/d/1Mvj3Sme8YdZsk3KMHaDN8Il5xVghnLByqSKqROp0bJg/edit?gid=910630012#gid=910630012",
   },
   {
     id: 9,
@@ -127,9 +125,9 @@ const templates = [
     image: "/workout_tracker.png",
     hasFreeVersion: true,
     isPaid: true,
-    previewUrl: "https://example.com/preview/budget-tracker",
-    buyUrl: "https://example.com/buy/budget-tracker",
-    freeVersionUrl: "https://example.com/free/budget-tracker",
+    previewUrl: "https://docs.google.com/spreadsheets/d/1ULuKXY9y3AGZXz7jeGO303pzX_JVuvev5MRJMKG_jOQ/edit?gid=1396586418#gid=1396586418",
+    buyUrl: "https://ko-fi.com/s/a342a22913",
+    freeVersionUrl: "https://docs.google.com/spreadsheets/d/1Yv_ZUlkEz_0c60W5Hvh5gL1IEvZEHhd7GuJHi88g1-o/edit?gid=990033680#gid=990033680",
   },
 ];
 
