@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Premium Sheets - Hand Curated Google Sheets",
-  description: "Premium Google Sheets templates for businesses and individuals.",
+  title: "Premium Google Sheets Templates | Save Time & Stay Organized",
+  description: "Download premium Google Sheets templates for budgeting, finance, business, and productivity. Save time and get organized today!",
 };
 
 export default function RootLayout({
@@ -26,6 +26,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <meta property="og:title" content="Premium Google Sheets Templates | Save Time & Stay Organized" />
+        <meta property="og:description" content="Download premium Google Sheets templates for budgeting, finance, business, and productivity. Save time and get organized today!" />
+        <meta property="og:image" content="/preview-image.png" />
+        <meta property="og:url" content="https://premiumsheets.netlify.app/" />
+        <meta property="og:type" content="website" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Premium Google Sheets Templates | Save Time & Stay Organized" />
+        <meta name="twitter:description" content="Download premium Google Sheets templates for budgeting, finance, business, and productivity." />
+        <meta name="twitter:image" content="/preview-image.png" />
+
         {/* Google Analytics */}
         <Script
           strategy="afterInteractive"

@@ -1,23 +1,27 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+interface Template {
+  id: number;
+  name: string;
+  price: string;
+  categories: string[]; // ✅ Changed from "category: string" to "categories: string[]"
+  description: string;
+  image: string;
+  previewUrl?: string;
+  buyUrl?: string;
+  freeVersionUrl?: string;
+  tutorialUrl?: string;
+}
+
 interface TemplateProps {
-  template: {
-    id: number;
-    name: string;
-    price: string;
-    category: string;
-    description: string;
-    image: string;
-    previewUrl?: string;
-    buyUrl?: string;
-    freeVersionUrl?: string;
-    tutorialUrl?: string; // NEW: Tutorial URL added
-  };
+  template: Template | null; // ✅ Allow null to prevent TypeScript errors
   onClose: () => void;
 }
 
 const Modal: React.FC<TemplateProps> = ({ template, onClose }) => {
+  if (!template) return null; // ✅ Prevent rendering errors when template is null
+
   const [activeTab, setActiveTab] = useState("overview");
 
   const templateDetails = {
@@ -102,7 +106,7 @@ const Modal: React.FC<TemplateProps> = ({ template, onClose }) => {
                     Template Overview
                   </h3>
                   <p className="text-gray-700 leading-relaxed mb-4">
-                    This premium {template.category} template is skillfully
+                    This premium {template.name} template is skillfully
                     developed from scratch. Preview it and watch our YouTube
                     video to learn more. The preview is read-only and does not
                     allow making copies. Purchase the premium version for full

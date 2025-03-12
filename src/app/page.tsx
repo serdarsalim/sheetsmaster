@@ -9,11 +9,25 @@ import type { Engine } from "@tsparticles/engine";
 import React, {useMemo} from 'react';
 
 
+interface Template {
+  id: number;
+  name: string;
+  price: string;
+  categories: string[];
+  description: string;
+  image: string;
+  hasFreeVersion: boolean;
+  isPaid: boolean;
+  previewUrl?: string;
+  buyUrl?: string;
+  freeVersionUrl?: string;
+}
+
 const particlesInit = async (engine: Engine): Promise<void> => {
   await loadStarsPreset(engine);
 };
 
-const templates = [
+const templates: Template[] = [
   {
     id: 1,
     name: "Budget Tracker",
@@ -139,8 +153,7 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategories, setSelectedCategories] = useState(["all"]);
   const [isVisible, setIsVisible] = useState(false);
-  const [selectedTemplate, setSelectedTemplate] = useState<any>(null);
-
+  const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
   useEffect(() => {
     setIsVisible(true);
   }, []);
@@ -180,8 +193,7 @@ export default function Home() {
     }),
   };
 
-  const handleTemplateClick = (template: any) => {
-    setSelectedTemplate(template);
+  const handleTemplateClick = (template: Template) => {    setSelectedTemplate(template);
   };
 
   const closeModal = () => {
@@ -227,36 +239,14 @@ export default function Home() {
 </nav>
       <main className="relative z-10 flex flex-col items-center justify-center text-center px-6 py-14 min-h-[28vh] select-none max-w-6xl mx-auto">
         <div className="absolute inset-0 rounded-lg shadow-2xl overflow-hidden">
-        <div
-  className="absolute inset-0"
-  style={{
-    background: "linear-gradient(to top left, #d4aaff 0%, #63bff0 50%, #a7d5ed 100%) no-repeat center/500% 500%",
-    animation: "gradientFlow 20s ease infinite",
-  }}
-/>
+        <div className="absolute inset-0 gradient-bg" />
 
 <div className="absolute inset-0">
   {Array.from({ length: 20 }).map((_, i) => (
-    <div
-      key={`h-${i}`}
-      className="absolute h-px w-full bg-blue-500"
-      style={{
-        top: `${(i + 1) * 5}%`,
-        opacity: 0.1,
-      }}
-    />
-  ))}
+    <div key={`h-${i}`} className="grid-line grid-line-horizontal" style={{ top: `${(i + 1) * 5}%` }} />  ))}
 
   {Array.from({ length: 20 }).map((_, i) => (
-    <div
-      key={`v-${i}`}
-      className="absolute w-px h-full bg-blue-500"
-      style={{
-        left: `${(i + 1) * 5}%`,
-        opacity: 0.1,
-      }}
-    />
-  ))}
+    <div key={`v-${i}`} className="grid-line grid-line-vertical" style={{ left: `${(i + 1) * 5}%` }} />  ))}
 
   <div
     className="absolute h-px w-full bg-blue-500"
@@ -289,7 +279,7 @@ export default function Home() {
               animate={{ rotate: [0, 5, 0, -5, 0] }}
               transition={{ duration: 5, repeat: Infinity }}
             >
-              <img src="/gsheet.png" width="50" height="50" alt="Google Sheets Icon" />
+              <img src="/gsheet.png" width="70" height="70" alt="Google Sheets Icon" />
             </motion.div>
 
             <motion.h1
@@ -362,49 +352,47 @@ export default function Home() {
   initial={{ opacity: 0, y: 20 }}
   animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
   transition={{ duration: 0.5 }}
-  className="bg-[#FCFCF2] backdrop-blur-md rounded-xl p-6 shadow-xl max-w-6xl mx-auto"
-  
+  className="card-container"  
 >
-          <div>
-            <p className="text-gray-700 text-center mb-3">
-              Browse our collection of professional Google Sheets templates
-            </p>
-          </div>
-          <div className="flex flex-col items-center gap-4 mb-4">
-            <div className="flex flex-col sm:flex-row gap-3">
-              {["all", "productivity", "finances", "health", "business", "free"].map((cat) => (
-                <motion.button
-                  key={cat}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => handleCategoryClick(cat)}
-                  className={`px-4 py-2 rounded-lg transition-all duration-300 ${
-                    selectedCategories.includes(cat)
-                       ? "bg-blue-500 font-semibold shadow-sm text-white"
-  : "bg-gray-200 hover:bg-gray-400 text-gray-800"
-                  }`}
-                >
-                  {cat.charAt(0).toUpperCase() + cat.slice(1)}
-                </motion.button>
-              ))}
-            </div>
-          </div>
+<div className="flex flex-col items-center gap-3 mb-4">
+  <p className="text-gray-700 text-center text-m">
+  Selecting multiple categories will show only templates that fit all of them.  </p>
 
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search by name, description, or category..."
-              className="w-1/2 px-4 py-3 rounded-lg text-black mb-8 bg-gray-100 border border-gray-300 focus:bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500"              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <motion.div
-              animate={{ opacity: searchTerm ? 1 : 0 }}
-              className="absolute right-20 top-3 cursor-pointer"
-              onClick={() => setSearchTerm("")}
-            >
-              {searchTerm && <span className="text-gray-500 text-lg">×</span>}
-            </motion.div>
-          </div>
+  <div className="flex flex-col sm:flex-row gap-3">
+    {["all", "productivity", "finances", "health", "business", "free"].map((cat) => (
+      <motion.button
+        key={cat}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        onClick={() => handleCategoryClick(cat)}
+        className={`px-4 py-2 rounded-lg transition-all duration-300 ${
+          selectedCategories.includes(cat)
+            ? "bg-blue-500 font-semibold shadow-sm text-white"
+            : "bg-gray-200 hover:bg-blue-300 text-gray-800"
+        }`}
+      >
+        {cat.charAt(0).toUpperCase() + cat.slice(1)}
+      </motion.button>
+    ))}
+  </div>
+</div>
+
+<div className="relative">
+  <input
+    type="text"
+    placeholder="Search by name, description, or category..."
+    className="w-1/2 px-4 py-3 rounded-lg text-black mb-8 bg-gray-100 border border-gray-300 focus:bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500"
+    value={searchTerm}
+    onChange={(e) => setSearchTerm(e.target.value)}
+  />
+  <motion.div
+    animate={{ opacity: searchTerm ? 1 : 0 }}
+    className="absolute right-20 top-3 cursor-pointer"
+    onClick={() => setSearchTerm("")}
+  >
+    {searchTerm && <span className="text-gray-500 text-lg">×</span>}
+  </motion.div>
+</div>
 
           {filteredTemplates.length === 0 ? (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-12">
@@ -426,11 +414,7 @@ export default function Home() {
                   onClick={() => handleTemplateClick(template)}
                 >
                   <div className="relative">
-                    <img
-                      src={template.image}
-                      className="w-full h-44 object-cover transition-transform duration-500 hover:scale-105 rounded-t-xl"
-                      alt={template.name}
-                    />
+                  <img src={template.image} className="card-img" alt={template.name} />
                   </div>
 
                         {/* Card Content */}
