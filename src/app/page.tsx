@@ -6,7 +6,7 @@ import { loadStarsPreset } from "@tsparticles/preset-stars";
 import Fuse from "fuse.js";
 import Modal from "./modal"; // Import the Modal component
 import type { Engine } from "@tsparticles/engine";
-
+import React, {useMemo} from 'react';
 
 
 const particlesInit = async (engine: Engine): Promise<void> => {
@@ -145,10 +145,10 @@ export default function Home() {
     setIsVisible(true);
   }, []);
 
-  const fuse = new Fuse(templates, {
+  const fuse = useMemo(() => new Fuse(templates, {
     keys: ["name", "description", "categories", "price"],
     threshold: 0.4,
-  });
+  }), [templates]);
 
   const handleCategoryClick = (cat: string) => {
     setSelectedCategories((prev) => {

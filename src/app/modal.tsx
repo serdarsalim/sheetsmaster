@@ -181,7 +181,7 @@ const Modal: React.FC<TemplateProps> = ({ template, onClose }) => {
                   rel="noopener noreferrer"
                   className="flex-1 sm:flex-none px-4 py-2 bg-green-600 hover:bg-green-500 text-white rounded-lg font-medium text-center min-w-[90px]"
                 >
-                  Free Version
+                  Free
                 </a>
               )}
             </div>
