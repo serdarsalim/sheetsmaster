@@ -1,11 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #1d1d1f;
+
+:root{color-scheme: light;}
+.dark {
+  --background: #1d1d1f;
+  --foreground: #ffffff;
 }
 
 @theme inline {
@@ -37,6 +38,8 @@
 body {
   background: linear-gradient(to bottom, #FCFCF2, #F0F0E8);
   position: relative;
+      @apply bg-[var(--background)] text-[var(--foreground)];
+
 }
 
 /* Modified grid pattern with higher opacity and proper z-index */
@@ -303,13 +306,12 @@ body::before {
   left: 0;
   width: 100%;
   height: 30%;
-  background-color: rgba(16, 185, 129, 0.2); /* Green with low opacity */
+  @apply bg-emerald-500/20 dark:bg-emerald-500/30;
   z-index: -1;
   transform: skewX(-5deg);
 }
-
 .text-highlight.blue::before {
-  background-color: rgba(59, 130, 246, 0.2); /* Blue with low opacity */
+  @apply bg-blue-500/20 dark:bg-blue-500/30;
 }
 
 

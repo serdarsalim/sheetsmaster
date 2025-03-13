@@ -12,22 +12,41 @@ export default function About() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Set initial dark mode based on user preference
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      setDarkMode(isDarkMode);
+useEffect(() => {
+  if (typeof window !== "undefined") {
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+      document.documentElement.classList.add('dark');
+      setDarkMode(true);
+    } else {
+      document.documentElement.classList.remove('dark');
+      setDarkMode(false);
     }
-  }, []);
+  }
+}, []);
 
+const toggleDarkMode = () => {
+  setDarkMode(prev => {
+    const newDarkMode = !prev;
+    if (newDarkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+    return newDarkMode;
+  });
+};
   // Animation variants for the grid cells
   const cellVariants = {
     hover: { scale: 1.05, backgroundColor: "rgba(167, 185, 214, 0.3)" },
     tap: { scale: 0.95 },
   };
 
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
+
 
   // Dynamic class based on dark mode
   const pageTheme = darkMode ? "dark" : "light";
@@ -103,21 +122,14 @@ export default function About() {
         </div>
       </motion.div>
 
-      <nav className="top-0 left-0 right-0 z-50 bg-white shadow-sm backdrop-blur-md bg-opacity-80">
+      <nav className="top-0 left-0 right-0 z-50 bg-white dark:bg-gray-800 shadow-sm backdrop-blur-md bg-opacity-80 dark:bg-opacity-80">
   <div className="max-w-6xl mx-auto flex justify-between items-center py-4 px-6">
-    {/* Logo and Title together */}
+    {/* Logo and Title */}
     <Link href="/" className="flex items-center space-x-3">
       <div className="relative h-10 w-10">
-        <Image 
-          src="/logo.png" 
-          alt="Premium Sheets Logo" 
-          fill
-          sizes="40px"
-          className="object-contain"
-          priority
-        />
+        <Image src="/logo.png" alt="Premium Sheets Logo" fill sizes="40px" className="object-contain" priority />
       </div>
-      <h1 className="text-xl font-bold text-gray-900">Premium Sheets</h1>
+      <h1 className="text-xl font-bold text-gray-900 dark:text-white">Premium Sheets</h1>
     </Link>
 
     {/* Mobile Menu Button */}
@@ -141,20 +153,35 @@ export default function About() {
       </svg>
     </button>
 
-    {/* Desktop Navigation Links */}
-    <div className="hidden md:flex space-x-6">
-      <Link href="/#home" className="text-gray-700 hover:text-gray-900 transition">
+    <div className="hidden md:flex items-center space-x-6">
+      <Link href="/#home" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">
         Home
       </Link>
-      <Link href="/#about" className="text-gray-700 hover:text-gray-900 transition">
-        About
-      </Link>
-      <Link href="/#how-it-works" className="text-gray-700 hover:text-gray-900 transition">
+      <Link href="/#how-it-works" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">
         How It Works
       </Link>
-      <Link href="/#faq" className="text-gray-700 hover:text-gray-900 transition">
+      <Link href="/#faq" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">
         FAQ
       </Link>
+      <Link href="/about" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">
+        About
+      </Link>
+      <button
+        onClick={toggleDarkMode}
+        className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+        aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+>
+  {darkMode ? (
+    <svg className="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+      <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
+    </svg>
+  ) : (
+    <svg className="w-5 h-5 text-gray-700 dark:text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+      <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+    </svg>
+  )}
+</button>
+
     </div>
   </div>
 
@@ -165,15 +192,34 @@ export default function About() {
         <Link href="/#home" className="block text-gray-700 hover:text-gray-900 transition">
           Home
         </Link>
-        <Link href="/#about" className="block text-gray-700 hover:text-gray-900 transition">
-          About
-        </Link>
+       
         <Link href="/#how-it-works" className="block text-gray-700 hover:text-gray-900 transition">
           How It Works
         </Link>
         <Link href="/#faq" className="block text-gray-700 hover:text-gray-900 transition">
           FAQ
         </Link>
+        <Link href="/about" className="block text-gray-700 hover:text-gray-900 transition">
+          About
+        </Link>
+
+{/* Mobile Dark Mode Toggle */}
+<button
+                onClick={toggleDarkMode}
+                className="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition py-2"
+              >
+                <span>{darkMode ? "" : ""}</span>
+                {darkMode ? (
+                  <svg className="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
+                  </svg>
+                ) : (
+                  <svg className="w-5 h-5 text-gray-700 dark:text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                  </svg>
+                )}
+              </button>
+
       </div>
     </div>
   )}
@@ -491,15 +537,39 @@ export default function About() {
         </motion.div>
       </main>
 
-      <footer className="mt-auto p-6 text-center bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 text-sm border-t border-gray-200 dark:border-gray-700">
-        <div className="flex justify-center gap-4 mb-2">
-          <Link href="/" className="hover:text-gray-800 dark:hover:text-white transition-colors">Home</Link>
-          <Link href="/about" className="hover:text-gray-800 dark:hover:text-white transition-colors">About</Link>
-          <Link href="/terms" className="hover:text-gray-800 dark:hover:text-white transition-colors">Terms of Service</Link>
-          <Link href="/privacy" className="hover:text-gray-800 dark:hover:text-white transition-colors">Privacy Policy</Link>
-        </div>
-        <p>© {new Date().getFullYear()} Premium Sheets. All Rights Reserved.</p>
-      </footer>
+      <footer className="relative mt-auto p-6 text-center bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 text-sm border-t border-gray-200 dark:border-gray-700">
+  <div className="flex justify-center gap-4 mb-2">
+    <Link 
+      href="/" 
+      className="hover:text-gray-800 dark:hover:text-white transition-colors"
+      onClick={() => window.scrollTo(0, 0)} // Smooth scroll to top
+    >
+      Home
+    </Link>
+    <Link 
+      href="/about" 
+      className="hover:text-gray-800 dark:hover:text-white transition-colors"
+      onClick={() => window.scrollTo(0, 0)}
+    >
+      About
+    </Link>
+    <Link 
+      href="/terms" 
+      className="hover:text-gray-800 dark:hover:text-white transition-colors"
+      onClick={() => window.scrollTo(0, 0)}
+    >
+      Terms of Service
+    </Link>
+    <Link 
+      href="/privacy" 
+      className="hover:text-gray-800 dark:hover:text-white transition-colors"
+      onClick={() => window.scrollTo(0, 0)}
+    >
+      Privacy Policy
+    </Link>
+  </div>
+  <p>© {new Date().getFullYear()} Premium Sheets. All Rights Reserved.</p>
+</footer>
     </div>
   );
 }
