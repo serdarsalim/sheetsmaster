@@ -618,9 +618,7 @@ export default function Home() {
 
                     <h3 className="text-xl font-semibold mb-2 text-slate-800 dark:text-white">{template.name}</h3>
                     <p className="text-gray-800 dark:text-gray-200">{template.description}</p>
-                    <div className="text-sm text-gray-500 dark:text-gray-400 mt-3">
-    Views: {getTemplateClicks(template.id)}
-  </div>
+                  
                   </div>
                 </motion.div>
               ))}
