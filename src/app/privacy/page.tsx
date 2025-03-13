@@ -137,15 +137,7 @@ export default function PrivacyPolicy() {
       </main>
 
 
-      <footer className="mt-auto p-6 text-center bg-gray-100 text-gray-600 text-sm border-t border-gray-200">
-  <div className="flex justify-center gap-4 mb-2">
-    <a href="/" className="hover:text-gray-800 transition-colors">Home</a>
-    <a href="/about" className="hover:text-gray-800 transition-colors">About</a>
-    <a href="/terms" className="hover:text-gray-800 transition-colors">Terms of Service</a>
-    <a href="/privacy" className="hover:text-gray-800 transition-colors">Privacy Policy</a>
-  </div>
-  <p>© {new Date().getFullYear()} Premium Sheets. All Rights Reserved.</p>
-</footer>
+      
 
     </div>
   );
