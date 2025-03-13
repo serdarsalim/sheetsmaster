@@ -1,22 +1,32 @@
 "use client";
 import { motion } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function PrivacyPolicy() {
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white relative overflow-hidden">
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-800 dark:bg-gray-900 shadow-md backdrop-blur-md bg-opacity-90">
-        <div className="max-w-6xl mx-auto flex justify-between items-center py-4 px-6">
-          <h1 className="text-xl font-bold text-white">Simplify Labs</h1>
-          <div className="space-x-6">
-            <a href="/" className="text-gray-300 hover:text-white transition">
-              Home
-            </a>
-            <a href="/about" className="text-gray-300 hover:text-white transition">
-              About
-            </a>
-          </div>
-        </div>
-      </nav>
+
+<nav className="top-0 left-0 right-0 z-50 bg-white shadow-sm backdrop-blur-md bg-opacity-80">
+  <div className="max-w-6xl mx-auto flex justify-between items-center py-4 px-6">
+    
+    {/* Logo and Title together */}
+    <Link href="/" className="flex items-center space-x-3">
+      <img src="/logo.png" alt="Premium Sheets Logo" className="h-10 w-auto" /> 
+      <h1 className="text-xl font-bold text-gray-900">Premium Sheets</h1>
+    </Link>
+
+    {/* Navigation Links */}
+    <div className="space-x-6">
+      <a href="/" className="text-gray-700 hover:text-gray-900 transition">
+        Home
+      </a>
+      <a href="/about" className="text-gray-700 hover:text-gray-900 transition">
+        About
+      </a>
+    </div>
+  </div>
+</nav>
 
       <main className="relative z-10 flex flex-col items-center justify-center text-center px-6 py-24 min-h-[28vh] select-none">
         <motion.div
@@ -40,7 +50,7 @@ export default function PrivacyPolicy() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            Last Updated: [Insert Date]
+            Last Updated: [March 2025]
           </motion.p>
         </motion.div>
 

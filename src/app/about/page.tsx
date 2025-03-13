@@ -1,23 +1,57 @@
 "use client";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function About() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const [hoverCell, setHoverCell] = useState(null);
-  
+  const [darkMode, setDarkMode] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Set initial dark mode based on user preference
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      setDarkMode(isDarkMode);
+    }
+  }, []);
+
   // Animation variants for the grid cells
   const cellVariants = {
     hover: { scale: 1.05, backgroundColor: "rgba(167, 185, 214, 0.3)" },
-    tap: { scale: 0.95 }
+    tap: { scale: 0.95 },
   };
 
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
+
+  // Dynamic class based on dark mode
+  const pageTheme = darkMode ? "dark" : "light";
+
+  // Section IDs for navigation with Google Sheets colors
+  const sections = [
+    { id: "mission", title: "Our Mission", color: "green" },
+    { id: "vision", title: "Our Vision", color: "blue" },
+    { id: "founder", title: "About Founder", color: "red", },
+    { id: "audience", title: "Who It's For", color: "yellow" },
+    { id: "contact", title: "Get In Touch", color: "purple", }
+  ];
+
+  
+
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white relative overflow-hidden">
-      {/* Grid Background */}
+
+    
+    <div className={`${pageTheme} min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white relative overflow-hidden`}>
+      {/* Grid Background - Restored Google Sheets-like appearance */}
       <div className="fixed inset-0 z-0 opacity-10">
-        <div className="w-full h-full grid grid-cols-12 grid-rows-24">
+        <div className="w-full h-full grid grid-cols-12" style={{ gridTemplateRows: "repeat(24, 1fr)" }}>
           {Array.from({ length: 288 }).map((_, i) => (
-            <motion.div 
+            <motion.div
               key={i}
               className="border border-gray-400 dark:border-gray-600"
               initial={{ opacity: 0 }}
@@ -31,89 +65,300 @@ export default function About() {
           ))}
         </div>
       </div>
-      
 
-
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
-        <div className="max-w-6xl mx-auto flex justify-between items-center py-4 px-6">
-          {/* Logo and Title */}
-          <div className="flex items-center space-x-3">
-            <img src="/logo.png" alt="Premium Sheets Logo" className="h-8 w-auto" />
-            <h1 className="text-xl font-bold text-black">Premium Sheets</h1>
+      {/* Mobile Navigation Drawer - Appears when menu button is clicked */}
+      <motion.div 
+        className="fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 shadow-xl transform lg:hidden"
+        initial={{ x: "-100%" }}
+        animate={{ x: mobileMenuOpen ? 0 : "-100%" }}
+        transition={{ duration: 0.3 }}
+      >
+        <div className="py-6 px-4">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-lg font-bold">Page Sections</h2>
+            <button 
+              className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+              onClick={() => setMobileMenuOpen(false)}
+              aria-label="Close navigation menu"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+              </svg>
+            </button>
           </div>
-          <div className="space-x-6">
-            {["Home", "About"].map((item) => (
-              <motion.a
-                key={item}
-                href={item === "Home" ? "/" : `/${item.toLowerCase()}`}                className="text-black hover:text-gray-600 transition font-medium"
-                whileHover={{ scale: 1.05 }}
-              >
-                {item}
-              </motion.a>
+          
+          <ul className="space-y-2">
+            {sections.map((section) => (
+              <li key={section.id}>
+                <a 
+                  href={`#${section.id}`} 
+                  className={`block py-2 px-4 rounded-md text-${section.color}-600 dark:text-${section.color}-400 hover:bg-${section.color}-50 dark:hover:bg-${section.color}-900/20`}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {section.title}
+                </a>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
-      </nav>
+      </motion.div>
 
-      <main className="relative z-10 flex flex-col items-center justify-center px-6 py-32 min-h-screen">
-        {/* Floating Formula */}
+      <nav className="top-0 left-0 right-0 z-50 bg-white shadow-sm backdrop-blur-md bg-opacity-80">
+  <div className="max-w-6xl mx-auto flex justify-between items-center py-4 px-6">
+    {/* Logo and Title together */}
+    <Link href="/" className="flex items-center space-x-3">
+      <div className="relative h-10 w-10">
+        <Image 
+          src="/logo.png" 
+          alt="Premium Sheets Logo" 
+          fill
+          sizes="40px"
+          className="object-contain"
+          priority
+        />
+      </div>
+      <h1 className="text-xl font-bold text-gray-900">Premium Sheets</h1>
+    </Link>
+
+    {/* Mobile Menu Button */}
+    <button 
+      className="md:hidden text-gray-700 hover:text-gray-900"
+      onClick={() => setIsMenuOpen(!isMenuOpen)}
+      aria-label="Toggle navigation menu"
+    >
+      <svg 
+        xmlns="http://www.w3.org/2000/svg" 
+        className="h-6 w-6" 
+        fill="none" 
+        viewBox="0 0 24 24" 
+        stroke="currentColor"
+      >
+        {isMenuOpen ? (
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+        ) : (
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+        )}
+      </svg>
+    </button>
+
+    {/* Desktop Navigation Links */}
+    <div className="hidden md:flex space-x-6">
+      <Link href="/#home" className="text-gray-700 hover:text-gray-900 transition">
+        Home
+      </Link>
+      <Link href="/#about" className="text-gray-700 hover:text-gray-900 transition">
+        About
+      </Link>
+      <Link href="/#how-it-works" className="text-gray-700 hover:text-gray-900 transition">
+        How It Works
+      </Link>
+      <Link href="/#faq" className="text-gray-700 hover:text-gray-900 transition">
+        FAQ
+      </Link>
+    </div>
+  </div>
+
+  {/* Mobile Menu */}
+  {isMenuOpen && (
+    <div className="md:hidden bg-white border-t border-gray-200">
+      <div className="px-6 py-4 space-y-3">
+        <Link href="/#home" className="block text-gray-700 hover:text-gray-900 transition">
+          Home
+        </Link>
+        <Link href="/#about" className="block text-gray-700 hover:text-gray-900 transition">
+          About
+        </Link>
+        <Link href="/#how-it-works" className="block text-gray-700 hover:text-gray-900 transition">
+          How It Works
+        </Link>
+        <Link href="/#faq" className="block text-gray-700 hover:text-gray-900 transition">
+          FAQ
+        </Link>
+      </div>
+    </div>
+  )}
+</nav>
+
+      {/* Side Navigation */}
+      <div className="fixed left-0 top-1/2 transform -translate-y-1/2 z-40 hidden lg:block">
+  <div className="bg-white dark:bg-gray-800 rounded-r-lg shadow-lg py-3 px-1">
+    <ul className="space-y-3">
+      {sections.map((section) => {
+        // Determine color classes based on section
+        let textColorClass = "";
+        let hoverBgClass = "";
+        let barColorClass = "";
+        
+        switch(section.color) {
+          case "green":
+            textColorClass = "text-green-600 dark:text-green-400";
+            hoverBgClass = "hover:bg-green-50 dark:hover:bg-green-900/20";
+            barColorClass = "bg-green-500";
+            break;
+          case "blue":
+            textColorClass = "text-blue-600 dark:text-blue-400";
+            hoverBgClass = "hover:bg-blue-50 dark:hover:bg-blue-900/20";
+            barColorClass = "bg-blue-500";
+            break;
+          case "red":
+            textColorClass = "text-red-600 dark:text-red-400";
+            hoverBgClass = "hover:bg-red-50 dark:hover:bg-red-900/20";
+            barColorClass = "bg-red-500";
+            break;
+          case "yellow":
+            textColorClass = "text-yellow-600 dark:text-yellow-400";
+            hoverBgClass = "hover:bg-yellow-50 dark:hover:bg-yellow-900/20";
+            barColorClass = "bg-yellow-500";
+            break;
+          case "purple":
+            textColorClass = "text-purple-600 dark:text-purple-400";
+            hoverBgClass = "hover:bg-purple-50 dark:hover:bg-purple-900/20";
+            barColorClass = "bg-purple-500";
+            break;
+          default:
+            textColorClass = "text-gray-600 dark:text-gray-400";
+            hoverBgClass = "hover:bg-gray-50 dark:hover:bg-gray-900/20";
+            barColorClass = "bg-gray-500";
+        }
+        
+        return (
+          <li key={section.id}>
+            <a 
+              href={`#${section.id}`}
+              className={`flex items-center p-2 rounded-lg ${textColorClass} ${hoverBgClass} transition-colors`}
+              aria-label={`Jump to ${section.title} section`}
+            >
+              <div className={`w-2 h-8 ${barColorClass} rounded-full mr-2`}></div>
+              <span className="text-sm font-medium">{section.title}</span>
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</div>
+
+      <main className="relative z-10 flex flex-col items-center justify-center px-4 sm:px-6 py-24 pt-32 min-h-screen lg:ml-24">
+        {/* Floating Formula - Made more subtle */}
         <motion.div
-          className="absolute top-24 right-10 text-xs text-gray-500 dark:text-gray-400 font-mono"
-          animate={{ 
-            y: [0, 10, 0], 
-            opacity: [0.4, 0.8, 0.4]
+          className="absolute top-7 right-4 md:right-10 text-xs text-gray-500 dark:text-gray-400 font-mono hidden md:block"
+          animate={{
+            y: [0, 10, 0],
+            opacity: [0.3, 0.6, 0.3],
           }}
-          transition={{ 
-            repeat: Infinity, 
+          transition={{
+            repeat: Infinity,
             duration: 6,
           }}
         >
-          =ARRAYFORMULA(IF(ROW(A:A)=1,"Premium",IF(A:A="","",A:A&" Sheets")))
+          =ARRAYFORMULA(IF(ROW(A:A)=1,"Quality",IF(A:A="","",A:A&" Over Quantity")))
         </motion.div>
 
-        {/* About Section */}
+        {/* Mission Statement */}
         <motion.div
-          className="relative z-10 max-w-4xl mb-12 perspective-1000"
-          initial={{ rotateX: 90 }}
-          animate={{ rotateX: 0 }}
+          id="mission"
+          className="w-full max-w-4xl mb-8 md:mb-12 -mt-15"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8 border-t-4 border-green-300">
+            <motion.h1 
+              className="text-3xl md:text-4xl font-extrabold tracking-tight text-green-500 dark:text-red-400 mb-4 md:mb-6"
+              tabIndex={0}
+            >
+              What's Premium Sheets?
+            </motion.h1>
+
+            <div className="prose prose-lg text-gray-700 dark:text-gray-300 max-w-none">
+              <p>
+                Premium Sheets offers thoughtfully designed Google Sheets templates focused on productivity, health, personal finances, and project management. Instead of overwhelming you with options, we provide a carefully curated collection of templates that actually solve real problems. Each template is battle-tested and designed to help you focus on what matters most.
+              </p>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Vision Section */}
+        <motion.div
+          id="vision"
+          className="w-full max-w-4xl mb-8 md:mb-12 scroll-mt-32"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8 border-t-4 border-blue-300 relative overflow-hidden">
+            {/* Cell Reference */}
+            <div className="absolute top-2 right-3 text-xs text-gray-400 font-mono">B1:D10</div>
+            
+            <motion.h2
+              className="text-2xl md:text-3xl font-bold text-blue-600 dark:text-blue-400 mb-4 md:mb-6"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              tabIndex={0}
+            >
+              What can it become?
+            </motion.h2>
+            
+            <motion.div
+              className="space-y-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+            >
+              <p className="text-gray-700 dark:text-gray-300">
+                Premium Sheets is on a mission to become the definitive resource for premium Google Sheets templates. We're building the foundation today by focusing on quality over quantity, with each template designed to solve specific challenges in personal productivity, finances, health tracking, and project management.
+              </p>
+              
+              <p className="text-gray-700 dark:text-gray-300">
+                While our collection is currently small and focused, our vision is expansive: to create the most comprehensive, user-friendly library of Google Sheets templates available anywhere. Think of us as building the "Toolspedia for Google Sheets" — one excellent template at a time.
+              </p>
+            </motion.div>
+          </div>
+        </motion.div>
+
+        {/* About The Founder Section */}
+        <motion.div
+          id="founder"
+          className="relative z-10 w-full max-w-4xl mb-8 md:mb-12 scroll-mt-32"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+        >
           <motion.div
-            className="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8 border-t-4 border-green-500 mb-12 relative overflow-hidden"
-            whileHover={{ boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.2)" }}
+            className="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8 border-t-4 border-red-300 relative overflow-hidden"
+            whileHover={{ boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)" }}
           >
             {/* Cell Reference */}
             <div className="absolute top-2 right-3 text-xs text-gray-400 font-mono">A1:D15</div>
             
-            <motion.h1
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
+            <motion.h2
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="text-5xl font-extrabold tracking-tight text-green-600 dark:text-green-400"
-              style={{ fontFamily: "SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif" }}
-              whileHover={{ scale: 1.03, textShadow: "0 0 12px rgba(74, 222, 128, 0.4)" }}
+              className="text-3xl md:text-4xl font-extrabold tracking-tight text-red-500 dark:text-red-400 mb-4 md:mb-6"
+              tabIndex={0}
             >
-              About Premium Sheets
-            </motion.h1>
+              Who is behind Premium Sheets?
+            </motion.h2>
 
             <motion.div
               className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4"
             >
               {[
-                "Hi there! My name is Serdar, and I'm the creator of Premium Sheets. This platform is your go-to resource for high-quality, ready-to-use Google Sheets templates that save you hours of work and spark inspiration for your own projects.",
-                "I leverage the latest and most advanced Google Sheets formulas to ensure a seamless experience, helping you achieve your goals without frustration. Every template is designed with both functionality and aesthetics in mind, so you can work efficiently while enjoying a clean and intuitive interface.",
-                "I aim to provide free versions and detailed YouTube walkthroughs for every Google Sheet I create, so keep checking in for new content! If you have a Google Sheets problem or an idea, reach out—I'd love to help solve it with you. And if one of my templates has made your life easier, I'd love to hear your feedback!"
+                "Hi Friend! I'm Serdar, the creator of Premium Sheets. I believe deeply in the power of spreadsheets to transform how we approach our daily challenges. My mission is simple: create highly functional Google Sheets templates that actually solve real problems people face in their work and personal lives.",
+                "Each template in our collection is one I've personally designed, tested, and refined. I'm not interested in quantity — I'm focused on creating templates that are intuitive, powerful, and immediately useful. Every formula is optimized, every layout is designed for clarity, and every template addresses a specific need.",
+                "Premium Sheets began with templates I built to solve my own challenges in productivity, health tracking, personal finance, and project management. Now I'm sharing them with you, along with detailed guides and walkthroughs. Have a spreadsheet problem you can't solve? Reach out — I'd love to help create the solution!"
               ].map((text, i) => (
                 <motion.div
                   key={i}
                   className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg border border-gray-200 dark:border-gray-600"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.2 + i * 0.2 }}
+                  transition={{ duration: 0.5, delay: 0.4 + i * 0.1 }}
                   whileHover={{ 
-                    scale: 1.03, 
-                    boxShadow: "0 4px 12px rgba(0,0,0,0.1)", 
-                    backgroundColor: "rgba(74, 222, 128, 0.1)" 
+                    scale: 1.02, 
+                    backgroundColor: darkMode ? "rgba(74, 222, 128, 0.05)" : "rgba(74, 222, 128, 0.1)" 
                   }}
                 >
                   <p className="text-gray-800 dark:text-gray-200">{text}</p>
@@ -121,92 +366,140 @@ export default function About() {
               ))}
             </motion.div>
           </motion.div>
+        </motion.div>
 
-          {/* Contact Section */}
-          <motion.div
-  className="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8 pb-16 border-t-4 border-indigo-500 relative overflow-hidden"
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  transition={{ duration: 0.8, delay: 0.6 }}
-  whileHover={{ boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.2)" }}
->
+        {/* Who Is This For Section */}
+        <motion.div
+          id="audience"
+          className="w-full max-w-4xl mb-8 md:mb-12 scroll-mt-32"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+        >
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8 border-t-4 border-yellow-300 relative overflow-hidden">
             {/* Cell Reference */}
-            <div className="absolute top-2 right-3 text-xs text-gray-400 font-mono">F1:H8</div>
+            <div className="absolute top-2 right-3 text-xs text-gray-400 font-mono">E1:G12</div>
             
-            <motion.h1
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.8 }}
-              className="text-4xl font-extrabold tracking-tight text-indigo-600 dark:text-indigo-400"
-            >
-              Contact Me
-            </motion.h1>
-            <div className="flex justify-center">
-            <motion.p
-              className="text-lg mt-6"
+            <motion.h2
+              className="text-2xl md:text-3xl font-bold text-yellow-600 dark:text-yellow-400 mb-4 md:mb-6"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 1 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              tabIndex={0}
             >
-              Have questions? Reach out via email 
-            </motion.p>
-           </div>
-
-           <div className="flex justify-center">
-  <motion.a
-    href="mailto:premiumgsheets@gmail.com"
-    className="mt-4 inline-block text-lg font-semibold text-indigo-600 dark:text-indigo-400 hover:underline bg-indigo-50 dark:bg-indigo-900/30 px-4 py-2 rounded-lg"
-    whileHover={{ 
-      scale: 1.05, 
-      backgroundColor: "rgba(99, 102, 241, 0.2)",
-      boxShadow: "0 0 15px rgba(99, 102, 241, 0.5)"
-    }}
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ duration: 0.8, delay: 1.2 }}
-  >
-    premiumgsheets@gmail.com 
-  </motion.a>
-</div>
-            {/* Formula Bar Animation */}
+              Who is Premium Sheets for?
+            </motion.h2>
+            
             <motion.div
-              className="absolute bottom-2 left-2 right-2 h-6 bg-gray-100 dark:bg-gray-700 rounded flex items-center px-2 text-xs font-mono text-gray-500 dark:text-gray-400"
+              className="space-y-4 md:space-y-6"
               initial={{ opacity: 0 }}
-              animate={{ opacity: 0.6 }}
-              transition={{ duration: 0.5, delay: 1.4 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
             >
-              =HYPERLINK("mailto:premiumgsheets@gmail.com","premiumgsheets@gmail.com") 
+              <div className="flex flex-col md:flex-row gap-4">
+                <motion.div 
+                  className="flex-1 bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg"
+                  whileHover={{ scale: 1.01, backgroundColor: darkMode ? "rgba(234, 179, 8, 0.1)" : "rgba(234, 179, 8, 0.15)" }}
+                >
+                  <h3 className="font-bold text-lg mb-2">Professionals</h3>
+                  <p className="text-gray-700 dark:text-gray-300">Who need effective systems for time management, project tracking, and personal organization but don't have time to build complex spreadsheets from scratch.</p>
+                </motion.div>
+                
+                <motion.div 
+                  className="flex-1 bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg"
+                  whileHover={{ scale: 1.01, backgroundColor: darkMode ? "rgba(234, 179, 8, 0.1)" : "rgba(234, 179, 8, 0.15)" }}
+                >
+                  <h3 className="font-bold text-lg  mb-2">Personal Finance Enthusiasts</h3>
+                  <p className="text-gray-700 dark:text-gray-300">Looking for better ways to budget, track expenses, plan investments, or manage debt without complicated financial software.</p>
+                </motion.div>
+              </div>
+              
+              <div className="flex flex-col md:flex-row gap-4">
+                <motion.div 
+                  className="flex-1 bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg"
+                  whileHover={{ scale: 1.01, backgroundColor: darkMode ? "rgba(234, 179, 8, 0.1)" : "rgba(234, 179, 8, 0.15)" }}
+                >
+                  <h3 className="font-bold text-lg  mb-2">Health & Wellness Trackers</h3>
+                  <p className="text-gray-700 dark:text-gray-300">Who want to monitor fitness progress, nutrition, habits, or health metrics with customizable, data-driven tools.</p>
+                </motion.div>
+                
+                <motion.div 
+                  className="flex-1 bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg"
+                  whileHover={{ scale: 1.01, backgroundColor: darkMode ? "rgba(234, 179, 8, 0.1)" : "rgba(234, 179, 8, 0.15)" }}
+                >
+                  <h3 className="font-bold text-lg  mb-2">Project Managers</h3>
+                  <p className="text-gray-700 dark:text-gray-300">Seeking lightweight but powerful tools to plan projects, assign tasks, track progress, and visualize outcomes without enterprise-level complexity.</p>
+                </motion.div>
+              </div>
             </motion.div>
+          </div>
+        </motion.div>
+
+        {/* Contact Section */}
+        <motion.div
+          id="contact"
+          className="w-full max-w-4xl bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8 border-t-4 border-purple-300 relative overflow-hidden scroll-mt-32"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+          whileHover={{ boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)" }}
+        >
+          {/* Cell Reference */}
+          <div className="absolute top-2 right-3 text-xs text-gray-400 font-mono">F1:H8</div>
+          
+          <motion.h2
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.6 }}
+            className="text-3xl md:text-4xl font-extrabold tracking-tight text-purple-600 dark:text-purple-300 mb-4 md:mb-6"
+            tabIndex={0}
+          >
+            Get In Touch
+          </motion.h2>
+          
+          <motion.div
+            className="text-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.7 }}
+          >
+            <p className="text-lg mb-4">Have a spreadsheet problem you need solved? Want to suggest a new template?</p>
+            <p className="text-lg mb-6">I'd love to hear from you and potentially build exactly what you need.</p>
+          
+            <motion.a
+              href="mailto:premiumgsheets@gmail.com"
+              className="inline-block text-lg font-semibold text-purple-600 dark:text-purple-400 hover:underline bg-purple-50 dark:bg-purple-900/30 px-6 py-3 rounded-lg mb-5"
+              whileHover={{ 
+                scale: 1.03, 
+                backgroundColor: darkMode ? "rgba(168, 85, 247, 0.15)" : "rgba(168, 85, 247, 0.2)"
+              }}
+              aria-label="Send email to Premium Sheets"
+            >
+              premiumgsheets@gmail.com 
+            </motion.a>
+          </motion.div>
+          
+          {/* Formula Bar Animation - Made more subtle */}
+          <motion.div
+            className="absolute bottom-2 left-2 right-2 h-6 bg-gray-100 dark:bg-gray-700 rounded flex items-center px-2 text-xs font-mono text-gray-500 dark:text-gray-400"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.5 }}
+            transition={{ duration: 0.5, delay: 0.8 }}
+          >
+            =HYPERLINK("mailto:premiumgsheets@gmail.com","premiumgsheets@gmail.com") 
           </motion.div>
         </motion.div>
       </main>
 
-      {/* Floating Function Buttons */}
-      
-   {/* Footer */}
-   <footer className="relative z-10 p-6 text-center bg-white text-black text-sm border-t border-gray-200">
-  <div className="flex justify-center gap-4 mb-2">
-    {["Home", "About", "Terms of Service", "Privacy Policy"].map((link) => (
-      <motion.a
-        key={link}
-        href={
-          link === "Home"
-            ? "/"
-            : link === "About"
-            ? "/about"
-            : link === "Terms of Service"
-            ? "/terms"
-            : "/privacy"
-        }
-        className="hover:text-gray-600 transition-colors"
-        whileHover={{ scale: 1.05 }}
-      >
-        {link}
-      </motion.a>
-    ))}
-  </div>
-  <p>© {new Date().getFullYear()} Premium Sheets. All Rights Reserved.</p>
-</footer>
+      <footer className="mt-auto p-6 text-center bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 text-sm border-t border-gray-200 dark:border-gray-700">
+        <div className="flex justify-center gap-4 mb-2">
+          <Link href="/" className="hover:text-gray-800 dark:hover:text-white transition-colors">Home</Link>
+          <Link href="/about" className="hover:text-gray-800 dark:hover:text-white transition-colors">About</Link>
+          <Link href="/terms" className="hover:text-gray-800 dark:hover:text-white transition-colors">Terms of Service</Link>
+          <Link href="/privacy" className="hover:text-gray-800 dark:hover:text-white transition-colors">Privacy Policy</Link>
+        </div>
+        <p>© {new Date().getFullYear()} Premium Sheets. All Rights Reserved.</p>
+      </footer>
     </div>
   );
 }

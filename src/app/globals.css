@@ -23,7 +23,6 @@
 }
 
 /*card container */
-
 .card-container {
   background-color: #FCFCF2;
   backdrop-filter: blur(10px);
@@ -35,7 +34,6 @@
 }
 
 /* Add this to your CSS file to match the body background to your hero */
-
 body {
   background: linear-gradient(to bottom, #FCFCF2, #F0F0E8);
   position: relative;
@@ -114,9 +112,6 @@ body::before {
   pointer-events: none;
 }
 
-
-
-
 @keyframes gradientAnimation {
   0% {
     background-position: 0% 50%;
@@ -128,7 +123,6 @@ body::before {
     background-position: 0% 50%;
   }
 }
-
 
 .hero-gradient {
   position: relative;
@@ -146,14 +140,13 @@ body::before {
   pointer-events: none;
 }
 
-
-/* Add this to globals.css */
+/* Card Styles */
 .card-animate {
   position: relative;
-  border: 1px solid #a7b5c7; /* your base border */
-  border-radius: 0.75rem; /* Tailwind's rounded-xl */
+  border: 1px solid #a7b5c7;
+  border-radius: 0.75rem;
   overflow: hidden;
-  transition: box-shadow 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .card-animate::after {
@@ -179,22 +172,26 @@ body::before {
   opacity: 1;
 }
 
+/* Gradient Animations */
 @keyframes gradientFlow {
   0% { background-position: 100% 100%; }
   50% { background-position: 0% 0%; }
   100% { background-position: 100% 100%; }
 }
 
-/*color fof the hero */
+@keyframes subtleGradientFlow {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
 
+/* Hero Background */
 .gradient-bg {
   background: linear-gradient(to top left, #d4aaff 0%, #63bff0 50%, #a7d5ed 100%) no-repeat center/500% 500%;
   animation: gradientFlow 20s ease infinite;
 }
 
-
-/*hero gridlines */
-
+/* Grid Lines */
 .grid-line {
   background-color: #3b82f6; /* Same as bg-blue-500 */
   opacity: 0.1;
@@ -211,8 +208,7 @@ body::before {
   width: 1px;
 }
 
-/* template image */
-
+/* Template Card Image */
 .card-img {
   width: 100%;
   height: 11rem;
@@ -224,3 +220,96 @@ body::before {
 .card-img:hover {
   transform: scale(1.05);
 }
+
+/* Enhanced styles for "Skip the hassle" text in hero */
+.animated-text {
+  position: relative;
+  display: inline-block;
+}
+
+.animated-text-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.animated-text-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background-color: #059669;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.animated-text-underline:hover::after {
+  transform: scaleX(1);
+}
+
+/* Subtle hover effect for How It Works and FAQ sections */
+.section-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.section-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Cell reference styling */
+.cell-reference {
+  position: absolute;
+  top: 2px;
+  right: 8px;
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+/* Formula bar effect for sections */
+.formula-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.section-card:hover .formula-bar {
+  transform: scaleX(1);
+}
+
+/* Add these styles to your globals.css file */
+
+/* Subtle highlight effect for important text */
+.text-highlight {
+  position: relative;
+  font-weight: 600;
+  z-index: 1;
+}
+
+.text-highlight::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30%;
+  background-color: rgba(16, 185, 129, 0.2); /* Green with low opacity */
+  z-index: -1;
+  transform: skewX(-5deg);
+}
+
+.text-highlight.blue::before {
+  background-color: rgba(59, 130, 246, 0.2); /* Blue with low opacity */
+}
+
+
