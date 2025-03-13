@@ -1,36 +1,28 @@
 "use client";
 import { motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function Terms() {
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white relative overflow-hidden">
-     
-     
-    
-     <nav className="top-0 left-0 right-0 z-50 bg-white shadow-sm backdrop-blur-md bg-opacity-80">
-  <div className="max-w-6xl mx-auto flex justify-between items-center py-4 px-6">
-    
-    {/* Logo and Title together */}
-    <Link href="/" className="flex items-center space-x-3">
-      <img src="/logo.png" alt="Premium Sheets Logo" className="h-10 w-auto" /> 
-      <h1 className="text-xl font-bold text-gray-900">Premium Sheets</h1>
-    </Link>
+<div className="min-h-screen bg-gray-900 text-white relative overflow-hidden">
+      <nav className="top-0 left-0 right-0 z-50 bg-white  shadow-sm backdrop-blur-md bg-opacity-80">
+        <div className="max-w-6xl mx-auto flex justify-between items-center py-4 px-6">
+          <Link href="/" className="flex items-center space-x-3">
+            <img src="/logo.png" alt="Premium Sheets Logo" className="h-10 w-auto" /> 
+            <h1 className="text-xl font-bold text-gray-300 ">Premium Sheets</h1>
+          </Link>
+          <div className="space-x-6">
+            <Link href="/" className="text-gray-700  hover:text-gray-300 dark:hover:text-white transition">
+              Home
+            </Link>
+            <Link href="/about" className="text-gray-700  hover:text-gray-300 dark:hover:text-white transition">
+              About
+            </Link>
+          </div>
+        </div>
+      </nav>
 
-    {/* Navigation Links */}
-    <div className="space-x-6">
-      <a href="/" className="text-gray-700 hover:text-gray-900 transition">
-        Home
-      </a>
-      <a href="/about" className="text-gray-700 hover:text-gray-900 transition">
-        About
-      </a>
-    </div>
-  </div>
-</nav>
-
-      <main className="relative z-10 flex flex-col items-center justify-center text-center px-6 py-24 min-h-[28vh] select-none">
+      <main className="relative z-10 flex flex-col items-center justify-center px-6 py-24">
         <motion.div
           className="relative z-10 max-w-4xl mb-12"
           initial={{ opacity: 0 }}
@@ -41,98 +33,119 @@ export default function Terms() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="text-5xl font-extrabold tracking-tight"
+            className="text-4xl md:text-5xl font-extrabold tracking-tight text-center"
           >
             Terms and Conditions
           </motion.h1>
 
           <motion.p
-            className="text-lg mt-6 text-gray-500"
+            className="text-lg mt-6 text-gray-500  text-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            Last Updated: [March 2025]
+            Last Updated: March 14, 2025
           </motion.p>
         </motion.div>
 
-        <motion.div className="relative z-10 max-w-4xl text-left text-gray-800 dark:text-gray-300 space-y-6">
-          <motion.section
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-          >
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">1. License & Usage Rights</h2>
-            <p>Purchasing a premium template grants <strong>you</strong> a <strong>non-transferable, single-user license</strong>.</p>
-            <ul className="list-disc list-inside mt-2">
-              <li>You <strong>may not</strong> resell, redistribute, or share premium templates.</li>
-              <li>Free templates can be shared but must not be resold or rebranded.</li>
-            </ul>
-          </motion.section>
-
-          <motion.section
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-          >
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">2. Restrictions on Distribution</h2>
-            <p>
-              You <strong>cannot</strong> upload, share, or distribute premium templates on forums, cloud storage, or social media.
-              Additional licenses must be purchased for multiple users within a business.
+        <motion.div 
+          className="relative z-10 max-w-4xl text-left text-gray-800  space-y-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <section>
+            <h2 className="text-2xl font-semibold text-gray-300  mb-4">1. Google Services Disclaimer</h2>
+            <p className="mb-4 text-gray-200">
+              Premium Sheets is not affiliated with, endorsed by, sponsored by, or connected to Google LLC in any way. 
+              Google Sheets™, Google Drive™, and related marks and logos are trademarks of Google LLC. Our templates 
+              are independently created and maintained to work with Google's services.
             </p>
-          </motion.section>
+          </section>
 
-          <motion.section
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-          >
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">3. Refund Policy</h2>
-            <p>All sales are final due to the nature of digital products. If you experience technical issues, contact us for support.</p>
-          </motion.section>
+          <section>
+            <h2 className="text-2xl font-semibold text-gray-300  mb-4">2. Template License</h2>
+            <p className="mb-3 text-gray-200 ">Purchase of a template grants you a non-exclusive, non-transferable, single-user license to:</p>
+            <ul className="list-disc pl-6 mb-4 text-gray-200 space-y-2">
+              <li>Use the template for personal or business purposes</li>
+              <li>Make modifications to suit your needs</li>
+              <li>Create copies for backup purposes</li>
+            </ul>
+            <p className="mb-3 text-gray-200 ">You may not:</p>
+            <ul className="list-disc pl-6 mb-4 text-gray-200 space-y-2">
+              <li>Resell, distribute, or transfer the template to others</li>
+              <li>Include the template in a product for redistribution</li>
+              <li>Share premium templates publicly</li>
+            </ul>
+          </section>
 
-          <motion.section
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-          >
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">4. Intellectual Property Rights</h2>
-            <p>All templates and branding remain the <strong>intellectual property</strong> of Simplify Labs.</p>
-            <p>Unauthorized reproduction, modification, or distribution is strictly prohibited.</p>
-          </motion.section>
+          <section>
+            <h2 className="text-2xl font-semibold text-gray-300  mb-4">3. Pricing and Payments</h2>
+            <p className="mb-4 text-gray-200">
+              All prices are in USD and are subject to change without notice. Payment is required before template access 
+              is granted to paid templates. We use secure third-party payment processors and do not store credit card information.
+            </p>
+          </section>
 
-          <motion.section
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-          >
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">5. Disclaimer & Liability</h2>
-            <p>Templates are provided <strong>as-is</strong> without warranties.</p>
-            <p>We are not responsible for any financial loss, errors, or damages caused by using our templates.</p>
-          </motion.section>
+          <section>
+            <h2 className="text-2xl font-semibold text-gray-300  mb-4">4. Refund Policy</h2>
+            <p className="mb-4 text-gray-200">
+              Due to the digital nature of our products, all sales are final. No refunds will be issued unless:
+            </p>
+            <ul className="list-disc pl-6 mb-4 text-gray-200 space-y-2">
+              <li>The template is permanently inaccessible</li>
+              <li>The template significantly fails to function as described</li>
+            </ul>
+            <p className="mb-4 text-gray-200">
+              Refund requests must be submitted within 7 days of purchase. We reserve the right to deny refunds 
+              if we determine the request is not valid.
+            </p>
+          </section>
 
-          <motion.section
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-          >
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">6. Changes to Terms</h2>
-            <p>We reserve the right to update these Terms at any time. Continued use of our templates means you accept the latest version.</p>
-          </motion.section>
+          <section>
+            <h2 className="text-2xl font-semibold text-gray-300  mb-4">5. Disclaimer of Warranties</h2>
+            <p className="mb-4 text-gray-200">
+              Templates are provided "as is" without warranty of any kind. While we strive for excellence, we do not 
+              guarantee that templates will meet your specific requirements or be error-free. You assume all risks 
+              associated with using our templates.
+            </p>
+          </section>
 
-    
+          <section>
+            <h2 className="text-2xl font-semibold text-gray-300  mb-4">6. Limitation of Liability</h2>
+            <p className="mb-4 text-gray-200">
+              Premium Sheets shall not be liable for any indirect, incidental, special, consequential, or punitive 
+              damages resulting from the use or inability to use our templates.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-semibold text-gray-300  mb-4">7. Updates to Terms</h2>
+            <p className="mb-4 text-gray-200">
+              We reserve the right to modify these terms at any time. Changes will be effective immediately upon 
+              posting to our website. Your continued use of our templates constitutes acceptance of any modifications 
+              to these terms.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-semibold text-gray-300  mb-4">8. Contact</h2>
+            <p className="mb-4 text-gray-200">
+              For questions about these terms, please contact us at support@premiumsheets.com
+            </p>
+          </section>
         </motion.div>
       </main>
-      <footer className="mt-auto p-6 text-center bg-gray-100 text-gray-600 text-sm border-t border-gray-200">
-  <div className="flex justify-center gap-4 mb-2">
-    <a href="/" className="hover:text-gray-800 transition-colors">Home</a>
-    <a href="/about" className="hover:text-gray-800 transition-colors">About</a>
-    <a href="/terms" className="hover:text-gray-800 transition-colors">Terms of Service</a>
-    <a href="/privacy" className="hover:text-gray-800 transition-colors">Privacy Policy</a>
-  </div>
-  <p>© {new Date().getFullYear()} Premium Sheets. All Rights Reserved.</p>
-</footer>
+
+      <footer className="mt-auto p-6 text-center bg-gray-100 dark:bg-gray-800 text-gray-600  text-sm border-t border-gray-200 dark:border-gray-700">
+        <div className="flex justify-center gap-4 mb-2">
+          <Link href="/" className="hover:text-gray-800 dark:hover:text-white transition-colors">Home</Link>
+          <Link href="/about" className="hover:text-gray-800 dark:hover:text-white transition-colors">About</Link>
+          <Link href="/terms" className="hover:text-gray-800 dark:hover:text-white transition-colors">Terms</Link>
+          <Link href="/privacy" className="hover:text-gray-800 dark:hover:text-white transition-colors">Privacy</Link>
+        </div>
+        <p>© {new Date().getFullYear()} Premium Sheets. All Rights Reserved.</p>
+      </footer>
     </div>
   );
 }
-

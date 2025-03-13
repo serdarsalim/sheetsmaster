@@ -12,6 +12,7 @@ import Image from 'next/image';
 
 
 interface Template {
+  clickCount?: number;
   id: number;
   name: string;
   price: string;
@@ -24,6 +25,7 @@ interface Template {
   buyUrl?: string;
   freeVersionUrl?: string;
   tutorialUrl?: string;
+
 }
 
 const particlesInit = async (engine: Engine): Promise<void> => {
@@ -183,6 +185,7 @@ export default function Home() {
   }), [templates]);
 
   const handleCategoryClick = (cat: string) => {
+    
     setSelectedCategories((prev) => {
       if (cat === "all") return ["all"];
       const newCategories = prev.includes(cat)
@@ -190,6 +193,8 @@ export default function Home() {
         : [...prev.filter((c) => c !== "all"), cat];
       return newCategories.length === 0 ? ["all"] : newCategories;
     });
+
+  
   };
 
   // Toggle dark mode function - same as in your About page
@@ -230,7 +235,19 @@ export default function Home() {
   };
 
   const handleTemplateClick = (template: Template) => {    
+    if (typeof window !== 'undefined') {
+      const clickKey = `template_${template.id}_clicks`;
+      const currentClicks = parseInt(localStorage.getItem(clickKey) || '0');
+      localStorage.setItem(clickKey, (currentClicks + 1).toString());
+    }
     setSelectedTemplate(template);
+  };
+  
+  const getTemplateClicks = (templateId: number): number => {
+    if (typeof window !== 'undefined') {
+      return parseInt(localStorage.getItem(`template_${templateId}_clicks`) || '0');
+    }
+    return 0;
   };
 
   const closeModal = () => {
@@ -409,7 +426,7 @@ export default function Home() {
         </div>
 
         {/* Free Templates Badge */}
-        <div className="absolute top-0 left-20 bg-green-500 text-white px-6 py-2 rounded-b-lg shadow-md text-sm font-medium">
+        <div className="absolute top-0 left-20 bg-green-600 text-white px-6 py-2 rounded-b-lg shadow-md text-sm font-medium">
           Free Templates Available!
         </div>
 
@@ -419,50 +436,61 @@ export default function Home() {
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}
         >
-          <motion.div
-            className="mb-4 flex items-center justify-center"
-            initial={{ scale: 0.9 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <motion.div
-              className="mr-3 text-green-300 transform -mt-10"
-              animate={{ 
-                rotate: [0, 2, 0, -2, 0],
-                y: [0, -2, 0, 2, 0]
-              }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <img src="/gsheet.png" width="70" height="70" alt="Google Sheets Icon" />
-            </motion.div>
+        <motion.div
+  className="mb-4 flex items-center justify-center"
+  initial={{ scale: 0.9 }}
+  animate={{ scale: 1 }}
+  transition={{ duration: 0.5 }}
+>
+  <motion.div
+    className="mr-3 text-green-300 transform -mt-10"
+    animate={{ 
+      rotate: [0, 2, 0, -2, 0],
+      y: [0, -2, 0, 2, 0]
+    }}
+    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+  >
+    {/* Increased base size and made it even larger on mobile */}
+    <img 
+      src="/spreadsheet.png" 
+      className="w-[145px] h-[85px] sm:w-[70px] sm:h-[70px]" 
+      alt="Google Sheets Icon" 
+    />
+  </motion.div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="text-5xl font-extrabold tracking-tight text-gray-800 dark:text-white -mt-10"
-              style={{
-                fontFamily: "SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif",
-                letterSpacing: "-0.025em",
-              }}
-              whileHover={{
-                scale: 1.02,
-                transition: { duration: 0.3 },
-              }}
-            >
-              Premium Google Sheets Templates
-            </motion.h1>
-          </motion.div>
+  <motion.h1
+    initial={{ opacity: 0, y: -20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+    className="text-4xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-gray-800 dark:text-white -mt-10"
+    style={{
+      fontFamily: "SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif",
+      letterSpacing: "-0.025em",
+    }}
+    whileHover={{
+      scale: 1.02,
+      transition: { duration: 0.3 },
+    }}
+  >
+    Premium Google Sheets Templates
+  </motion.h1>
+</motion.div>
 
           {/* Updated Subtext with dark mode support */}
           <motion.p
-            className="text-gray-800 dark:text-gray-200 text-lg mb-4 mt-5 max-w-3xl mx-auto leading-relaxed shadow-sm p-3 rounded-lg bg-white/10 dark:bg-gray-800/30 text-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-          >
-            <span className="font-semibold">Find the perfect template</span> with professional formulas and design. Solve your challenges faster, customize to your needs, and get inspired while making it your own.
-          </motion.p>
+  className="text-xl mb-4 mt-5 max-w-2xl mx-auto leading-relaxed shadow-sm p-3 rounded-lg bg-white/10 dark:bg-gray-800/30 text-center"
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.5 }}
+>
+  <span className="font-semibold">Get</span>
+  {' '}
+  <span>the right template,</span>
+  {' '}
+  <span className="font-semibold">achieve</span>
+  {' '}
+  <span>your goals faster!</span>
+</motion.p>
         </motion.div>
       </main>
 
@@ -518,6 +546,8 @@ export default function Home() {
               ))}
             </div>
           </div>
+
+          
 
           <div className="relative">
             <input
@@ -588,6 +618,9 @@ export default function Home() {
 
                     <h3 className="text-xl font-semibold mb-2 text-slate-800 dark:text-white">{template.name}</h3>
                     <p className="text-gray-800 dark:text-gray-200">{template.description}</p>
+                    <div className="text-sm text-gray-500 dark:text-gray-400 mt-3">
+    Views: {getTemplateClicks(template.id)}
+  </div>
                   </div>
                 </motion.div>
               ))}
