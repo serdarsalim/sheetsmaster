@@ -503,9 +503,8 @@ export default function Home() {
           className="card-container dark:bg-gray-800"
         >
           <div className="flex flex-col items-center gap-2 mb-3">
-            <p className="text-gray-700 dark:text-gray-300 text-center text-sm">
-              Selecting multiple categories will show only templates that fit
-              all of them.
+          <p className="text-gray-700 dark:text-gray-300 text-center text-lg pb-2 font-medium tracking-wide">
+          Find your perfect template 😎
             </p>
 
             <div className="grid grid-cols-2 sm:flex sm:flex-row gap-3">
