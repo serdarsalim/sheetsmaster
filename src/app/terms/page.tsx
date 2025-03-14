@@ -8,8 +8,8 @@ export default function Terms() {
       <nav className="top-0 left-0 right-0 z-50 bg-white  shadow-sm backdrop-blur-md bg-opacity-80">
         <div className="max-w-6xl mx-auto flex justify-between items-center py-4 px-6">
           <Link href="/" className="flex items-center space-x-3">
-            <img src="/logo.png" alt="Premium Sheets Logo" className="h-10 w-auto" /> 
-            <h1 className="text-xl font-bold text-gray-300 ">Premium Sheets</h1>
+            <img src="/logo.png" alt="Sheets Master Logo" className="h-10 w-auto" /> 
+            <h1 className="text-xl font-bold text-gray-300 ">Sheets Master</h1>
           </Link>
           <div className="space-x-6">
             <Link href="/" className="text-gray-700  hover:text-gray-300 dark:hover:text-white transition">
@@ -57,7 +57,7 @@ export default function Terms() {
           <section>
             <h2 className="text-2xl font-semibold text-gray-300  mb-4">1. Google Services Disclaimer</h2>
             <p className="mb-4 text-gray-200">
-              Premium Sheets is not affiliated with, endorsed by, sponsored by, or connected to Google LLC in any way. 
+              Sheets Master is not affiliated with, endorsed by, sponsored by, or connected to Google LLC in any way. 
               Google Sheets™, Google Drive™, and related marks and logos are trademarks of Google LLC. Our templates 
               are independently created and maintained to work with Google's services.
             </p>
@@ -114,7 +114,7 @@ export default function Terms() {
           <section>
             <h2 className="text-2xl font-semibold text-gray-300  mb-4">6. Limitation of Liability</h2>
             <p className="mb-4 text-gray-200">
-              Premium Sheets shall not be liable for any indirect, incidental, special, consequential, or punitive 
+              Sheets Master shall not be liable for any indirect, incidental, special, consequential, or punitive 
               damages resulting from the use or inability to use our templates.
             </p>
           </section>

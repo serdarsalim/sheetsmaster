@@ -4,18 +4,18 @@ import { motion, AnimatePresence } from "framer-motion";
 interface Template {
   id: number;
   name: string;
-  price: string;
   categories: string[];
   description: string;
-  image: string;
-  hasFreeVersion?: boolean;
-  isPaid?: boolean;
-  previewUrl?: string;
-  buyUrl?: string;
-  freeVersionUrl?: string;
-  tutorialUrl?: string;
   overview?: string;
   features?: string[];
+  price: string;
+  isPaid: boolean;
+  hasFreeVersion: boolean;
+  image: string;
+  freeVersionUrl?: string;
+  previewUrl?: string;
+  buyUrl?: string;
+  tutorialUrl?: string;
 }
 
 interface TemplateProps {
@@ -24,7 +24,11 @@ interface TemplateProps {
   darkMode?: boolean; // New prop for dark mode
 }
 
-const Modal: React.FC<TemplateProps> = ({ template, onClose, darkMode = false }) => {
+const Modal: React.FC<TemplateProps> = ({
+  template,
+  onClose,
+  darkMode = false,
+}) => {
   if (!template) return null;
 
   const [activeTab, setActiveTab] = useState("overview");
@@ -76,7 +80,9 @@ const Modal: React.FC<TemplateProps> = ({ template, onClose, darkMode = false })
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 50 }}
           transition={{ type: "spring", damping: 25, stiffness: 300 }}
-          className={`rounded-xl shadow-2xl w-full max-w-4xl h-[85vh] flex flex-col bg-white dark:bg-gray-800 ${darkMode ? 'dark' : ''}`}
+          className={`rounded-xl shadow-2xl w-full max-w-4xl h-[85vh] flex flex-col bg-white dark:bg-gray-800 ${
+            darkMode ? "dark" : ""
+          }`}
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
@@ -85,7 +91,9 @@ const Modal: React.FC<TemplateProps> = ({ template, onClose, darkMode = false })
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
                 {template.name}
               </h2>
-              <p className="text-gray-700 dark:text-gray-300 mt-1">{template.description}</p>
+              <p className="text-gray-700 dark:text-gray-300 mt-1">
+                {template.description}
+              </p>
             </div>
             <button
               onClick={onClose}
@@ -128,15 +136,23 @@ const Modal: React.FC<TemplateProps> = ({ template, onClose, darkMode = false })
                 {/* Template Overview Text */}
                 <div className="w-full md:w-1/2">
                   {/* Use the custom overview if available, otherwise fallback to a generic one */}
-  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
-    {template.overview || (
-      <>
-        {template.isPaid 
-          ? `This premium ${template.name} template offers advanced features for ${template.categories.join(", ")}. Purchase for full access.` 
-          : `This free ${template.name} template is ready to use for ${template.categories.join(", ")}.`}
-      </>
-    )}
-  </p>
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+                    {template.overview || (
+                      <>
+                        {template.isPaid
+                          ? `This premium ${
+                              template.name
+                            } template offers advanced features for ${template.categories.join(
+                              ", "
+                            )}. Purchase for full access.`
+                          : `This free ${
+                              template.name
+                            } template is ready to use for ${template.categories.join(
+                              ", "
+                            )}.`}
+                      </>
+                    )}
+                  </p>
 
                   <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                     How to Use This Template
@@ -150,52 +166,52 @@ const Modal: React.FC<TemplateProps> = ({ template, onClose, darkMode = false })
               </div>
             )}
 
-{activeTab === "features" && (
-  <div className="min-h-full">
-    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-      Key Features
-    </h3>
-    <ul className="space-y-2 text-gray-700 dark:text-gray-300">
-      {/* Use template.features if available, otherwise use the default templateDetails.features */}
-      {(template.features || templateDetails.features).map((feature, index) => (
-        <li key={index} className="flex items-start">
-          <span className="mr-2 text-green-500 dark:text-green-400">✓</span>
-          {feature}
-        </li>
-      ))}
-    </ul>
-  </div>
-)}
+            {activeTab === "features" && (
+              <div className="min-h-full">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+                  Key Features
+                </h3>
+                <ul className="space-y-2 text-gray-700 dark:text-gray-300">
+                  {/* Use template.features if available, otherwise use the default templateDetails.features */}
+                  {(template.features || templateDetails.features).map(
+                    (feature, index) => (
+                      <li key={index} className="flex items-start">
+                        <span className="mr-2 text-green-500 dark:text-green-400">
+                          ✓
+                        </span>
+                        {feature}
+                      </li>
+                    )
+                  )}
+                </ul>
+              </div>
+            )}
           </div>
 
-         {/* Buttons */}
-<div className="border-t border-gray-300 dark:border-gray-700 p-6 flex flex-col sm:flex-row sm:justify-between items-center gap-3 bg-white dark:bg-gray-800">
-  {/* Only show price for paid templates */}
-  {template.isPaid && (
-    <span className="text-2xl font-bold text-gray-800 dark:text-white mb-3 sm:mb-0">
-      {template.price}
-    </span>
-  )}
-  
-  {/* Show "Free" badge for free templates */}
-  {!template.isPaid && (
-    <span className="display:none">
-      
-    </span>
-  )}
-  
-  <div className="flex flex-wrap gap-3 w-full sm:w-auto">
-    {/* Keep all the action buttons as they are */}
-    {template.tutorialUrl && (
-      <a
-        href={template.tutorialUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex-1 sm:flex-none px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg font-medium text-center min-w-[90px]"
-      >
-        Tutorial
-      </a>
-    )}
+          {/* Buttons */}
+          <div className="border-t border-gray-300 dark:border-gray-700 p-6 flex flex-col sm:flex-row sm:justify-between items-center gap-3 bg-white dark:bg-gray-800">
+            {/* Only show price for paid templates */}
+            {template.isPaid && (
+              <span className="text-2xl font-bold text-gray-800 dark:text-white mb-3 sm:mb-0">
+                {template.price}
+              </span>
+            )}
+
+            {/* Show "Free" badge for free templates */}
+            {!template.isPaid && <span className="display:none"></span>}
+
+            <div className="flex flex-wrap gap-3 w-full sm:w-auto">
+              {/* Keep all the action buttons as they are */}
+              {template.tutorialUrl && (
+                <a
+                  href={template.tutorialUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 sm:flex-none px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg font-medium text-center min-w-[90px]"
+                >
+                  Tutorial
+                </a>
+              )}
               {template.previewUrl && (
                 <a
                   href={template.previewUrl}

@@ -12,8 +12,8 @@ export default function PrivacyPolicy() {
     
     {/* Logo and Title together */}
     <Link href="/" className="flex items-center space-x-3">
-      <img src="/logo.png" alt="Premium Sheets Logo" className="h-10 w-auto" /> 
-      <h1 className="text-xl font-bold text-gray-900">Premium Sheets</h1>
+      <img src="/logo.png" alt="Sheets Master Logo" className="h-10 w-auto" /> 
+      <h1 className="text-xl font-bold text-gray-900">Sheets Master</h1>
     </Link>
 
     {/* Navigation Links */}

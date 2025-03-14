@@ -35,7 +35,7 @@ export default function Footer() {
       
       <div className="flex justify-center items-center gap-4 mb-4 mt-4">
         <a
-          href="https://youtube.com/@PremiumSheets"
+          href="https://youtube.com/@SheetsMasterOfficial"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white transition-colors"
@@ -47,7 +47,7 @@ export default function Footer() {
         </a>
 
         <a 
-          href="https://twitter.com/premiumgsheets"
+          href="https://twitter.com/gsheetsmaster"
           target="_blank"
           rel="noopener noreferrer"
           className="p-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white transition-colors"
@@ -58,7 +58,7 @@ export default function Footer() {
         </a>
 
         <a 
-          href="https://www.producthunt.com/posts/premiumsheets"
+          href="https://www.producthunt.com/posts/sheetsmaster"
           target="_blank"
           rel="noopener noreferrer"
           className="p-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white transition-colors"
@@ -69,7 +69,7 @@ export default function Footer() {
         </a>
       </div>
       
-      <p>© {new Date().getFullYear()} Premium Sheets. All Rights Reserved.</p>
+      <p>© {new Date().getFullYear()} Sheets Master. All Rights Reserved.</p>
     </footer>
   );
 }

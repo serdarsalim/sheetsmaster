@@ -179,7 +179,7 @@ export default function Home() {
             <div className="relative h-10 w-10">
               <Image
                 src="/logo.png"
-                alt="Premium Sheets Logo"
+                alt="Sheets Master Logo"
                 fill
                 sizes="40px"
                 className="object-contain"
@@ -187,7 +187,7 @@ export default function Home() {
               />
             </div>
             <h1 className="text-xl font-bold text-gray-900 dark:text-white">
-              Premium Sheets
+              Sheets Master
             </h1>
           </Link>
 
@@ -456,7 +456,7 @@ export default function Home() {
               transition={{ delay: 0.2 }}
             >
               <div className="mr-2 text-blue-500 dark:text-blue-400">⚡️</div>
-              <span>Save Hours Weekly</span>
+              <span>No setup required</span>
             </motion.div>
             <motion.div
               className="flex items-center"
@@ -464,8 +464,8 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
             >
-              <div className="mr-2 text-green-500 dark:text-green-400">🔒</div>
-              <span>Your Data Stays Private</span>
+              <div className="mr-2 text-green-500 dark:text-green-400">👋</div>
+              <span>Hand Curated</span>
             </motion.div>
             <motion.div
               className="flex items-center"
@@ -768,9 +768,9 @@ export default function Home() {
             {[
               {
                 id: 1,
-                question: "What is Premium Sheets?",
+                question: "What is Sheets Master?",
                 answer:
-                  "Premium Sheets offers a collection of high-quality Google Sheets templates designed to help you organize your life, track your finances, improve your productivity, and achieve your goals. Our templates are available in both free and premium versions. The free versions offer core functionality, while premium versions include additional features, advanced analytics, and more customization options.",
+                  "Sheets Master offers a collection of high-quality Google Sheets templates designed to help you organize your life, track your finances, improve your productivity, and achieve your goals. Our templates are available in both free and premium versions. The free versions offer core functionality, while premium versions include additional features, advanced analytics, and more customization options.",
               },
               {
                 id: 2,
