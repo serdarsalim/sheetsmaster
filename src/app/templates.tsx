@@ -1,28 +1,97 @@
+import { useEffect, useState } from 'react';
+
+// 1 Types
+
 export interface Template {
-    id: number;
-    name: string;
-    price: string;
-    categories: string[];
-    description: string;
-    image: string;
-    hasFreeVersion: boolean;
-    isPaid: boolean;
-    previewUrl?: string;
-    buyUrl?: string;
-    freeVersionUrl?: string;
-    tutorialUrl?: string;
-  
+  id: number;
+  name: string;
+  price: string;
+  categories: string[];
+  description: string;
+  image: string;
+  hasFreeVersion: boolean;
+  isPaid: boolean;
+  previewUrl?: string;
+  buyUrl?: string;
+  freeVersionUrl?: string;
+  tutorialUrl?: string;
+  overview?: string;
+  features?: string[];
+}
+
+//Functions
+
+// Export loadTemplates function so it can be imported elsewhere
+export async function loadTemplates(): Promise<Template[]> {
+  try {
+    // Import PapaParse dynamically to avoid server-side issues
+    const Papa = (await import('papaparse')).default;
+    
+    const response = await fetch('/data/templates.csv');
+    const csvText = await response.text();
+    
+    const { data } = Papa.parse(csvText, { 
+      header: true,
+      skipEmptyLines: true 
+    });
+    
+    
+    return data.map((item: any) => ({
+      id: parseInt(item.id),
+      name: item.name,
+      price: item.price,
+      categories: item.categories.split(',').map((cat: string) => cat.trim()),
+      description: item.description,
+      image: item.image,
+      hasFreeVersion: item.hasFreeVersion === 'true',
+      isPaid: item.isPaid === 'true',
+      previewUrl: item.previewUrl || undefined,
+      buyUrl: item.buyUrl || undefined,
+      freeVersionUrl: item.freeVersionUrl || undefined,
+      tutorialUrl: item.tutorialUrl || undefined,
+      overview: item.overview || undefined,
+      features: item.features ? item.features.split('|').map((feat: string) => feat.trim()) : undefined,
+    }));
+  } catch (error) {
+    console.error("Error loading templates:", error);
+    return fallbackTemplates; // Use fallback templates on error
   }
+}
 
+// Use a default export for your component that uses the templates data
+export function useTemplates() {
+  const [templates, setTemplates] = useState<Template[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  export const templates: Template[] = [
-    {
+  useEffect(() => {
+    async function fetchData() {
+      const data = await loadTemplates();
+      setTemplates(data);
+      setLoading(false);
+    }
+    fetchData();
+  }, []);
+
+  return { templates, loading };
+}
+
+// Keep the hardcoded templates as a fallback
+export const fallbackTemplates: Template[] = [
+  {
       id: 1,
       name: "Budget Tracker",
       price: "$20",
       categories: ["finances","free"],
       description:
         "Manage your monthly budget and control your spending over multiple years.",
+      overview: "Take control of your finances with this comprehensive budget tracker. Track income, expenses, and savings across multiple years. The template includes dynamic charts that visualize your spending patterns and help you identify areas for improvement. Perfect for individuals who want to build wealth systematically.",
+      features: [
+        "Track income, expenses, and savings",
+        "Visualize spending patterns with dynamic charts",
+        "Plan for future expenses",
+        "Mobile-friendly layout",
+        "Print-ready reports",
+      ],
       image: "/budget_tracker.png",
       hasFreeVersion: true,
       isPaid: true,
@@ -133,3 +202,5 @@ export interface Template {
       freeVersionUrl: "https://docs.google.com/spreadsheets/d/1Yv_ZUlkEz_0c60W5Hvh5gL1IEvZEHhd7GuJHi88g1-o/edit?gid=990033680#gid=990033680",
     },
   ];
+
+  export default useTemplates;

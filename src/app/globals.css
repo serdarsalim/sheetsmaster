@@ -2,8 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ===== Theme Variables ===== */
+:root {
+  color-scheme: light;
+}
 
-:root{color-scheme: light;}
 .dark {
   --background: #1d1d1f;
   --foreground: #ffffff;
@@ -23,127 +26,51 @@
   }
 }
 
-/*card container */
+/* ===== Base Styles ===== */
+body {
+  background: linear-gradient(to bottom, #FCFCF2, #F0F0E8);
+  position: relative;
+  @apply bg-[var(--background)] text-[var(--foreground)];
+}
+
+
+/* ===== Container Styles ===== */
 .card-container {
-  background-color: #FCFCF2;
-  backdrop-filter: blur(10px);
+  background-color: rgba(252, 252, 242, 0.4); /* More transparent */
+  backdrop-filter: blur(180px) saturate(200%); /* Maximum blur */
+  -webkit-backdrop-filter: blur(180px) saturate(200%); /* For Safari */
   border-radius: 0.75rem;
   padding: 1.5rem;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.15),
+    0 1px 3px rgba(0, 0, 0, 0.05),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.3); /* Inner highlight */
+  border: 1px solid rgba(255, 255, 255, 0.3);
   max-width: 72rem;
   margin: 0 auto;
 }
 
-/* Add this to your CSS file to match the body background to your hero */
-body {
-  background: linear-gradient(to bottom, #FCFCF2, #F0F0E8);
-  position: relative;
-      @apply bg-[var(--background)] text-[var(--foreground)];
-
+/* Add dark mode version with different colors */
+.dark .card-container {
+  background-color: rgba(30, 41, 59, 0.4);
+  backdrop-filter: blur(180px) saturate(200%);
+  -webkit-backdrop-filter: blur(180px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.25),
+    0 1px 3px rgba(0, 0, 0, 0.1),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
-/* Modified grid pattern with higher opacity and proper z-index */
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-  z-index: 0;
-  
-  background-image:
-    linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
-    linear-gradient(to right, rgba(0, 0, 0, 0.08) 1px, transparent 1px 98%),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 1px, transparent 1px 98%);
-  background-size: 5% 5%, 2% 2%, 100% 100%, 100% 100%;
-  background-position: 0 0, 0 0, 5% 0, 0 5%;
+/* ===== Card Styles ===== */
+
+/* Add this to your Animations section */
+@keyframes card-click {
+  0% { transform: scale(1); }
+  40% { transform: scale(0.97); }
+  100% { transform: scale(1); }
 }
 
-/* Premium subtle gradient animation */
-.animate-gradient {
-  background: linear-gradient(
-    135deg,
-    rgba(19, 23, 34, 0.95) 0%,
-    rgba(33, 39, 55, 0.95) 25%,
-    rgba(49, 55, 84, 0.98) 50%,
-    rgba(39, 50, 79, 0.95) 75%,
-    rgba(27, 32, 52, 0.95) 100%
-  );
-  background-size: 300% 300%;
-  animation: subtleGradientFlow 20s ease infinite;
-  position: relative;
-}
-
-/* Elegant overlay for depth and sophistication */
-.animate-gradient::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    radial-gradient(
-      circle at 30% 20%, 
-      rgba(151, 157, 187, 0.12) 0%, 
-      rgba(20, 30, 60, 0.05) 40%, 
-      transparent 70%
-    ),
-    radial-gradient(
-      circle at 70% 65%, 
-      rgba(188, 193, 208, 0.1) 0%, 
-      rgba(190, 202, 227, 0.03) 40%, 
-      transparent 70%
-    );
-  pointer-events: none;
-}
-
-/* Optional noise texture for added sophistication */
-.animate-gradient::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
-  opacity: 0.4;
-  mix-blend-mode: overlay;
-  pointer-events: none;
-}
-
-@keyframes gradientAnimation {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-.hero-gradient {
-  position: relative;
-  background: linear-gradient(to right, white 0%, rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, 0) 80%, white 100%);
-}
-
-.hero-gradient::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(to right, white 0%, rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, 0) 80%, white 100%);
-  pointer-events: none;
-}
-
-/* Card Styles */
 .card-animate {
   position: relative;
   border: 1px solid #a7b5c7;
@@ -175,43 +102,6 @@ body::before {
   opacity: 1;
 }
 
-/* Gradient Animations */
-@keyframes gradientFlow {
-  0% { background-position: 100% 100%; }
-  50% { background-position: 0% 0%; }
-  100% { background-position: 100% 100%; }
-}
-
-@keyframes subtleGradientFlow {
-  0% { background-position: 0% 0%; }
-  50% { background-position: 100% 100%; }
-  100% { background-position: 0% 0%; }
-}
-
-/* Hero Background */
-.gradient-bg {
-  background: linear-gradient(to top left, #d4aaff 0%, #63bff0 50%, #a7d5ed 100%) no-repeat center/500% 500%;
-  animation: gradientFlow 20s ease infinite;
-}
-
-/* Grid Lines */
-.grid-line {
-  background-color: #3b82f6; /* Same as bg-blue-500 */
-  opacity: 0.1;
-  position: absolute;
-}
-
-.grid-line-horizontal {
-  width: 100%;
-  height: 1px;
-}
-
-.grid-line-vertical {
-  height: 100%;
-  width: 1px;
-}
-
-/* Template Card Image */
 .card-img {
   width: 100%;
   height: 11rem;
@@ -224,7 +114,121 @@ body::before {
   transform: scale(1.05);
 }
 
-/* Enhanced styles for "Skip the hassle" text in hero */
+/* ===== Section Card Styles ===== */
+
+/* Add this class to your Card Styles section */
+.card-clicked {
+  animation: card-click 0.25s ease-out forwards;
+}
+
+.section-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.section-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -5px rgba(0, 0, 0, 0.1);
+}
+
+.cell-reference {
+  position: absolute;
+  top: 2px;
+  right: 8px;
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.formula-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.section-card:hover .formula-bar {
+  transform: scaleX(1);
+}
+
+/* ===== Gradient & Animation Styles ===== */
+.animate-gradient {
+  background: linear-gradient(
+    135deg,
+    rgba(19, 23, 34, 0.95) 0%,
+    rgba(33, 39, 55, 0.95) 25%,
+    rgba(49, 55, 84, 0.98) 50%,
+    rgba(39, 50, 79, 0.95) 75%,
+    rgba(27, 32, 52, 0.95) 100%
+  );
+  background-size: 300% 300%;
+  animation: subtleGradientFlow 20s ease infinite;
+  position: relative;
+}
+
+.animate-gradient::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(
+      circle at 30% 20%, 
+      rgba(151, 157, 187, 0.12) 0%, 
+      rgba(20, 30, 60, 0.05) 40%, 
+      transparent 70%
+    ),
+    radial-gradient(
+      circle at 70% 65%, 
+      rgba(188, 193, 208, 0.1) 0%, 
+      rgba(190, 202, 227, 0.03) 40%, 
+      transparent 70%
+    );
+  pointer-events: none;
+}
+
+.animate-gradient::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+  opacity: 0.4;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.gradient-bg {
+  background: linear-gradient(to top left, #d4aaff 0%, #63bff0 50%, #a7d5ed 100%) no-repeat center/500% 500%;
+  animation: gradientFlow 20s ease infinite;
+}
+
+.hero-gradient {
+  position: relative;
+  background: linear-gradient(to right, white 0%, rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, 0) 80%, white 100%);
+}
+
+.hero-gradient::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to right, white 0%, rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, 0) 80%, white 100%);
+  pointer-events: none;
+}
+
+/* ===== Text Styles ===== */
 .animated-text {
   position: relative;
   display: inline-block;
@@ -252,47 +256,6 @@ body::before {
   transform: scaleX(1);
 }
 
-/* Subtle hover effect for How It Works and FAQ sections */
-.section-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.section-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 15px -5px rgba(0, 0, 0, 0.1);
-}
-
-/* Cell reference styling */
-.cell-reference {
-  position: absolute;
-  top: 2px;
-  right: 8px;
-  font-family: monospace;
-  font-size: 0.75rem;
-  color: #9ca3af;
-}
-
-/* Formula bar effect for sections */
-.formula-bar {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.3s ease;
-}
-
-.section-card:hover .formula-bar {
-  transform: scaleX(1);
-}
-
-/* Add these styles to your globals.css file */
-
-/* Subtle highlight effect for important text */
 .text-highlight {
   position: relative;
   font-weight: 600;
@@ -310,8 +273,44 @@ body::before {
   z-index: -1;
   transform: skewX(-5deg);
 }
+
 .text-highlight.blue::before {
   @apply bg-blue-500/20 dark:bg-blue-500/30;
 }
 
+/* ===== Grid Elements ===== */
+.grid-line {
+  background-color: #3b82f6; /* Same as bg-blue-500 */
+  opacity: 0.1;
+  position: absolute;
+}
+
+.grid-line-horizontal {
+  width: 100%;
+  height: 1px;
+}
+
+.grid-line-vertical {
+  height: 100%;
+  width: 1px;
+}
+
+/* ===== Animations ===== */
+@keyframes gradientAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes gradientFlow {
+  0% { background-position: 100% 100%; }
+  50% { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
+}
+
+@keyframes subtleGradientFlow {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
 

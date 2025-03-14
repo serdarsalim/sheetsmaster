@@ -1,6 +1,5 @@
 "use client";
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
 import Particles from "@tsparticles/react";
 import { loadStarsPreset } from "@tsparticles/preset-stars";
 import Fuse from "fuse.js";
@@ -9,8 +8,8 @@ import type { Engine } from "@tsparticles/engine";
 import React, {useMemo} from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-
-
+import { useEffect, useState } from "react";
+import { Template, loadTemplates, fallbackTemplates } from './templates'; // Import both Template type and loadTemplates function
 
 const particlesInit = async (engine: Engine): Promise<void> => {
   await loadStarsPreset(engine);
@@ -18,7 +17,6 @@ const particlesInit = async (engine: Engine): Promise<void> => {
 
 // Importing templates from the other file instead
 
-import {templates, Template} from './templates';
 
 
 export default function Home() {
@@ -29,7 +27,27 @@ export default function Home() {
   const [selectedCategories, setSelectedCategories] = useState(["all"]);
   const [isVisible, setIsVisible] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
+  const [templates, setTemplates] = useState<Template[]>([]);
+  const [loading, setLoading] = useState(true);
   
+    // Load templates from CSV
+    useEffect(() => {
+      async function fetchData() {
+        try {
+          const data = await loadTemplates();
+          setTemplates(data);
+        } catch (error) {
+          console.error("Failed to load templates from CSV:", error);
+          // You could import fallback templates here if the CSV fails
+          // import {fallbackTemplates} from './templates';
+          // setTemplates(fallbackTemplates);
+        } finally {
+          setLoading(false);
+        }
+      }
+      fetchData();
+    }, []);
+
   useEffect(() => {
     setIsVisible(true);
   }, []);
@@ -126,8 +144,29 @@ export default function Home() {
     return acc;
   }, {} as Record<string, number>);
 
-      return (
+  return (
     <div className={`min-h-screen ${darkMode ? 'dark' : ''} bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white relative overflow-hidden`}>
+      {/* Add this grid background div specifically for this page */}
+      <div 
+  className="fixed inset-0 pointer-events-none"
+  style={{
+    content: "",
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    pointerEvents: "none",
+    zIndex: 0,
+    backgroundImage:
+      "linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px), " +
+      "linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px), " +
+      "linear-gradient(to right, rgba(0, 0, 0, 0.08) 1px, transparent 1px 98%), " +
+      "linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 1px, transparent 1px 98%)",
+    backgroundSize: "5% 5%, 2% 2%, 100% 100%, 100% 100%",
+    backgroundPosition: "0 0, 0 0, 5% 0, 0 5%"
+  }}
+></div>
 
       {/* Update Particles to work with dark mode */}
       <Particles
@@ -413,8 +452,7 @@ export default function Home() {
             <input
               type="text"
               placeholder="Search by name, description, or category..."
-              className="w-full md:w-3/4 px-4 py-3 rounded-lg text-black dark:text-white mb-8 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:bg-white dark:focus:bg-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              value={searchTerm}
+              className="w-full md:w-3/4 px-4 py-3 rounded-lg text-xs sm:text-base text-black dark:text-white mb-8 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:bg-white dark:focus:bg-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500"              value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
             <motion.div

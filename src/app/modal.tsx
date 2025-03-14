@@ -14,6 +14,8 @@ interface Template {
   buyUrl?: string;
   freeVersionUrl?: string;
   tutorialUrl?: string;
+  overview?: string;
+  features?: string[];
 }
 
 interface TemplateProps {
@@ -66,7 +68,7 @@ const Modal: React.FC<TemplateProps> = ({ template, onClose, darkMode = false })
   return (
     <AnimatePresence>
       <div
-        className="fixed inset-0 bg-gray-300 dark:bg-gray-900 bg-opacity-50 dark:bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+        className="fixed inset-0 bg-gray-300 dark:bg-gray-900 bg-opacity-50 dark:bg-opacity-1 backdrop-blur-xl flex items-center justify-center z-50 p-4"
         onClick={onClose}
       >
         <motion.div
@@ -125,16 +127,16 @@ const Modal: React.FC<TemplateProps> = ({ template, onClose, darkMode = false })
 
                 {/* Template Overview Text */}
                 <div className="w-full md:w-1/2">
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
-                    Template Overview
-                  </h3>
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
-                    This premium {template.name} template is skillfully
-                    developed from scratch. Preview it and watch our YouTube
-                    video to learn more. The preview is read-only and does not
-                    allow making copies. Purchase the premium version for full
-                    access, lifetime usage, and free updates.
-                  </p>
+                  {/* Use the custom overview if available, otherwise fallback to a generic one */}
+  <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+    {template.overview || (
+      <>
+        {template.isPaid 
+          ? `This premium ${template.name} template offers advanced features for ${template.categories.join(", ")}. Purchase for full access.` 
+          : `This free ${template.name} template is ready to use for ${template.categories.join(", ")}.`}
+      </>
+    )}
+  </p>
 
                   <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                     How to Use This Template
@@ -148,39 +150,52 @@ const Modal: React.FC<TemplateProps> = ({ template, onClose, darkMode = false })
               </div>
             )}
 
-            {activeTab === "features" && (
-              <div className="min-h-full">
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-                  Key Features
-                </h3>
-                <ul className="space-y-2 text-gray-700 dark:text-gray-300">
-                  {templateDetails.features.map((feature, index) => (
-                    <li key={index} className="flex items-start">
-                      <span className="mr-2 text-green-500 dark:text-green-400">✓</span>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+{activeTab === "features" && (
+  <div className="min-h-full">
+    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+      Key Features
+    </h3>
+    <ul className="space-y-2 text-gray-700 dark:text-gray-300">
+      {/* Use template.features if available, otherwise use the default templateDetails.features */}
+      {(template.features || templateDetails.features).map((feature, index) => (
+        <li key={index} className="flex items-start">
+          <span className="mr-2 text-green-500 dark:text-green-400">✓</span>
+          {feature}
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
           </div>
 
-          {/* Buttons */}
-          <div className="border-t border-gray-300 dark:border-gray-700 p-6 flex flex-col sm:flex-row sm:justify-between items-center gap-3 bg-white dark:bg-gray-800">
-            <span className="text-2xl font-bold text-gray-800 dark:text-white mb-3 sm:mb-0">
-              {template.price}
-            </span>
-            <div className="flex flex-wrap gap-3 w-full sm:w-auto">
-              {template.tutorialUrl && (
-                <a
-                  href={template.tutorialUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 sm:flex-none px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg font-medium text-center min-w-[90px]"
-                >
-                  Tutorial
-                </a>
-              )}
+         {/* Buttons */}
+<div className="border-t border-gray-300 dark:border-gray-700 p-6 flex flex-col sm:flex-row sm:justify-between items-center gap-3 bg-white dark:bg-gray-800">
+  {/* Only show price for paid templates */}
+  {template.isPaid && (
+    <span className="text-2xl font-bold text-gray-800 dark:text-white mb-3 sm:mb-0">
+      {template.price}
+    </span>
+  )}
+  
+  {/* Show "Free" badge for free templates */}
+  {!template.isPaid && (
+    <span className="display:none">
+      
+    </span>
+  )}
+  
+  <div className="flex flex-wrap gap-3 w-full sm:w-auto">
+    {/* Keep all the action buttons as they are */}
+    {template.tutorialUrl && (
+      <a
+        href={template.tutorialUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex-1 sm:flex-none px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg font-medium text-center min-w-[90px]"
+      >
+        Tutorial
+      </a>
+    )}
               {template.previewUrl && (
                 <a
                   href={template.previewUrl}
@@ -208,7 +223,7 @@ const Modal: React.FC<TemplateProps> = ({ template, onClose, darkMode = false })
                   rel="noopener noreferrer"
                   className="flex-1 sm:flex-none px-4 py-2 bg-green-600 hover:bg-green-500 text-white rounded-lg font-medium text-center min-w-[90px]"
                 >
-                  Free
+                  Get Free
                 </a>
               )}
             </div>
