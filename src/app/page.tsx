@@ -471,18 +471,22 @@ export default function Home() {
               </p>
             </motion.div>
           ) : (
-            <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-              {filteredTemplates.map((template, index) => (
-                <motion.div
-                  key={template.id}
-                  custom={index}
-                  initial="hidden"
-                  animate="visible"
-                  variants={cardVariants}
-                  whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                  className="card-animate flex flex-col h-full bg-slate-300 dark:bg-gray-700 rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-2xl cursor-pointer"
-                  onClick={() => handleTemplateClick(template)}
-                >
+            <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            {filteredTemplates.map((template, index) => (
+              <motion.div
+                key={template.id}
+                custom={index}
+                initial="hidden"
+                animate="visible"
+                variants={cardVariants}
+                whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                className="card-animate flex flex-col h-full bg-slate-300 dark:bg-gray-700 rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-2xl cursor-pointer"
+                onClick={() => handleTemplateClick(template)}
+              >
                   <div className="relative">
                     <img src={template.image} className="card-img w-full h-48 object-cover" alt={template.name} />
                     {template.hasFreeVersion && template.isPaid && (
