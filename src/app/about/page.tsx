@@ -409,7 +409,7 @@ export default function About() {
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8 border-t-4 border-blue-300 relative overflow-hidden">
             {/* Cell Reference */}
             <div className="absolute top-2 right-3 text-xs text-gray-400 font-mono">
-              B1:D10
+              =#VALUE! (But actually priceless)
             </div>
 
             <motion.h2
@@ -461,7 +461,7 @@ export default function About() {
           >
             {/* Cell Reference */}
             <div className="absolute top-2 right-3 text-xs text-gray-400 font-mono">
-              A1:D15
+              A1:LOL
             </div>
 
             <motion.h2
@@ -619,7 +619,7 @@ export default function About() {
         >
           {/* Cell Reference */}
           <div className="absolute top-2 right-3 text-xs text-gray-400 font-mono">
-            F1:H8
+            #REF! (Reach out to get this fixed)
           </div>
 
           <motion.h2
@@ -669,7 +669,7 @@ export default function About() {
             animate={{ opacity: 0.5 }}
             transition={{ duration: 0.5, delay: 0.8 }}
           >
-            =HYPERLINK("mailto:contact@sheetsmaster.com","contact@sheetsmaster.com")
+            =HYPERLINK("mailto:contact@sheetsmaster.co","contact@sheetsmaster.co")
           </motion.div>
 
           
