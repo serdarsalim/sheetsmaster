@@ -176,16 +176,17 @@ export default function Home() {
         <div className="max-w-6xl mx-auto flex justify-between items-center py-4 px-6">
           {/* Logo and Title */}
           <Link href="/" className="flex items-center space-x-3">
-            <div className="relative h-10 w-10">
-              <Image
-                src="/logo.png"
-                alt="Sheets Master Logo"
-                fill
-                sizes="40px"
-                className="object-contain"
-                priority
-              />
-            </div>
+ <div className="relative h-10 w-10">
+  <Image
+    src="/logo.png"
+    alt="Sheets Master Logo"
+    fill
+    sizes="40px"
+    className="object-contain"
+    priority
+    title="=SHEETSMASTER(TRUE, A1:C10, {1,2,3;4,5,6})" 
+  />
+</div>
             <h1 className="text-xl font-bold text-gray-900 dark:text-white">
               Sheets Master
             </h1>
