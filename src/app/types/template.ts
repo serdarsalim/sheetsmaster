@@ -8,7 +8,7 @@ export interface Template {
     features?: string[];
     price: string;
     isPaid: boolean;
-    hasFreeVersion: boolean;
+    freeVersion: boolean;
     image: string;
     freeUrl?: string;
     previewUrl?: string;

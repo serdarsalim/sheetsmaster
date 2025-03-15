@@ -10,9 +10,9 @@ interface Template {
   features?: string[];
   price: string;
   isPaid: boolean;
-  hasFreeVersion: boolean;
+  freeVersion: boolean;
   image: string;
-  freeVersionUrl?: string;
+  freeUrl?: string;
   previewUrl?: string;
   buyUrl?: string;
   tutorialUrl?: string;
@@ -228,9 +228,9 @@ const Modal: React.FC<TemplateProps> = ({
                   Buy on Ko-Fi
                 </a>
               )}
-              {template.freeVersionUrl && (
+              {template.freeUrl && (
                 <a
-                  href={template.freeVersionUrl}
+                  href={template.freeUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1 sm:flex-none px-4 py-2 bg-green-600 hover:bg-green-500 text-white rounded-lg font-medium text-center min-w-[90px]"

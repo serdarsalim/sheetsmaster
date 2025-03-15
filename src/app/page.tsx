@@ -149,13 +149,13 @@ useEffect(() => {
   // Calculate stats for the stats section
   const totalTemplates = templates.length;
   const freeTemplates = templates.filter(
-    (t) => !t.isPaid || t.hasFreeVersion
+    (t) => !t.isPaid || t.freeVersion
   ).length;
   const paidTemplates = templates.filter((t) => t.isPaid).length;
   const categoryCounts = templates.reduce((acc, template) => {
     template.categories.forEach((cat) => {
       if (cat.toLowerCase() !== "free") {
-        // Ignore "free" category since we use hasFreeVersion
+        // Ignore "free" category since we use freeVersion
         acc[cat] = (acc[cat] || 0) + 1;
       }
     });
@@ -425,7 +425,7 @@ useEffect(() => {
                       className="card-img w-full h-48 object-cover"
                       alt={template.name}
                     />
-                    {template.hasFreeVersion === true &&
+                    {template.freeVersion === true &&
                     template.isPaid === true ? (
                       <div className="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
                         Free Version Available

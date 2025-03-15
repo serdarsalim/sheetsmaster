@@ -11,7 +11,7 @@ export interface Template {
   features?: string[];
   price: string;
   isPaid: boolean;
-  hasFreeVersion: boolean;
+  freeVersion: boolean;
   image: string;
   freeVersionUrl?: string;
   previewUrl?: string;
@@ -86,7 +86,7 @@ function parseTemplates(data: any[]): Template[] {
     features: item.features ? item.features.split('|').map((f: string) => f.trim()) : [],
     price: item.price,
     isPaid: item.isPaid === 'true',
-    hasFreeVersion: item.hasFreeVersion === 'true',
+    freeVersion: item.freeVersion === 'true',
     image: item.image,
     freeVersionUrl: item.freeVersionUrl,
     previewUrl: item.previewUrl,
