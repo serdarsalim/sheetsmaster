@@ -6,10 +6,13 @@ const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSjtzEuoELVWk
 const FALLBACK_URL = '/data/fallback-templates.csv';
 const TIMEOUT_MS = 3000; // 3 second timeout
 
+// Event to notify subscribers when data changes
+const templateUpdateEvents = new Set<(templates: Template[]) => void>();
+
 function parseTemplateData(item: Record<string, any>): Template {
   try {
     return {
-      id: parseInt(item.id) || 0, // Provide default value if parse fails
+      id: parseInt(item.id) || 0,
       name: item.name || 'Unnamed Template',
       categories: item.categories ? item.categories.split(',').map((cat: string) => cat.trim()) : [],
       description: item.description || '',
@@ -18,7 +21,7 @@ function parseTemplateData(item: Record<string, any>): Template {
       price: item.price || 'Free',
       isPaid: item.isPaid === 'true',
       hasFreeVersion: item.hasFreeVersion === 'true',
-      image: item.image || '/default-template.png', // Provide a default image path
+      image: item.image || '/default-template.png',
       freeVersionUrl: item.freeVersionUrl || '',
       previewUrl: item.previewUrl || '',
       buyUrl: item.buyUrl || '',
@@ -26,7 +29,6 @@ function parseTemplateData(item: Record<string, any>): Template {
     };
   } catch (error) {
     console.error("Error parsing template data:", error, item);
-    // Return a minimal valid template instead of throwing
     return {
       id: 0,
       name: 'Error Template',
@@ -61,7 +63,6 @@ async function fetchWithTimeout(url: string): Promise<Response> {
     });
     return response;
   } catch (error) {
-    // Rethrow with more information if it's an abort error
     if (error instanceof Error && error.name === 'AbortError') {
       throw new Error(`Request timed out after ${TIMEOUT_MS}ms`);
     }
@@ -71,30 +72,20 @@ async function fetchWithTimeout(url: string): Promise<Response> {
   }
 }
 
-export async function loadTemplates(): Promise<Template[]> {
-  try {
-    // Check cache first
-    const cached = templateCache.get();
-    if (cached && Array.isArray(cached) && cached.length > 0) {
-      return cached;
-    }
+// Flag to prevent multiple simultaneous background fetches
+let isFetchingInBackground = false;
 
-    // Try Google Sheets with timeout
-    let response;
-    try {
-      response = await fetchWithTimeout(SHEET_URL);
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-    } catch (fetchError) {
-      console.error("Error fetching from Google Sheets:", fetchError);
-      throw fetchError; // Let the outer catch handle fallback
+// Function to fetch and process templates
+async function fetchAndProcessTemplates(url: string, isFallback = false): Promise<Template[]> {
+  try {
+    const response = await fetchWithTimeout(url);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
     
     const csvText = await response.text();
     
-    // Add validation to ensure we got actual CSV data
     if (!csvText || csvText.trim().length === 0) {
       throw new Error('Empty CSV response');
     }
@@ -102,64 +93,75 @@ export async function loadTemplates(): Promise<Template[]> {
     const { data, errors } = Papa.parse(csvText, { 
       header: true,
       skipEmptyLines: true,
-      // Remove the transform function as it's better to handle in parseTemplateData
     });
 
     if (errors.length > 0 && errors[0].code !== "TooFewFields") {
-      // TooFewFields often happens with empty lines, which we skip anyway
       console.warn("CSV parsing had errors:", errors);
     }
 
-    // Check that data is an array and has at least one item
     if (!Array.isArray(data) || data.length === 0) {
       throw new Error('No valid data in CSV');
     }
 
     const templates = data.map(parseTemplateData).filter(Boolean);
     
-    // Only cache if we got at least one valid template
     if (templates.length > 0) {
       templateCache.set(templates);
+      // Notify subscribers of new data
+      templateUpdateEvents.forEach(callback => callback(templates));
     }
     
     return templates;
-
   } catch (error) {
-    console.error("Error loading from Google Sheets, trying fallback:", error);
-    
-    try {
-      const response = await fetch(FALLBACK_URL);
-      
-      if (!response.ok) {
-        throw new Error(`Fallback HTTP error! status: ${response.status}`);
-      }
-      
-      const csvText = await response.text();
-      
-      if (!csvText || csvText.trim().length === 0) {
-        throw new Error('Empty fallback CSV response');
-      }
-      
-      const { data } = Papa.parse(csvText, { 
-        header: true,
-        skipEmptyLines: true 
-      });
-      
-      // Validate data
-      if (!Array.isArray(data) || data.length === 0) {
-        throw new Error('No valid data in fallback CSV');
-      }
-      
-      const templates = data.map(parseTemplateData).filter(Boolean);
-      
-      if (templates.length > 0) {
-        templateCache.set(templates);
-      }
-      
-      return templates;
-    } catch (fallbackError) {
-      console.error("Error loading fallback:", fallbackError);
-      return []; // Return empty array as last resort
+    if (!isFallback) {
+      console.error("Error in fetchAndProcessTemplates:", error);
+      // Try fallback if primary source fails
+      return fetchAndProcessTemplates(FALLBACK_URL, true);
     }
+    throw error;
   }
+}
+
+// Main function to load templates with stale-while-revalidate pattern
+export async function loadTemplates(): Promise<Template[]> {
+  // First, try to get from cache
+  const cachedTemplates = templateCache.get();
+  
+  if (cachedTemplates && cachedTemplates.length > 0) {
+    // If we have cache, use it immediately but refresh in background
+    if (!isFetchingInBackground) {
+      isFetchingInBackground = true;
+      
+      // Start background fetch to update cache
+      setTimeout(async () => {
+        try {
+          await fetchAndProcessTemplates(SHEET_URL);
+        } catch (error) {
+          console.error("Background fetch failed:", error);
+        } finally {
+          isFetchingInBackground = false;
+        }
+      }, 100);
+    }
+    
+    return cachedTemplates;
+  }
+  
+  // No cache, do a blocking fetch
+  try {
+    return await fetchAndProcessTemplates(SHEET_URL);
+  } catch (error) {
+    console.error("All template sources failed:", error);
+    return []; // Return empty array as last resort
+  }
+}
+
+// Function to subscribe to template updates
+export function subscribeToTemplateUpdates(callback: (templates: Template[]) => void): () => void {
+  templateUpdateEvents.add(callback);
+  
+  // Return unsubscribe function
+  return () => {
+    templateUpdateEvents.delete(callback);
+  };
 }
