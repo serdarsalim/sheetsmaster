@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from './components/navbar';
+import Navbar from "./components/navbar";
 import Footer from "./components/footer";
 import Analytics from "./components/analytics";
 import Schema from "./components/schema";
-import { Suspense } from 'react';
-
+import { Suspense } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -43,9 +42,19 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <meta property="og:title" content="Sheets Master | Google Sheets Templates to Save Time & Stay Organized" />
-        <meta property="og:description" content="Download Google Sheets templates for budgeting, finance, business, and productivity. Save time and get organized today!" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <meta
+          property="og:title"
+          content="Sheets Master | Google Sheets Templates to Save Time & Stay Organized"
+        />
+        <meta
+          property="og:description"
+          content="Download Google Sheets templates for budgeting, finance, business, and productivity. Save time and get organized today!"
+        />
         <meta property="og:image" content="/preview-image.png" />
         <meta property="og:url" content="https://sheetsmaster.co/" />
         <meta property="og:type" content="website" />
@@ -59,15 +68,24 @@ export default function RootLayout({
           content="Download Google Sheets templates for budgeting, finance, business, and productivity."
         />
         <meta name="twitter:image" content="/preview-image.png" />
-        
-        <Analytics />
-        <Schema />
+        <Suspense fallback={null}>
+          <Analytics />
+          <Schema />
+        </Suspense>
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
-        <Navbar /> 
-        <main className="flex-grow">{children}</main>
+        <Navbar />{" "}
+        <Suspense
+          fallback={
+            <div className="min-h-screen flex items-center justify-center">
+              Loading...
+            </div>
+          }
+        >
+          <main className="flex-grow">{children}</main>
+        </Suspense>
         <Footer />
       </body>
     </html>
