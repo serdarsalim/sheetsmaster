@@ -1,9 +1,10 @@
 'use client';
 
+import { Suspense } from 'react';
 import Script from 'next/script';
 import { useTemplates } from '../hooks/useTemplates'; 
 
-export default function Schema() {
+function SchemaContent() {
   const { templates } = useTemplates();
   
   // Create product schema items from templates
@@ -49,7 +50,6 @@ export default function Schema() {
           __html: JSON.stringify(productSchema)
         }}
       />
-
       <Script
         id="schema-organization"
         type="application/ld+json"
@@ -58,5 +58,13 @@ export default function Schema() {
         }}
       />
     </>
+  );
+}
+
+export default function Schema() {
+  return (
+    <Suspense fallback={null}>
+      <SchemaContent />
+    </Suspense>
   );
 }
