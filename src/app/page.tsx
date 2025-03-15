@@ -1,12 +1,13 @@
 "use client";
 import { motion } from "framer-motion";
 import Fuse from "fuse.js";
-import Modal from "./modal"; // Import the Modal component
+import Modal from "./modal";
 import React, { useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { Template, loadTemplates, fallbackTemplates } from "./templates"; // Import both Template type and loadTemplates function
+import { Template } from '@/app/templates';
+import { loadTemplates } from '@/app/utils/loadTemplates';
 
 
 export default function Home() {
@@ -21,17 +22,14 @@ export default function Home() {
   const [templates, setTemplates] = useState<Template[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Load templates from CSV
+  // Load templates from GoogleSheets
   useEffect(() => {
     async function fetchData() {
       try {
         const data = await loadTemplates();
         setTemplates(data);
       } catch (error) {
-        console.error("Failed to load templates from CSV:", error);
-        // You could import fallback templates here if the CSV fails
-        // import {fallbackTemplates} from './templates';
-        // setTemplates(fallbackTemplates);
+        console.error("Failed to load templates:", error);
       } finally {
         setLoading(false);
       }
@@ -140,6 +138,25 @@ export default function Home() {
         id="home"
         className="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-8 pb-8 min-h-[28vh] select-none max-w-6xl mx-auto -mt-4"
       >
+  <motion.div
+    initial={{ y: -100, rotate: -2 }}
+    animate={{ y: 0, rotate: -2 }}
+    transition={{ 
+      type: "spring",
+      stiffness: 300,
+      damping: 25,
+      delay: 0.5 
+    }}
+    className="absolute left-4 top-3 bg-green-500 text-white px-4 py-2 rounded-b-lg shadow-lg transform -rotate-2 z-10"
+    style={{
+      boxShadow: "0 2px 4px rgba(0,0,0,0.1), 0 -2px 4px rgba(0,0,0,0.1)"
+    }}
+  >
+    <div className="text-sm font-medium">
+      Free templates available! 🎉
+    </div>
+  </motion.div>
+
         {/* Background remains the same */}
         <div className="absolute inset-0 rounded-b-lg shadow-2xl overflow-hidden bg-gray-50 dark:bg-gray-800">
           <div className="absolute inset-0 gradient-bg dark:opacity-30" />
@@ -272,163 +289,180 @@ export default function Home() {
       </main>
 
       
-      {/* Templates Section with dark mode support */}
-      <section id="templates" className="relative z-10 p-6 md:p-12 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
-          transition={{ duration: 0.5 }}
-          className="card-container dark:bg-gray-800"
-        >
-          <div className="flex flex-col items-center gap-2 mb-3">
-            <p className="text-gray-700 dark:text-gray-300 text-center text-lg pb-2 font-medium tracking-wide">
-              Find your perfect template 👀🔥
-            </p>
+      {/* Templates Section */}
+<section id="templates" className="relative z-10 p-6 md:p-12 text-center">
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
+    transition={{ duration: 0.5 }}
+    className="card-container dark:bg-gray-800"
+  >
+    {/* Header and Search */}
+    <div className="flex flex-col items-center gap-2 mb-3">
+      <p className="text-gray-700 dark:text-gray-300 text-center text-lg pb-2 font-medium tracking-wide">
+        Find your perfect template 👀💭🔥
+      </p>
 
-            <div className="grid grid-cols-2 sm:flex sm:flex-row gap-3">
-              <motion.button
-                key="all"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => handleCategoryClick("all")}
-                className={`px-4 py-2 rounded-lg transition-all duration-300 ${
-                  selectedCategories.includes("all")
-                    ? "bg-blue-500 font-semibold shadow-sm text-white"
-                    : "bg-gray-200 dark:bg-gray-700 hover:bg-blue-300 dark:hover:bg-blue-700 text-gray-800 dark:text-gray-200"
-                }`}
-              >
-                All ({totalTemplates})
-              </motion.button>
-              {[
-                {
-                  name: "productivity",
-                  count: categoryCounts["productivity"] || 0,
-                },
-                { name: "finances", count: categoryCounts["finances"] || 0 },
-                { name: "health", count: categoryCounts["health"] || 0 },
-                { name: "business", count: categoryCounts["business"] || 0 },
-                { name: "free", count: freeTemplates },
-              ].map(({ name, count }) => (
-                <motion.button
-                  key={name}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => handleCategoryClick(name)}
-                  className={`px-4 py-2 rounded-lg transition-all duration-300 ${
-                    selectedCategories.includes(name)
-                      ? "bg-blue-500 font-semibold shadow-sm text-white"
-                      : "bg-gray-200 dark:bg-gray-700 hover:bg-blue-300 dark:hover:bg-blue-700 text-gray-800 dark:text-gray-200"
-                  }`}
-                >
-                  {name.charAt(0).toUpperCase() + name.slice(1)} ({count})
-                </motion.button>
-              ))}
+      {/* Category Filters */}
+      <div className="grid grid-cols-2 sm:flex sm:flex-row gap-3">
+        <motion.button
+          key="all"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => handleCategoryClick("all")}
+          disabled={loading}
+          className={`px-4 py-2 rounded-lg transition-all duration-300 ${
+            selectedCategories.includes("all")
+              ? "bg-blue-500 font-semibold shadow-sm text-white"
+              : "bg-gray-200 dark:bg-gray-700 hover:bg-blue-300 dark:hover:bg-blue-700 text-gray-800 dark:text-gray-200"
+          } ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+        >
+          All ({totalTemplates})
+        </motion.button>
+        {[
+          { name: "productivity", count: categoryCounts["productivity"] || 0 },
+          { name: "finances", count: categoryCounts["finances"] || 0 },
+          { name: "health", count: categoryCounts["health"] || 0 },
+          { name: "business", count: categoryCounts["business"] || 0 },
+          { name: "free", count: freeTemplates },
+        ].map(({ name, count }) => (
+          <motion.button
+            key={name}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => handleCategoryClick(name)}
+            disabled={loading}
+            className={`px-4 py-2 rounded-lg transition-all duration-300 ${
+              selectedCategories.includes(name)
+                ? "bg-blue-500 font-semibold shadow-sm text-white"
+                : "bg-gray-200 dark:bg-gray-700 hover:bg-blue-300 dark:hover:bg-blue-700 text-gray-800 dark:text-gray-200"
+            } ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+          >
+            {name.charAt(0).toUpperCase() + name.slice(1)} ({count})
+          </motion.button>
+        ))}
+      </div>
+    </div>
+
+    {/* Search Input */}
+    <div className="relative">
+      <input
+        type="text"
+        placeholder="Search by name, description, or category..."
+        className={`w-full md:w-3/4 px-4 py-3 rounded-lg text-xs sm:text-base text-black dark:text-white mb-8 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:bg-white dark:focus:bg-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
+          loading ? 'opacity-50 cursor-not-allowed' : ''
+        }`}
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        disabled={loading}
+      />
+      {searchTerm && (
+        <motion.div
+          animate={{ opacity: searchTerm ? 1 : 0 }}
+          className="absolute right-20 top-3 cursor-pointer"
+          onClick={() => setSearchTerm("")}
+        >
+          <span className="text-gray-500 dark:text-gray-400 text-lg">×</span>
+        </motion.div>
+      )}
+    </div>
+
+    {/* Content Area */}
+    {loading ? (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch"
+      >
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="animate-pulse">
+            <div className="h-48 bg-gray-300 dark:bg-gray-700 rounded-t-xl"/>
+            <div className="p-5 bg-white dark:bg-gray-800 rounded-b-xl">
+              <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4 mb-4"/>
+              <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-1/2"/>
             </div>
           </div>
-
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search by name, description, or category..."
-              className="w-full md:w-3/4 px-4 py-3 rounded-lg text-xs sm:text-base text-black dark:text-white mb-8 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:bg-white dark:focus:bg-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <motion.div
-              animate={{ opacity: searchTerm ? 1 : 0 }}
-              className="absolute right-20 top-3 cursor-pointer"
-              onClick={() => setSearchTerm("")}
-            >
-              {searchTerm && (
-                <span className="text-gray-500 dark:text-gray-400 text-lg">
-                  ×
-                </span>
+        ))}
+      </motion.div>
+    ) : filteredTemplates.length === 0 ? (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="text-center py-12"
+      >
+        <p className="text-gray-400 dark:text-gray-500">
+          No templates found matching your criteria. Try a different search term or category.
+        </p>
+      </motion.div>
+    ) : (
+      <motion.div
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
+      >
+        {filteredTemplates.map((template, index) => (
+          <motion.div
+            key={template.id}
+            custom={index}
+            initial="hidden"
+            animate="visible"
+            variants={cardVariants}
+            whileHover={{ y: -5, transition: { duration: 0.2 } }}
+            className="card-animate flex flex-col h-full bg-slate-300 dark:bg-gray-700 rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-2xl cursor-pointer"
+            onClick={() => handleTemplateClick(template)}
+          >
+            <div className="relative">
+              <img
+                src={template.image}
+                className="card-img w-full h-48 object-cover"
+                alt={template.name}
+              />
+              {template.hasFreeVersion && template.isPaid && (
+                <div className="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
+                  Free Version Available
+                </div>
               )}
-            </motion.div>
-          </div>
+            </div>
 
-          {filteredTemplates.length === 0 ? (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-center py-12"
-            >
-              <p className="text-gray-400 dark:text-gray-500">
-                No templates found matching your criteria. Try a different
-                search term or category.
-              </p>
-            </motion.div>
-          ) : (
-            <motion.div
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3 }}
-            >
-              {filteredTemplates.map((template, index) => (
-                <motion.div
-                  key={template.id}
-                  custom={index}
-                  initial="hidden"
-                  animate="visible"
-                  variants={cardVariants}
-                  whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                  className="card-animate flex flex-col h-full bg-slate-300 dark:bg-gray-700 rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-2xl cursor-pointer"
-                  onClick={() => handleTemplateClick(template)}
-                >
-                  <div className="relative">
-                    <img
-                      src={template.image}
-                      className="card-img w-full h-48 object-cover"
-                      alt={template.name}
-                    />
-                    {template.hasFreeVersion === true &&
-                    template.isPaid === true ? (
-                      <div className="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
-                        Free Version Available
-                      </div>
-                    ) : null}
-                  </div>
-
-                  <div className="p-5 flex flex-col justify-between bg-white dark:bg-gray-800 rounded-b-xl border-t border-gray-200 dark:border-gray-700">
-                    <div className="mb-3 flex justify-between items-center">
-                      <div className="flex flex-wrap gap-1">
-                        {template.categories
-                          .filter((cat) => cat.toLowerCase() !== "free")
-                          .map((cat) => (
-                            <span
-                              key={cat}
-                              className="inline-block px-2 py-1 text-xs font-semibold rounded-full bg-indigo-900/60 text-indigo-200 dark:bg-indigo-700/60 dark:text-indigo-100"
-                            >
-                              {cat}
-                            </span>
-                          ))}
-                      </div>
-
-                      <div
-                        className={`px-2 py-1 rounded-lg text-sm font-bold ${
-                          !template.isPaid
-                            ? "bg-green-500 text-white"
-                            : "bg-yellow-500 text-white"
-                        }`}
+            <div className="p-5 flex flex-col justify-between bg-white dark:bg-gray-800 rounded-b-xl border-t border-gray-200 dark:border-gray-700">
+              <div className="mb-3 flex justify-between items-center">
+                <div className="flex flex-wrap gap-1">
+                  {template.categories
+                    .filter((cat) => cat.toLowerCase() !== "free")
+                    .map((cat) => (
+                      <span
+                        key={cat}
+                        className="inline-block px-2 py-1 text-xs font-semibold rounded-full bg-indigo-900/60 text-indigo-200 dark:bg-indigo-700/60 dark:text-indigo-100"
                       >
-                        {template.price}
-                      </div>
-                    </div>
+                        {cat}
+                      </span>
+                    ))}
+                </div>
+                <div
+                  className={`px-2 py-1 rounded-lg text-sm font-bold ${
+                    !template.isPaid
+                      ? "bg-green-500 text-white"
+                      : "bg-yellow-500 text-white"
+                  }`}
+                >
+                  {template.price}
+                </div>
+              </div>
 
-                    <h3 className="text-xl font-semibold mb-2 text-slate-800 dark:text-white">
-                      {template.name}
-                    </h3>
-                    <p className="text-gray-800 dark:text-gray-200">
-                      {template.description}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          )}
-        </motion.div>
-      </section>
+              <h3 className="text-xl font-semibold mb-2 text-slate-800 dark:text-white">
+                {template.name}
+              </h3>
+              <p className="text-gray-800 dark:text-gray-200">
+                {template.description}
+              </p>
+            </div>
+          </motion.div>
+        ))}
+      </motion.div>
+    )}
+  </motion.div>
+</section>
 
       {selectedTemplate && (
         <Modal template={selectedTemplate} onClose={closeModal} />
