@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 
+
 export default function Terms() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white relative overflow-hidden">

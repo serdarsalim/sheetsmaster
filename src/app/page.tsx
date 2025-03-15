@@ -8,7 +8,6 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Template, loadTemplates, fallbackTemplates } from "./templates"; // Import both Template type and loadTemplates function
 
-// Importing templates from the other file instead
 
 export default function Home() {
   const [openFaqId, setOpenFaqId] = useState<number | null>(null);
@@ -144,23 +143,10 @@ export default function Home() {
         {/* Background remains the same */}
         <div className="absolute inset-0 rounded-b-lg shadow-2xl overflow-hidden bg-gray-50 dark:bg-gray-800">
           <div className="absolute inset-0 gradient-bg dark:opacity-30" />
-          <div className="absolute inset-0 opacity-10 dark:opacity-15">
-          </div>
+          <div className="absolute inset-0 opacity-10 dark:opacity-15"></div>
         </div>
 
-        {/* Single motion container that slides down from navbar */}
-        <motion.div
-          className="relative z-10 max-w-4xl w-full"
-          initial={{ opacity: 0, y: -80 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            delay: 0.2,
-            duration: 0.7,
-            type: "spring",
-            stiffness: 60,
-            damping: 15,
-          }}
-        >
+       
           {/* Header content */}
           <div className="mt-12">
             <div className="mb-2 flex items-center justify-center">
@@ -225,56 +211,51 @@ export default function Home() {
             </motion.div>
 
             {/* Feature bullets */}
-            <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 mt-4 mb-6 text-sm sm:text-base">
-              
-              
-             
-{/* Feature bullets */}
-<div className="flex flex-wrap justify-center gap-x-8 gap-y-2 mt-4 mb-2 text-sm sm:text-base">
-  <motion.div
-    className="flex items-center"
-    initial={{ opacity: 0, y: 10 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.2 }}
-  >
-    <div className="mr-2 text-blue-500 dark:text-blue-400">⚡️</div>
-    <span>No setup required</span>
-  </motion.div>
-  <motion.div
-    className="flex items-center"
-    initial={{ opacity: 0, y: 10 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.4 }}
-  >
-    <div className="mr-2 text-green-500 dark:text-green-400">👋</div>
-    <span>Hand Curated</span>
-  </motion.div>
-  <motion.div
-    className="flex items-center"
-    initial={{ opacity: 0, y: 10 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.6 }}
-  >
-    <div className="mr-2 text-purple-500 dark:text-purple-400">
-      🔄
-    </div>
-    <span>Regular Updates</span>
-  </motion.div>
-  <motion.div
-    className="flex items-center"
-    initial={{ opacity: 0, y: 10 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.8 }}
-  >
-    <div className="mr-2 text-yellow-500 dark:text-yellow-400">
-      ✨
-    </div>
-    <span>Intuitive Designs</span>
-  </motion.div>
-</div>
+            <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 mt-4 mb-2 text-sm sm:text-base">
+              <motion.div
+                className="flex items-center"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+              >
+                <div className="mr-2 text-blue-500 dark:text-blue-400">⚡️</div>
+                <span>No setup required</span>
+              </motion.div>
+              <motion.div
+                className="flex items-center"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+              >
+                <div className="mr-2 text-green-500 dark:text-green-400">
+                  👋
+                </div>
+                <span>Hand Curated</span>
+              </motion.div>
+              <motion.div
+                className="flex items-center"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+              >
+                <div className="mr-2 text-purple-500 dark:text-purple-400">
+                  🔄
+                </div>
+                <span>Regular Updates</span>
+              </motion.div>
+              <motion.div
+                className="flex items-center"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8 }}
+              >
+                <div className="mr-2 text-yellow-500 dark:text-yellow-400">
+                  ✨
+                </div>
+                <span>Intuitive Designs</span>
+              </motion.div>
             </div>
           </div>
-        </motion.div>
       </main>
 
       {/* Templates Section with dark mode support */}
