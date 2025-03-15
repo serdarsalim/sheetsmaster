@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import type { Template } from '@/app/types/template';
 import { loadTemplates } from '@/app/utils/loadTemplates';
 
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white relative overflow-hidden">
@@ -363,7 +364,17 @@ function HomeContent() {
             </motion.div>
           </div>
 
-          {filteredTemplates.length === 0 ? (
+          {loading ? (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-center py-12"
+            >
+              <p className="text-gray-400 dark:text-gray-500">
+                Loading templates...
+              </p>
+            </motion.div>
+          ) : filteredTemplates.length === 0 ? (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

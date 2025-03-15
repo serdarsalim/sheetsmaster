@@ -1,44 +1,52 @@
 "use client";
+import { Suspense } from 'react';
 import { motion } from "framer-motion";
 import Link from "next/link";
-
 
 export default function Terms() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white relative overflow-hidden">
-      
-      <main className="relative z-10 flex flex-col items-center justify-center px-6 py-24">
-        <motion.div
-          className="relative z-10 max-w-4xl mb-12"
+      <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+        <TermsContent />
+      </Suspense>
+    </div>
+  );
+}
+
+function TermsContent() {
+  return (
+    <main className="relative z-10 flex flex-col items-center justify-center px-6 py-24">
+      <motion.div
+        className="relative z-10 max-w-4xl mb-12"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        <motion.h1
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="text-4xl md:text-5xl font-extrabold tracking-tight text-center"
+        >
+          Terms and Conditions
+        </motion.h1>
+
+        <motion.p
+          className="text-lg mt-6 text-gray-500 dark:text-gray-400 text-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
         >
-          <motion.h1
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="text-4xl md:text-5xl font-extrabold tracking-tight text-center"
-          >
-            Terms and Conditions
-          </motion.h1>
+          Last Updated: March 14, 2025
+        </motion.p>
+      </motion.div>
 
-          <motion.p
-            className="text-lg mt-6 text-gray-500 dark:text-gray-400 text-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            Last Updated: March 14, 2025
-          </motion.p>
-        </motion.div>
-
-        <motion.div 
-          className="relative z-10 max-w-4xl text-left space-y-8"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
+      <motion.div 
+        className="relative z-10 max-w-4xl text-left space-y-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+      >
           <section>
             <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-300 mb-4">1. Google Services Disclaimer</h2>
             <p className="mb-4 text-gray-700 dark:text-gray-200">
@@ -119,9 +127,7 @@ export default function Terms() {
               For questions about these terms, please contact us at support@premiumsheets.com
             </p>
           </section>
-        </motion.div>
-      </main>
-
-    </div>
+          </motion.div>
+    </main>
   );
 }

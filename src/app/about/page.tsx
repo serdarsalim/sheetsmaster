@@ -1,33 +1,12 @@
 "use client";
+
+import { Suspense } from 'react';
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-
 export default function About() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [hoverCell, setHoverCell] = useState(null);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-
-
-  // Animation variants for the grid cells
-  const cellVariants = {
-    hover: { scale: 1.05, backgroundColor: "rgba(167, 185, 214, 0.3)" },
-    tap: { scale: 0.95 },
-  };
-
-
-  // Section IDs for navigation with Google Sheets colors
-  const sections = [
-    { id: "mission", title: "Our Mission", color: "green" },
-    { id: "vision", title: "Our Vision", color: "blue" },
-    { id: "founder", title: "About Founder", color: "red" },
-    { id: "audience", title: "Who It's For", color: "yellow" },
-    { id: "contact", title: "Get In Touch", color: "purple" },
-  ];
-
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white relative overflow-hidden">
       {/* Grid Background - Restored Google Sheets-like appearance */}
@@ -43,15 +22,40 @@ export default function About() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.2, delay: i * 0.001 }}
-              whileHover={cellVariants.hover}
-              whileTap={cellVariants.tap}
-              onHoverStart={() => setHoverCell(i)}
-              onHoverEnd={() => setHoverCell(null)}
             />
           ))}
         </div>
       </div>
+      
+      <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+        <AboutContent />
+      </Suspense>
+    </div>
+  );
+}
 
+function AboutContent() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [hoverCell, setHoverCell] = useState(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Animation variants for the grid cells
+  const cellVariants = {
+    hover: { scale: 1.05, backgroundColor: "rgba(167, 185, 214, 0.3)" },
+    tap: { scale: 0.95 },
+  };
+
+  // Section IDs for navigation with Google Sheets colors
+  const sections = [
+    { id: "mission", title: "Our Mission", color: "green" },
+    { id: "vision", title: "Our Vision", color: "blue" },
+    { id: "founder", title: "About Founder", color: "red" },
+    { id: "audience", title: "Who It's For", color: "yellow" },
+    { id: "contact", title: "Get In Touch", color: "purple" },
+  ];
+
+  return (
+    <>
       {/* Mobile Navigation Drawer - Appears when menu button is clicked */}
       <motion.div
         className="fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 shadow-xl transform lg:hidden"
@@ -97,8 +101,6 @@ export default function About() {
           </ul>
         </div>
       </motion.div>
-
-     
 
       {/* Side Navigation */}
       <div className="fixed left-0 top-1/2 transform -translate-y-1/2 z-40 hidden lg:block">
@@ -164,8 +166,6 @@ export default function About() {
       </div>
 
       <main className="relative z-10 flex flex-col items-center justify-center px-4 sm:px-6 py-24 pt-32 min-h-screen lg:ml-2 pt-20 -mt-20">
-        
-
         {/* Mission Statement */}
         <motion.div
           id="mission"
@@ -457,26 +457,23 @@ export default function About() {
           >
             =HYPERLINK("mailto:contact@sheetsmaster.co","contact@sheetsmaster.co")
           </motion.div>
-
-          
         </motion.div>
+        
         {/* Floating Formula - Made more subtle */}
-<motion.div
-  className="absolute bottom-7 right-4 md:right-10 text-xs text-gray-500 dark:text-gray-400 font-mono hidden md:block"
-  animate={{
-    y: [0, 10, 0],
-    opacity: [0.3, 0.6, 0.3],
-  }}
-  transition={{
-    repeat: Infinity,
-    duration: 6,
-  }}
->
-  =AYBASTIFORMULA(IF(ROW(A:A)=1,"Quality",IF(A:A="","",A:A&" Over Quantity")))
-</motion.div>
+        <motion.div
+          className="absolute bottom-7 right-4 md:right-10 text-xs text-gray-500 dark:text-gray-400 font-mono hidden md:block"
+          animate={{
+            y: [0, 10, 0],
+            opacity: [0.3, 0.6, 0.3],
+          }}
+          transition={{
+            repeat: Infinity,
+            duration: 6,
+          }}
+        >
+          =AYBASTIFORMULA(IF(ROW(A:A)=1,"Quality",IF(A:A="","",A:A&" Over Quantity")))
+        </motion.div>
       </main>
-
-      
-    </div>
+    </>
   );
 }
