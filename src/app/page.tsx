@@ -151,14 +151,16 @@ function HomeContent() {
     <>
       {/* Hero Section */}
       <main
-        id="home"
-        className="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-8 pb-8 min-h-[28vh] select-none max-w-6xl mx-auto -mt-4"
-      >
-        {/* Background remains the same */}
-        <div className="absolute inset-0 rounded-b-lg shadow-2xl overflow-hidden bg-gray-50 dark:bg-gray-800">
-          <div className="absolute inset-0 gradient-bg dark:opacity-30" />
-          <div className="absolute inset-0 opacity-10 dark:opacity-15"></div>
-        </div>
+  id="home"
+  className="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-8 pb-8 min-h-[28vh] select-none max-w-6xl mx-auto -mt-4"
+>
+  {/* Background container - this creates the box */}
+  <div className="absolute inset-0 bg-white/80 dark:bg-gray-800/80 rounded-b-lg shadow-2xl overflow-hidden">
+    {/* Gradient overlay */}
+    <div className="absolute inset-0 hero-gradient" />
+    {/* Grid pattern */}
+    <div className="absolute inset-0 hero-background" />
+  </div>
 
         {/* Single motion container that slides down from navbar */}
         <motion.div
@@ -194,7 +196,7 @@ function HomeContent() {
       width="60" 
       height="60" 
       viewBox="0 0 60 60" 
-      className="w-[80px] h-[60px] sm:w-[60px] sm:h-[60px]"
+      className="w-[80px] h-[60px] sm:w-[60px] sm:h-[60px] max-sm:-ml-1 sm:ml-0"
     >
       <rect x="5" y="5" width="50" height="50" rx="3" fill="#34A853" />
       <rect x="8" y="8" width="44" height="44" rx="2" fill="#FFFFFF" />
@@ -218,7 +220,7 @@ function HomeContent() {
     initial={{ opacity: 0, y: -20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-    className="text-4xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-gray-800 dark:text-white"
+    className="text-4xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-gray-800 dark:text-white max-sm:-ml-5 sm:ml-0"
     style={{
       fontFamily: "SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif",
       letterSpacing: "-0.025em",
