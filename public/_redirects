@@ -1,2 +1,2 @@
 # Redirect default Netlify subdomain to primary domain
-https://sheetsmaster.netlify.com/* https://sheetsmaster.co/:splat 301!
+https://sheetsmaster.netlify.app/* https://sheetsmaster.co/:splat 301!
