@@ -11,6 +11,8 @@ import { loadTemplates } from '@/app/utils/loadTemplates';
 
 
 export default function Home() {
+    const [templates, setTemplates] = useState<Template[]>([]);
+  const [loading, setLoading] = useState(true);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [openFaqId, setOpenFaqId] = useState<number | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -20,32 +22,47 @@ export default function Home() {
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(
     null
   );
-  const [templates, setTemplates] = useState<Template[]>([]);
-  const [loading, setLoading] = useState(true);
 
-  // Load templates from GoogleSheets
+
   useEffect(() => {
     async function fetchData() {
       try {
         // 1. Try to load from localStorage first
         const cached = localStorage.getItem('templates');
         if (cached) {
-          const parsedCache = JSON.parse(cached);
-          setTemplates(parsedCache);
-          setLoading(false);
-          setIsInitialLoad(false);
+          try {
+            const parsedCache = JSON.parse(cached);
+            
+            // Validate cache structure - check for the expected CacheItem format
+            if (parsedCache && 
+                typeof parsedCache === 'object' && 
+                Array.isArray(parsedCache.data)) {
+              setTemplates(parsedCache.data);
+              setLoading(false);
+              setIsInitialLoad(false);
+            } else {
+              console.warn("Invalid cache structure found:", parsedCache);
+              localStorage.removeItem('templates'); // Clear invalid cache
+            }
+          } catch (parseError) {
+            console.error("Error parsing cached templates:", parseError);
+            localStorage.removeItem('templates'); // Clear invalid cache
+          }
         }
   
         // 2. Fetch fresh data in background
         const data = await loadTemplates();
         
-        // 3. Update only if data is different
-        if (JSON.stringify(data) !== cached) {
+        // 3. Ensure data is an array before updating
+        if (Array.isArray(data)) {
           setTemplates(data);
-          localStorage.setItem('templates', JSON.stringify(data));
+        } else {
+          console.error("loadTemplates did not return an array:", data);
+          setTemplates([]); // Fallback to empty array
         }
       } catch (error) {
         console.error("Failed to load templates:", error);
+        setTemplates([]); // Fallback to empty array
       } finally {
         setLoading(false);
         setIsInitialLoad(false);
