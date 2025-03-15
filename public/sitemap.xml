@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://premiumsheets.netlify.app/</loc>
+    <loc>https://sheetsmaster.co/</loc>
     <lastmod>2025-03-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://premiumsheets.netlify.app/about</loc>
+    <loc>https://sheetsmaster.co/about</loc>
     <lastmod>2025-03-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://premiumsheets.netlify.app/terms</loc>
+    <loc>https://sheetsmaster.co/terms</loc>
     <lastmod>2025-03-14</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://premiumsheets.netlify.app/privacy</loc>
+    <loc>https://sheetsmaster.co/privacy</loc>
     <lastmod>2025-03-14</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
