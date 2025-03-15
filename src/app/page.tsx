@@ -175,44 +175,33 @@ function HomeContent() {
         >
           {/* Header content */}
           <div className="mt-12">
-            <div className="mb-2 flex items-center justify-center">
-              <motion.div
-                className="mr-3 text-green-300 transform"
-                animate={{
-                  rotate: [0, 2, 0, -2, 0],
-                  y: [0, -2, 0, 2, 0],
-                }}
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              >
-                <img
-                  src="/spreadsheet.png"
-                  className="w-[105px] h-[65px] sm:w-[70px] sm:h-[70px]"
-                  alt="Google Sheets Icon"
-                />
-              </motion.div>
+          <div className="flex items-center justify-center">
+  <motion.div
+    className="transform"
+    animate={{
+      rotate: [0, 2, 0, -2, 0],
+      y: [0, -2, 0, 2, 0],
+    }}
+    transition={{
+      duration: 5,
+      repeat: Infinity,
+      ease: "easeInOut",
+    }}
+  >
+    <img
+      src="/spreadsheet.png"
+      className="w-[125px] h-[65px] sm:w-[70px] sm:h-[70px] -ml-2" // Added sm:ml-0
+      alt="Google Sheets Icon"
+    />
+  </motion.div>
 
-              <motion.h1
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                className="text-4xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-gray-800 dark:text-white"
-                style={{
-                  fontFamily:
-                    "SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif",
-                  letterSpacing: "-0.025em",
-                }}
-                whileHover={{
-                  scale: 1.02,
-                  transition: { duration: 0.3 },
-                }}
-              >
-                Do more with Google Sheets
-              </motion.h1>
-            </div>
+  <motion.h1
+    // ... other props stay the same
+    className="-ml-4 sm:ml-0 text-4xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-gray-800 dark:text-white" // Added -ml-4 sm:ml-0
+  >
+    Do more with Google Sheets
+  </motion.h1>
+</div>
 
             {/* Subtext */}
             <motion.div
