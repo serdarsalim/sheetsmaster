@@ -175,7 +175,8 @@ function HomeContent() {
         >
           {/* Header content */}
           <div className="mt-12">
-          <div className="flex items-center justify-center">
+
+<div className="flex items-center justify-center gap-2">
   <motion.div
     className="transform"
     animate={{
@@ -188,16 +189,44 @@ function HomeContent() {
       ease: "easeInOut",
     }}
   >
-    <img
-      src="/spreadsheet.png"
-      className="w-[125px] h-[65px] sm:w-[70px] sm:h-[70px] -ml-2" // Added sm:ml-0
-      alt="Google Sheets Icon"
-    />
+    {/* SVG Spreadsheet Icon */}
+    <svg 
+      width="60" 
+      height="60" 
+      viewBox="0 0 60 60" 
+      className="w-[80px] h-[60px] sm:w-[60px] sm:h-[60px]"
+    >
+      <rect x="5" y="5" width="50" height="50" rx="3" fill="#34A853" />
+      <rect x="8" y="8" width="44" height="44" rx="2" fill="#FFFFFF" />
+      <rect x="8" y="8" width="44" height="8" fill="#34A853" opacity="0.8" />
+      <rect x="8" y="16" width="8" height="36" fill="#34A853" opacity="0.4" />
+      <line x1="16" y1="20" x2="52" y2="20" stroke="#E6E6E6" strokeWidth="1" />
+      <line x1="16" y1="28" x2="52" y2="28" stroke="#E6E6E6" strokeWidth="1" />
+      <line x1="16" y1="36" x2="52" y2="36" stroke="#E6E6E6" strokeWidth="1" />
+      <line x1="16" y1="44" x2="52" y2="44" stroke="#E6E6E6" strokeWidth="1" />
+      <line x1="24" y1="16" x2="24" y2="52" stroke="#E6E6E6" strokeWidth="1" />
+      <line x1="32" y1="16" x2="32" y2="52" stroke="#E6E6E6" strokeWidth="1" />
+      <line x1="40" y1="16" x2="40" y2="52" stroke="#E6E6E6" strokeWidth="1" />
+      <line x1="48" y1="16" x2="48" y2="52" stroke="#E6E6E6" strokeWidth="1" />
+      <text x="12" y="14" fill="white" fontFamily="Arial" fontSize="6" fontWeight="bold">A</text>
+      <text x="20" y="14" fill="white" fontFamily="Arial" fontSize="6" fontWeight="bold">B</text>
+      <text x="28" y="14" fill="white" fontFamily="Arial" fontSize="6" fontWeight="bold">C</text>
+    </svg>
   </motion.div>
 
   <motion.h1
-    // ... other props stay the same
-    className="-ml-4 sm:ml-0 text-4xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-gray-800 dark:text-white" // Added -ml-4 sm:ml-0
+    initial={{ opacity: 0, y: -20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+    className="text-4xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-gray-800 dark:text-white"
+    style={{
+      fontFamily: "SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif",
+      letterSpacing: "-0.025em",
+    }}
+    whileHover={{
+      scale: 1.02,
+      transition: { duration: 0.3 },
+    }}
   >
     Do more with Google Sheets
   </motion.h1>
