@@ -1,5 +1,5 @@
 export interface Template {
-    loadTemplate: boolean;
+    load: boolean;
     id: number;
     name: string;
     categories: string[];
@@ -10,7 +10,7 @@ export interface Template {
     isPaid: boolean;
     hasFreeVersion: boolean;
     image: string;
-    freeVersionUrl?: string;
+    freeUrl?: string;
     previewUrl?: string;
     buyUrl?: string;
     tutorialUrl?: string;

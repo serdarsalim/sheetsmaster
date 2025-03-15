@@ -20,7 +20,7 @@ export interface Template {
 }
 
 const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSjtzEuoELVWkFDCZ0vBsutQq5bVGoha5Valcxga9-c0DXqFdNr8fg0hI5KexsDrIigdZrerGQzDvfP/pub?gid=0&single=true&output=csv';
-const FALLBACK_URL = '/data/fallback-templates.csv';
+const FALLBACK_URL = '/data/fallbackTemplates.csv';
 
 export async function loadTemplates(): Promise<Template[]> {
   try {

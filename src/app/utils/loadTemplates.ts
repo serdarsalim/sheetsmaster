@@ -3,7 +3,7 @@ import type { Template } from '@/app/types/template';
 import { templateCache } from './cache';
 
 const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSjtzEuoELVWkFDCZ0vBsutQq5bVGoha5Valcxga9-c0DXqFdNr8fg0hI5KexsDrIigdZrerGQzDvfP/pub?gid=0&single=true&output=csv';
-const FALLBACK_URL = '/data/fallback-templates.csv';
+const FALLBACK_URL = '/data/fallbackTemplates.csv';
 const TIMEOUT_MS = 3000; // 3 second timeout
 
 // Event to notify subscribers when data changes
@@ -12,12 +12,12 @@ const templateUpdateEvents = new Set<(templates: Template[]) => void>();
 function parseTemplateData(item: Record<string, any>): Template {
   try {
     // Parse loadTemplate first for optimization
-    const loadTemplate = item.loadTemplate === 'TRUE' || 
-                         item.loadTemplate === 'true' || 
-                         item.loadTemplate === true;
+    const load = item.load === 'TRUE' || 
+                         item.load === 'true' || 
+                         item.load === true;
     
     return {
-      loadTemplate,
+      load,
       id: parseInt(item.id) || 0,
       name: item.name || 'Unnamed Template',
       categories: item.categories ? item.categories.split(',').map((cat: string) => cat.trim()) : [],
@@ -28,7 +28,7 @@ function parseTemplateData(item: Record<string, any>): Template {
       isPaid: item.isPaid === 'true',
       hasFreeVersion: item.hasFreeVersion === 'true',
       image: item.image || '/default-template.png',
-      freeVersionUrl: item.freeVersionUrl || '',
+      freeUrl: item.freeUrl || '',
       previewUrl: item.previewUrl || '',
       buyUrl: item.buyUrl || '',
       tutorialUrl: item.tutorialUrl || ''
@@ -36,7 +36,7 @@ function parseTemplateData(item: Record<string, any>): Template {
   } catch (error) {
     console.error("Error parsing template data:", error, item);
     return {
-      loadTemplate: false, // Don't load error templates by default
+      load: false, // Don't load error templates by default
       id: 0,
       name: 'Error Template',
       categories: ['error'],
@@ -47,7 +47,7 @@ function parseTemplateData(item: Record<string, any>): Template {
       isPaid: false,
       hasFreeVersion: false,
       image: '/error-template.png',
-      freeVersionUrl: '',
+      freeUrl: '',
       previewUrl: '',
       buyUrl: '',
       tutorialUrl: ''
@@ -114,7 +114,7 @@ async function fetchAndProcessTemplates(url: string, isFallback = false): Promis
     const allTemplates = data.map(parseTemplateData).filter(Boolean);
     
     // Early filter for templates that should be loaded
-    const templates = allTemplates.filter(template => template.loadTemplate);
+    const templates = allTemplates.filter(template => template.load);
     
     if (allTemplates.length > 0) {
       // Cache all templates but filter for subscribers
@@ -141,7 +141,7 @@ export async function loadTemplates(): Promise<Template[]> {
   
   if (cachedTemplates && cachedTemplates.length > 0) {
     // Filter cache for templates that should load
-    const loadableTemplates = cachedTemplates.filter(t => t.loadTemplate);
+    const loadableTemplates = cachedTemplates.filter(t => t.load);
     
     // If we have cache, use it immediately but refresh in background
     if (!isFetchingInBackground) {
