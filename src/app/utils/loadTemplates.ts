@@ -13,8 +13,8 @@ function parseTemplateData(item: Record<string, any>): Template {
   try {
     // Parse loadTemplate first for optimization
     const load = item.load === 'TRUE' || 
-                         item.load === 'true' || 
-                         item.load === true;
+                 item.load === 'true' || 
+                 item.load === true;
     
     return {
       load,
@@ -25,8 +25,9 @@ function parseTemplateData(item: Record<string, any>): Template {
       overview: item.overview || '',
       features: item.features ? item.features.split('|').map((f: string) => f.trim()) : [],
       price: item.price || 'Free',
-      isPaid: item.isPaid === 'true',
-      freeVersion: item.freeVersion === 'true',
+      // Fix these lines to check for 'TRUE' or 'true'
+      isPaid: item.isPaid === 'TRUE' || item.isPaid === 'true',
+      freeVersion: item.freeVersion === 'TRUE' || item.freeVersion === 'true',
       image: item.image || '/default-template.png',
       freeUrl: item.freeUrl || '',
       previewUrl: item.previewUrl || '',

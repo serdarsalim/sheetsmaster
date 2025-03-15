@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense } from 'react';
+import { Suspense } from "react";
 import { motion } from "framer-motion";
 import Fuse from "fuse.js";
 import Modal from "./modal"; // Import the Modal component
@@ -8,9 +8,8 @@ import React, { useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import type { Template } from '@/app/types/template';
-import { loadTemplates } from '@/app/utils/loadTemplates';
-
+import type { Template } from "@/app/types/template";
+import { loadTemplates } from "@/app/utils/loadTemplates";
 
 export default function Home() {
   return (
@@ -38,7 +37,13 @@ export default function Home() {
       ></div>
 
       {/* Wrap all client-interactive content in Suspense */}
-      <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <Suspense
+        fallback={
+          <div className="min-h-screen flex items-center justify-center">
+            Loading...
+          </div>
+        }
+      >
         <HomeContent />
       </Suspense>
     </div>
@@ -58,39 +63,23 @@ function HomeContent() {
   const [templates, setTemplates] = useState<Template[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Load templates from Sheets
-// In HomeContent component
-useEffect(() => {
-  async function fetchData() {
-    try {
-      // This will only load templates with loadTemplate: true
-      const data = await loadTemplates();
-      setTemplates(data);
-    } catch (error) {
-      console.error("Failed to load templates from CSV:", error);
-      // You could provide fallback templates here
-    } finally {
-      setLoading(false);
+  // Load templates from CSV
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const data = await loadTemplates();
+        setTemplates(data);
+      } catch (error) {
+        console.error("Failed to load templates from CSV:", error);
+        // You could import fallback templates here if the CSV fails
+        // import {fallbackTemplates} from './templates';
+        // setTemplates(fallbackTemplates);
+      } finally {
+        setLoading(false);
+      }
     }
-  }
-
-  // Add a prefetch for other pages
-  async function prefetchTemplates() {
-    try {
-      // Prefetch templates to warm the cache
-      await loadTemplates();
-    } catch (error) {
-      console.error("Template prefetch failed:", error);
-    }
-  }
-
-  fetchData();
-  
-  // This helps ensure the templates are loaded for other pages
-  const timerId = setTimeout(prefetchTemplates, 2000);
-  
-  return () => clearTimeout(timerId);
-}, []);
+    fetchData();
+  }, []);
 
   useEffect(() => {
     setIsVisible(true);
@@ -148,16 +137,12 @@ useEffect(() => {
 
   // Calculate stats for the stats section
   const totalTemplates = templates.length;
-  const freeTemplates = templates.filter(
-    (t) => !t.isPaid || t.freeVersion
-  ).length;
   const paidTemplates = templates.filter((t) => t.isPaid).length;
+
   const categoryCounts = templates.reduce((acc, template) => {
     template.categories.forEach((cat) => {
-      if (cat.toLowerCase() !== "free") {
-        // Ignore "free" category since we use freeVersion
-        acc[cat] = (acc[cat] || 0) + 1;
-      }
+      const lowerCat = cat.toLowerCase();
+      acc[lowerCat] = (acc[lowerCat] || 0) + 1;
     });
     return acc;
   }, {} as Record<string, number>);
@@ -172,8 +157,7 @@ useEffect(() => {
         {/* Background remains the same */}
         <div className="absolute inset-0 rounded-b-lg shadow-2xl overflow-hidden bg-gray-50 dark:bg-gray-800">
           <div className="absolute inset-0 gradient-bg dark:opacity-30" />
-          <div className="absolute inset-0 opacity-10 dark:opacity-15">
-          </div>
+          <div className="absolute inset-0 opacity-10 dark:opacity-15"></div>
         </div>
 
         {/* Single motion container that slides down from navbar */}
@@ -254,52 +238,53 @@ useEffect(() => {
 
             {/* Feature bullets */}
             <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 mt-4 mb-6 text-sm sm:text-base">
-              
-              
-             
-{/* Feature bullets */}
-<div className="flex flex-wrap justify-center gap-x-8 gap-y-2 mt-4 mb-2 text-sm sm:text-base">
-  <motion.div
-    className="flex items-center"
-    initial={{ opacity: 0, y: 10 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.2 }}
-  >
-    <div className="mr-2 text-blue-500 dark:text-blue-400">⚡️</div>
-    <span>No setup required</span>
-  </motion.div>
-  <motion.div
-    className="flex items-center"
-    initial={{ opacity: 0, y: 10 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.4 }}
-  >
-    <div className="mr-2 text-green-500 dark:text-green-400">👋</div>
-    <span>Hand Curated</span>
-  </motion.div>
-  <motion.div
-    className="flex items-center"
-    initial={{ opacity: 0, y: 10 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.6 }}
-  >
-    <div className="mr-2 text-purple-500 dark:text-purple-400">
-      🔄
-    </div>
-    <span>Regular Updates</span>
-  </motion.div>
-  <motion.div
-    className="flex items-center"
-    initial={{ opacity: 0, y: 10 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.8 }}
-  >
-    <div className="mr-2 text-yellow-500 dark:text-yellow-400">
-      ✨
-    </div>
-    <span>Intuitive Designs</span>
-  </motion.div>
-</div>
+              {/* Feature bullets */}
+              <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 mt-4 mb-2 text-sm sm:text-base">
+                <motion.div
+                  className="flex items-center"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  <div className="mr-2 text-blue-500 dark:text-blue-400">
+                    ⚡️
+                  </div>
+                  <span>No setup required</span>
+                </motion.div>
+                <motion.div
+                  className="flex items-center"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                >
+                  <div className="mr-2 text-green-500 dark:text-green-400">
+                    👋
+                  </div>
+                  <span>Hand Curated</span>
+                </motion.div>
+                <motion.div
+                  className="flex items-center"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                >
+                  <div className="mr-2 text-purple-500 dark:text-purple-400">
+                    🔄
+                  </div>
+                  <span>Regular Updates</span>
+                </motion.div>
+                <motion.div
+                  className="flex items-center"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.8 }}
+                >
+                  <div className="mr-2 text-yellow-500 dark:text-yellow-400">
+                    ✨
+                  </div>
+                  <span>Intuitive Designs</span>
+                </motion.div>
+              </div>
             </div>
           </div>
         </motion.div>
@@ -319,43 +304,35 @@ useEffect(() => {
             </p>
 
             <div className="grid grid-cols-2 sm:flex sm:flex-row gap-3">
-              <motion.button
-                key="all"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => handleCategoryClick("all")}
-                className={`px-4 py-2 rounded-lg transition-all duration-300 ${
-                  selectedCategories.includes("all")
-                    ? "bg-blue-500 font-semibold shadow-sm text-white"
-                    : "bg-gray-200 dark:bg-gray-700 hover:bg-blue-300 dark:hover:bg-blue-700 text-gray-800 dark:text-gray-200"
-                }`}
-              >
-                All ({totalTemplates})
-              </motion.button>
-              {[
-                {
-                  name: "productivity",
-                  count: categoryCounts["productivity"] || 0,
-                },
-                { name: "finances", count: categoryCounts["finances"] || 0 },
-                { name: "health", count: categoryCounts["health"] || 0 },
-                { name: "business", count: categoryCounts["business"] || 0 },
-                { name: "free", count: freeTemplates },
-              ].map(({ name, count }) => (
-                <motion.button
-                  key={name}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => handleCategoryClick(name)}
-                  className={`px-4 py-2 rounded-lg transition-all duration-300 ${
-                    selectedCategories.includes(name)
-                      ? "bg-blue-500 font-semibold shadow-sm text-white"
-                      : "bg-gray-200 dark:bg-gray-700 hover:bg-blue-300 dark:hover:bg-blue-700 text-gray-800 dark:text-gray-200"
-                  }`}
-                >
-                  {name.charAt(0).toUpperCase() + name.slice(1)} ({count})
-                </motion.button>
-              ))}
+            {[
+  { name: "all", count: totalTemplates },
+  { name: "free", count: categoryCounts["free"] || 0 },
+  { name: "productivity", count: categoryCounts["productivity"] || 0 },
+  { name: "health", count: categoryCounts["health"] || 0 },
+  { name: "business", count: categoryCounts["business"] || 0 },
+].map(({ name, count }) => (
+  <motion.button
+    key={name}
+    whileHover={{ scale: 1.05 }}
+    whileTap={{ scale: 0.95 }}
+    onClick={() => handleCategoryClick(name)}
+    className={`
+      px-4 py-2 
+      rounded-lg 
+      transition-all 
+      duration-300 
+      font-medium
+      min-w-[100px]
+      ${
+        selectedCategories.includes(name)
+          ? "bg-blue-500 text-white"
+          : "bg-gray-200 dark:bg-gray-700 hover:bg-blue-300 dark:hover:bg-blue-700 text-gray-800 dark:text-gray-200"
+      }
+    `}
+  >
+    {name === "all" ? "All" : name.charAt(0).toUpperCase() + name.slice(1)} ({count})
+  </motion.button>
+))}
             </div>
           </div>
 
@@ -425,12 +402,12 @@ useEffect(() => {
                       className="card-img w-full h-48 object-cover"
                       alt={template.name}
                     />
-                    {template.freeVersion === true &&
-                    template.isPaid === true ? (
-                      <div className="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
+
+                    {template && template.freeVersion && template.isPaid && (
+                      <div className="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-3 py-1.5 rounded whitespace-nowrap">
                         Free Version Available
                       </div>
-                    ) : null}
+                    )}
                   </div>
 
                   <div className="p-5 flex flex-col justify-between bg-white dark:bg-gray-800 rounded-b-xl border-t border-gray-200 dark:border-gray-700">

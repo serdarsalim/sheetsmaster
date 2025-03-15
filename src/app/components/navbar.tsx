@@ -102,7 +102,7 @@ export default function Navbar() {
         {/* Navigation Links and Dark Mode Button */}
         <div className="hidden md:flex items-center space-x-6">
           <Link
-            href="/#home"
+            href="/"
             className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition"
           >
             Home
