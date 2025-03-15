@@ -21,13 +21,11 @@ interface Template {
 interface TemplateProps {
   template: Template | null;
   onClose: () => void;
-  darkMode?: boolean; // New prop for dark mode
 }
 
 const Modal: React.FC<TemplateProps> = ({
   template,
-  onClose,
-  darkMode = false,
+  onClose
 }) => {
   if (!template) return null;
 
@@ -80,9 +78,7 @@ const Modal: React.FC<TemplateProps> = ({
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 50 }}
           transition={{ type: "spring", damping: 25, stiffness: 300 }}
-          className={`rounded-xl shadow-2xl w-full max-w-4xl h-[85vh] flex flex-col bg-white dark:bg-gray-800 ${
-            darkMode ? "dark" : ""
-          }`}
+          className="rounded-xl shadow-2xl w-full max-w-4xl h-[85vh] flex flex-col bg-white dark:bg-gray-800"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}

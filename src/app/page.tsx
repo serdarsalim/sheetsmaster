@@ -11,7 +11,6 @@ import { Template, loadTemplates, fallbackTemplates } from "./templates"; // Imp
 // Importing templates from the other file instead
 
 export default function Home() {
-  const [darkMode, setDarkMode] = useState(false);
   const [openFaqId, setOpenFaqId] = useState<number | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -45,23 +44,7 @@ export default function Home() {
     setIsVisible(true);
   }, []);
 
-  // Set initial dark mode based on user preference - same as in your About page
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const savedTheme = localStorage.getItem("theme");
-      const prefersDark = window.matchMedia(
-        "(prefers-color-scheme: dark)"
-      ).matches;
-
-      if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
-        document.documentElement.classList.add("dark");
-        setDarkMode(true);
-      } else {
-        document.documentElement.classList.remove("dark");
-        setDarkMode(false);
-      }
-    }
-  }, []);
+  
 
   const fuse = useMemo(
     () =>
@@ -82,20 +65,7 @@ export default function Home() {
     });
   };
 
-  // Toggle dark mode function - same as in your About page
-  const toggleDarkMode = () => {
-    setDarkMode((prev) => {
-      const newDarkMode = !prev;
-      if (newDarkMode) {
-        document.documentElement.classList.add("dark");
-        localStorage.setItem("theme", "dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-        localStorage.setItem("theme", "light");
-      }
-      return newDarkMode;
-    });
-  };
+
 
   const filteredTemplates = searchTerm
     ? fuse.search(searchTerm).map((result) => result.item)
@@ -145,11 +115,8 @@ export default function Home() {
   }, {} as Record<string, number>);
 
   return (
-    <div
-      className={`min-h-screen ${
-        darkMode ? "dark" : ""
-      } bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white relative overflow-hidden`}
-    >
+    // Remove the darkMode class conditional, the html tag now handles this
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white relative overflow-hidden">
       {/* Add this grid background div specifically for this page */}
       <div
         className="fixed inset-0 pointer-events-none"
@@ -172,181 +139,8 @@ export default function Home() {
         }}
       ></div>
 
-      <nav className="top-0 left-0 right-0 z-50 bg-white dark:bg-gray-800 shadow-sm backdrop-blur-md bg-opacity-80 dark:bg-opacity-80">
-        <div className="max-w-6xl mx-auto flex justify-between items-center py-4 px-6">
-          {/* Logo and Title */}
-          <Link href="/" className="flex items-center space-x-3">
- <div className="relative h-10 w-10">
-  <Image
-    src="/logo.png"
-    alt="Sheets Master Logo"
-    fill
-    sizes="40px"
-    className="object-contain"
-    priority
-    title="=SHEETSMASTER(TRUE, A1:C10, {1,2,3;4,5,6})" 
-  />
-</div>
-            <h1 className="text-xl font-bold text-gray-900 dark:text-white">
-              Sheets Master
-            </h1>
-          </Link>
-
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Toggle navigation menu"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              {isMenuOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              )}
-            </svg>
-          </button>
-
-          {/* Navigation Links and Dark Mode Button */}
-          <div className="hidden md:flex items-center space-x-6">
-            <Link
-              href="/#home"
-              className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition"
-            >
-              Home
-            </Link>
-            <Link
-              href="/#how-it-works"
-              className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition"
-            >
-              How It Works
-            </Link>
-            <Link
-              href="/#faq"
-              className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition"
-            >
-              FAQ
-            </Link>
-            <Link
-              href="/about"
-              className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition"
-            >
-              About
-            </Link>
-            <button
-              onClick={toggleDarkMode}
-              className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
-              aria-label={
-                darkMode ? "Switch to light mode" : "Switch to dark mode"
-              }
-            >
-              {darkMode ? (
-                <svg
-                  className="w-5 h-5 text-yellow-500"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  className="w-5 h-5 text-gray-700 dark:text-gray-300"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-                </svg>
-              )}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Navigation Menu */}
-        {isMenuOpen && (
-          <div className="md:hidden border-t border-gray-200 dark:border-gray-700">
-            <div className="flex flex-col space-y-3 px-6 py-4 bg-white dark:bg-gray-800">
-              <Link
-                href="/#home"
-                className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Home
-              </Link>
-              <Link
-                href="/#how-it-works"
-                className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                How It Works
-              </Link>
-              <Link
-                href="/#faq"
-                className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                FAQ
-              </Link>
-              <Link
-                href="/about"
-                className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                About
-              </Link>
-
-              {/* Mobile Dark Mode Toggle */}
-              <button
-                onClick={toggleDarkMode}
-                className="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition py-2"
-              >
-                <span>{darkMode ? "" : ""}</span>
-                {darkMode ? (
-                  <svg
-                    className="w-5 h-5 text-yellow-500"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                ) : (
-                  <svg
-                    className="w-5 h-5 text-gray-700 dark:text-gray-300"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-                  </svg>
-                )}
-              </button>
-            </div>
-          </div>
-        )}
-      </nav>
-
+   { 
+}
       {/* Hero Section */}
       <main
         id="home"
@@ -504,7 +298,7 @@ export default function Home() {
         >
           <div className="flex flex-col items-center gap-2 mb-3">
           <p className="text-gray-700 dark:text-gray-300 text-center text-lg pb-2 font-medium tracking-wide">
-          Find your perfect template 😎
+          Find your perfect template 
             </p>
 
             <div className="grid grid-cols-2 sm:flex sm:flex-row gap-3">
@@ -653,12 +447,11 @@ export default function Home() {
       </section>
 
       {selectedTemplate && (
-        <Modal
-          template={selectedTemplate}
-          onClose={closeModal}
-          darkMode={darkMode}
-        />
-      )}
+  <Modal
+    template={selectedTemplate}
+    onClose={closeModal}
+  />
+)}
 
       {/* How It Works Section with dark mode */}
       <section

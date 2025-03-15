@@ -4,24 +4,8 @@ import Link from "next/link";
 
 export default function Terms() {
   return (
-<div className="min-h-screen bg-gray-900 text-white relative overflow-hidden">
-      <nav className="top-0 left-0 right-0 z-50 bg-white  shadow-sm backdrop-blur-md bg-opacity-80">
-        <div className="max-w-6xl mx-auto flex justify-between items-center py-4 px-6">
-          <Link href="/" className="flex items-center space-x-3">
-            <img src="/logo.png" alt="Sheets Master Logo" className="h-10 w-auto" /> 
-            <h1 className="text-xl font-bold text-gray-300 ">Sheets Master</h1>
-          </Link>
-          <div className="space-x-6">
-            <Link href="/" className="text-gray-700  hover:text-gray-300 dark:hover:text-white transition">
-              Home
-            </Link>
-            <Link href="/about" className="text-gray-700  hover:text-gray-300 dark:hover:text-white transition">
-              About
-            </Link>
-          </div>
-        </div>
-      </nav>
-
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white relative overflow-hidden">
+      
       <main className="relative z-10 flex flex-col items-center justify-center px-6 py-24">
         <motion.div
           className="relative z-10 max-w-4xl mb-12"
@@ -39,7 +23,7 @@ export default function Terms() {
           </motion.h1>
 
           <motion.p
-            className="text-lg mt-6 text-gray-500  text-center"
+            className="text-lg mt-6 text-gray-500 dark:text-gray-400 text-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.6 }}
@@ -49,14 +33,14 @@ export default function Terms() {
         </motion.div>
 
         <motion.div 
-          className="relative z-10 max-w-4xl text-left text-gray-800  space-y-8"
+          className="relative z-10 max-w-4xl text-left space-y-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
           <section>
-            <h2 className="text-2xl font-semibold text-gray-300  mb-4">1. Google Services Disclaimer</h2>
-            <p className="mb-4 text-gray-200">
+            <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-300 mb-4">1. Google Services Disclaimer</h2>
+            <p className="mb-4 text-gray-700 dark:text-gray-200">
               Sheets Master is not affiliated with, endorsed by, sponsored by, or connected to Google LLC in any way. 
               Google Sheets™, Google Drive™, and related marks and logos are trademarks of Google LLC. Our templates 
               are independently created and maintained to work with Google's services.
@@ -64,15 +48,15 @@ export default function Terms() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-300  mb-4">2. Template License</h2>
-            <p className="mb-3 text-gray-200 ">Purchase of a template grants you a non-exclusive, non-transferable, single-user license to:</p>
-            <ul className="list-disc pl-6 mb-4 text-gray-200 space-y-2">
+            <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-300 mb-4">2. Template License</h2>
+            <p className="mb-3 text-gray-700 dark:text-gray-200">Purchase of a template grants you a non-exclusive, non-transferable, single-user license to:</p>
+            <ul className="list-disc pl-6 mb-4 text-gray-700 dark:text-gray-200 space-y-2">
               <li>Use the template for personal or business purposes</li>
               <li>Make modifications to suit your needs</li>
               <li>Create copies for backup purposes</li>
             </ul>
-            <p className="mb-3 text-gray-200 ">You may not:</p>
-            <ul className="list-disc pl-6 mb-4 text-gray-200 space-y-2">
+            <p className="mb-3 text-gray-700 dark:text-gray-200">You may not:</p>
+            <ul className="list-disc pl-6 mb-4 text-gray-700 dark:text-gray-200 space-y-2">
               <li>Resell, distribute, or transfer the template to others</li>
               <li>Include the template in a product for redistribution</li>
               <li>Share premium templates publicly</li>
@@ -80,31 +64,31 @@ export default function Terms() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-300  mb-4">3. Pricing and Payments</h2>
-            <p className="mb-4 text-gray-200">
+            <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-300 mb-4">3. Pricing and Payments</h2>
+            <p className="mb-4 text-gray-700 dark:text-gray-200">
               All prices are in USD and are subject to change without notice. Payment is required before template access 
               is granted to paid templates. We use secure third-party payment processors and do not store credit card information.
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-300  mb-4">4. Refund Policy</h2>
-            <p className="mb-4 text-gray-200">
+            <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-300 mb-4">4. Refund Policy</h2>
+            <p className="mb-4 text-gray-700 dark:text-gray-200">
               Due to the digital nature of our products, all sales are final. No refunds will be issued unless:
             </p>
-            <ul className="list-disc pl-6 mb-4 text-gray-200 space-y-2">
+            <ul className="list-disc pl-6 mb-4 text-gray-700 dark:text-gray-200 space-y-2">
               <li>The template is permanently inaccessible</li>
               <li>The template significantly fails to function as described</li>
             </ul>
-            <p className="mb-4 text-gray-200">
+            <p className="mb-4 text-gray-700 dark:text-gray-200">
               Refund requests must be submitted within 7 days of purchase. We reserve the right to deny refunds 
               if we determine the request is not valid.
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-300  mb-4">5. Disclaimer of Warranties</h2>
-            <p className="mb-4 text-gray-200">
+            <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-300 mb-4">5. Disclaimer of Warranties</h2>
+            <p className="mb-4 text-gray-700 dark:text-gray-200">
               Templates are provided "as is" without warranty of any kind. While we strive for excellence, we do not 
               guarantee that templates will meet your specific requirements or be error-free. You assume all risks 
               associated with using our templates.
@@ -112,16 +96,16 @@ export default function Terms() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-300  mb-4">6. Limitation of Liability</h2>
-            <p className="mb-4 text-gray-200">
+            <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-300 mb-4">6. Limitation of Liability</h2>
+            <p className="mb-4 text-gray-700 dark:text-gray-200">
               Sheets Master shall not be liable for any indirect, incidental, special, consequential, or punitive 
               damages resulting from the use or inability to use our templates.
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-300  mb-4">7. Updates to Terms</h2>
-            <p className="mb-4 text-gray-200">
+            <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-300 mb-4">7. Updates to Terms</h2>
+            <p className="mb-4 text-gray-700 dark:text-gray-200">
               We reserve the right to modify these terms at any time. Changes will be effective immediately upon 
               posting to our website. Your continued use of our templates constitutes acceptance of any modifications 
               to these terms.
@@ -129,8 +113,8 @@ export default function Terms() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-300  mb-4">8. Contact</h2>
-            <p className="mb-4 text-gray-200">
+            <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-300 mb-4">8. Contact</h2>
+            <p className="mb-4 text-gray-700 dark:text-gray-200">
               For questions about these terms, please contact us at support@premiumsheets.com
             </p>
           </section>
