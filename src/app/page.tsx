@@ -44,8 +44,6 @@ export default function Home() {
     setIsVisible(true);
   }, []);
 
-  
-
   const fuse = useMemo(
     () =>
       new Fuse(templates, {
@@ -64,8 +62,6 @@ export default function Home() {
       return newCategories.length === 0 ? ["all"] : newCategories;
     });
   };
-
-
 
   const filteredTemplates = searchTerm
     ? fuse.search(searchTerm).map((result) => result.item)
@@ -139,151 +135,144 @@ export default function Home() {
         }}
       ></div>
 
-   { 
-}
+      {}
       {/* Hero Section */}
       <main
         id="home"
-        className="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-10 pb-8 min-h-[28vh] select-none max-w-6xl mx-auto"
+        className="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-8 pb-8 min-h-[28vh] select-none max-w-6xl mx-auto -mt-4"
       >
         {/* Background remains the same */}
-        <div className="absolute inset-0 rounded-lg shadow-2xl overflow-hidden bg-gray-50 dark:bg-gray-800">
+        <div className="absolute inset-0 rounded-b-lg shadow-2xl overflow-hidden bg-gray-50 dark:bg-gray-800">
           <div className="absolute inset-0 gradient-bg dark:opacity-30" />
-          {/* Grid Lines section remains the same */}
-
           <div className="absolute inset-0 opacity-10 dark:opacity-15">
-            {Array.from({ length: 20 }).map((_, i) => (
-              <div
-                key={`h-${i}`}
-                className="absolute h-px w-full bg-gray-500 dark:bg-gray-500"
-                style={{ top: `${(i + 1) * 5}%` }}
-              />
-            ))}
-            {Array.from({ length: 20 }).map((_, i) => (
-              <div
-                key={`v-${i}`}
-                className="absolute w-px h-full bg-gray-500 dark:bg-gray-500"
-                style={{ left: `${(i + 1) * 5}%` }}
-              />
-            ))}
           </div>
         </div>
 
-        {/* Free Templates Badge remains the same */}
-
+        {/* Single motion container that slides down from navbar */}
         <motion.div
-          className="relative z-10 max-w-4xl mt-12" // Reduced top margin
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
+          className="relative z-10 max-w-4xl w-full"
+          initial={{ opacity: 0, y: -80 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            delay: 0.2,
+            duration: 0.7,
+            type: "spring",
+            stiffness: 60,
+            damping: 15,
+          }}
         >
-          <motion.div
-            className="mb-2 flex items-center justify-center" // Reduced bottom margin
-            initial={{ scale: 0.9 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 0.5 }}
-          >
+          {/* Header content */}
+          <div className="mt-12">
+            <div className="mb-2 flex items-center justify-center">
+              <motion.div
+                className="mr-3 text-green-300 transform"
+                animate={{
+                  rotate: [0, 2, 0, -2, 0],
+                  y: [0, -2, 0, 2, 0],
+                }}
+                transition={{
+                  duration: 5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              >
+                <img
+                  src="/spreadsheet.png"
+                  className="w-[105px] h-[65px] sm:w-[70px] sm:h-[70px]"
+                  alt="Google Sheets Icon"
+                />
+              </motion.div>
+
+              <motion.h1
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                className="text-4xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-gray-800 dark:text-white"
+                style={{
+                  fontFamily:
+                    "SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif",
+                  letterSpacing: "-0.025em",
+                }}
+                whileHover={{
+                  scale: 1.02,
+                  transition: { duration: 0.3 },
+                }}
+              >
+                Do more with Google Sheets
+              </motion.h1>
+            </div>
+
+            {/* Subtext */}
             <motion.div
-              className="mr-3 text-green-300 transform"
-              animate={{
-                rotate: [0, 2, 0, -2, 0],
-                y: [0, -2, 0, 2, 0],
-              }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              className="text-xl mb-4 mt-3 max-w-2xl mx-auto leading-relaxed shadow-sm p-3 rounded-lg bg-white/10 dark:bg-gray-800/30 text-center relative overflow-hidden"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
             >
-              {/* Adjusted positioning by removing negative margins */}
-              <img
-                src="/spreadsheet.png"
-                className="w-[105px] h-[65px] sm:w-[70px] sm:h-[70px]"
-                alt="Google Sheets Icon"
+              <p className="relative z-10">
+                <span className="font-semibold">Professional</span>{" "}
+                <span>templates to</span>{" "}
+                <span className="font-semibold">achieve</span>{" "}
+                <span>your goals faster!</span>
+              </p>
+
+              <motion.span
+                className="h-0.5 w-0 bg-gradient-to-r from-blue-400 to-purple-400 mx-auto rounded-full block relative z-10"
+                initial={{ width: 0 }}
+                animate={{ width: "40%" }}
+                transition={{ delay: 1.2, duration: 0.8, ease: "easeOut" }}
               />
             </motion.div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="text-4xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-gray-800 dark:text-white"
-              style={{
-                fontFamily:
-                  "SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif",
-                letterSpacing: "-0.025em",
-              }}
-              whileHover={{
-                scale: 1.02,
-                transition: { duration: 0.3 },
-              }}
-            >
-              Do more with Google Sheets
-            </motion.h1>
-          </motion.div>
-
-          {/* Updated Subtext - moved closer to main title */}
-          <motion.div
-            className="text-xl mb-4 mt-3 max-w-2xl mx-auto leading-relaxed shadow-sm p-3 rounded-lg bg-white/10 dark:bg-gray-800/30 text-center relative overflow-hidden"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            {/* Gradient and shine effects remain the same */}
-
-            <p className="relative z-10">
-              <span className="font-semibold">Professional</span>{" "}
-              <span>templates to</span>{" "}
-              <span className="font-semibold">achieve</span>{" "}
-              <span>your goals faster!</span>
-            </p>
-
-            {/* Subtle underline animation */}
-            <motion.span
-              className="h-0.5 w-0 bg-gradient-to-r from-blue-400 to-purple-400 mx-auto rounded-full block relative z-10"
-              initial={{ width: 0 }}
-              animate={{ width: "40%" }}
-              transition={{ delay: 1.2, duration: 0.8, ease: "easeOut" }}
-            />
-          </motion.div>
-
-          <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 mt-4 mb-6 text-sm sm:text-base">
-            <motion.div
-              className="flex items-center"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-            >
-              <div className="mr-2 text-blue-500 dark:text-blue-400">⚡️</div>
-              <span>No setup required</span>
-            </motion.div>
-            <motion.div
-              className="flex items-center"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-            >
-              <div className="mr-2 text-green-500 dark:text-green-400">👋</div>
-              <span>Hand Curated</span>
-            </motion.div>
-            <motion.div
-              className="flex items-center"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-            >
-              <div className="mr-2 text-purple-500 dark:text-purple-400">
-                🔄
-              </div>
-              <span>Regular Updates</span>
-            </motion.div>
-            <motion.div
-              className="flex items-center"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 }}
-            >
-              <div className="mr-2 text-yellow-500 dark:text-yellow-400">
-                ✨
-              </div>
-              <span>Intuitive Designs</span>
-            </motion.div>
+            {/* Feature bullets */}
+            <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 mt-4 mb-6 text-sm sm:text-base">
+              
+              
+             
+{/* Feature bullets */}
+<div className="flex flex-wrap justify-center gap-x-8 gap-y-2 mt-4 mb-2 text-sm sm:text-base">
+  <motion.div
+    className="flex items-center"
+    initial={{ opacity: 0, y: 10 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.2 }}
+  >
+    <div className="mr-2 text-blue-500 dark:text-blue-400">⚡️</div>
+    <span>No setup required</span>
+  </motion.div>
+  <motion.div
+    className="flex items-center"
+    initial={{ opacity: 0, y: 10 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.4 }}
+  >
+    <div className="mr-2 text-green-500 dark:text-green-400">👋</div>
+    <span>Hand Curated</span>
+  </motion.div>
+  <motion.div
+    className="flex items-center"
+    initial={{ opacity: 0, y: 10 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.6 }}
+  >
+    <div className="mr-2 text-purple-500 dark:text-purple-400">
+      🔄
+    </div>
+    <span>Regular Updates</span>
+  </motion.div>
+  <motion.div
+    className="flex items-center"
+    initial={{ opacity: 0, y: 10 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.8 }}
+  >
+    <div className="mr-2 text-yellow-500 dark:text-yellow-400">
+      ✨
+    </div>
+    <span>Intuitive Designs</span>
+  </motion.div>
+</div>
+            </div>
           </div>
         </motion.div>
       </main>
@@ -297,8 +286,8 @@ export default function Home() {
           className="card-container dark:bg-gray-800"
         >
           <div className="flex flex-col items-center gap-2 mb-3">
-          <p className="text-gray-700 dark:text-gray-300 text-center text-lg pb-2 font-medium tracking-wide">
-          Find your perfect template 
+            <p className="text-gray-700 dark:text-gray-300 text-center text-lg pb-2 font-medium tracking-wide">
+              Find your perfect template
             </p>
 
             <div className="grid grid-cols-2 sm:flex sm:flex-row gap-3">
@@ -447,11 +436,8 @@ export default function Home() {
       </section>
 
       {selectedTemplate && (
-  <Modal
-    template={selectedTemplate}
-    onClose={closeModal}
-  />
-)}
+        <Modal template={selectedTemplate} onClose={closeModal} />
+      )}
 
       {/* How It Works Section with dark mode */}
       <section
