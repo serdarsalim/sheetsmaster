@@ -290,7 +290,7 @@ function HomeContent() {
         </motion.div>
       </main>
 
-      {/* Templates Section with dark mode support */}
+      {/* Templates Section  */}
       <section id="templates" className="relative z-10 p-6 md:p-12 text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -300,10 +300,10 @@ function HomeContent() {
         >
           <div className="flex flex-col items-center gap-2 mb-3">
             <p className="text-gray-700 dark:text-gray-300 text-center text-lg pb-2 font-medium tracking-wide">
-              Find your perfect template
+              Find your perfect template 🫡
             </p>
 
-            <div className="grid grid-cols-2 sm:flex sm:flex-row gap-3">
+            <div className="grid grid-cols-2 sm:flex sm:flex-row gap-2 sm:gap-3">
             {[
   { name: "all", count: totalTemplates },
   { name: "free", count: categoryCounts["free"] || 0 },
@@ -317,12 +317,14 @@ function HomeContent() {
     whileTap={{ scale: 0.95 }}
     onClick={() => handleCategoryClick(name)}
     className={`
-      px-4 py-2 
+      px-2 sm:px-6 
+      py-1.5 sm:py-2 
       rounded-lg 
       transition-all 
       duration-300 
       font-medium
-      min-w-[100px]
+      text-base sm:text-base
+      min-w-[120px] sm:min-w-[120px]
       ${
         selectedCategories.includes(name)
           ? "bg-blue-500 text-white"
