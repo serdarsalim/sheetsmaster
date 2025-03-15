@@ -58,23 +58,39 @@ function HomeContent() {
   const [templates, setTemplates] = useState<Template[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Load templates from CSV
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const data = await loadTemplates();
-        setTemplates(data);
-      } catch (error) {
-        console.error("Failed to load templates from CSV:", error);
-        // You could import fallback templates here if the CSV fails
-        // import {fallbackTemplates} from './templates';
-        // setTemplates(fallbackTemplates);
-      } finally {
-        setLoading(false);
-      }
+  // Load templates from Sheets
+// In HomeContent component
+useEffect(() => {
+  async function fetchData() {
+    try {
+      // This will only load templates with loadTemplate: true
+      const data = await loadTemplates();
+      setTemplates(data);
+    } catch (error) {
+      console.error("Failed to load templates from CSV:", error);
+      // You could provide fallback templates here
+    } finally {
+      setLoading(false);
     }
-    fetchData();
-  }, []);
+  }
+
+  // Add a prefetch for other pages
+  async function prefetchTemplates() {
+    try {
+      // Prefetch templates to warm the cache
+      await loadTemplates();
+    } catch (error) {
+      console.error("Template prefetch failed:", error);
+    }
+  }
+
+  fetchData();
+  
+  // This helps ensure the templates are loaded for other pages
+  const timerId = setTimeout(prefetchTemplates, 2000);
+  
+  return () => clearTimeout(timerId);
+}, []);
 
   useEffect(() => {
     setIsVisible(true);

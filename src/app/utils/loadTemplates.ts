@@ -11,7 +11,13 @@ const templateUpdateEvents = new Set<(templates: Template[]) => void>();
 
 function parseTemplateData(item: Record<string, any>): Template {
   try {
+    // Parse loadTemplate first for optimization
+    const loadTemplate = item.loadTemplate === 'TRUE' || 
+                         item.loadTemplate === 'true' || 
+                         item.loadTemplate === true;
+    
     return {
+      loadTemplate,
       id: parseInt(item.id) || 0,
       name: item.name || 'Unnamed Template',
       categories: item.categories ? item.categories.split(',').map((cat: string) => cat.trim()) : [],
@@ -30,6 +36,7 @@ function parseTemplateData(item: Record<string, any>): Template {
   } catch (error) {
     console.error("Error parsing template data:", error, item);
     return {
+      loadTemplate: false, // Don't load error templates by default
       id: 0,
       name: 'Error Template',
       categories: ['error'],
@@ -103,15 +110,20 @@ async function fetchAndProcessTemplates(url: string, isFallback = false): Promis
       throw new Error('No valid data in CSV');
     }
 
-    const templates = data.map(parseTemplateData).filter(Boolean);
+    // Parse all templates but only return those with loadTemplate: true
+    const allTemplates = data.map(parseTemplateData).filter(Boolean);
     
-    if (templates.length > 0) {
-      templateCache.set(templates);
-      // Notify subscribers of new data
+    // Early filter for templates that should be loaded
+    const templates = allTemplates.filter(template => template.loadTemplate);
+    
+    if (allTemplates.length > 0) {
+      // Cache all templates but filter for subscribers
+      templateCache.set(allTemplates);
+      // Notify subscribers of new data (only loadable templates)
       templateUpdateEvents.forEach(callback => callback(templates));
     }
     
-    return templates;
+    return templates; // Return only templates with loadTemplate: true
   } catch (error) {
     if (!isFallback) {
       console.error("Error in fetchAndProcessTemplates:", error);
@@ -128,6 +140,9 @@ export async function loadTemplates(): Promise<Template[]> {
   const cachedTemplates = templateCache.get();
   
   if (cachedTemplates && cachedTemplates.length > 0) {
+    // Filter cache for templates that should load
+    const loadableTemplates = cachedTemplates.filter(t => t.loadTemplate);
+    
     // If we have cache, use it immediately but refresh in background
     if (!isFetchingInBackground) {
       isFetchingInBackground = true;
@@ -144,7 +159,7 @@ export async function loadTemplates(): Promise<Template[]> {
       }, 100);
     }
     
-    return cachedTemplates;
+    return loadableTemplates;
   }
   
   // No cache, do a blocking fetch
@@ -153,6 +168,27 @@ export async function loadTemplates(): Promise<Template[]> {
   } catch (error) {
     console.error("All template sources failed:", error);
     return []; // Return empty array as last resort
+  }
+}
+
+// Get a specific template by ID (regardless of loadTemplate flag)
+export async function getTemplateById(id: number): Promise<Template | null> {
+  const cachedTemplates = templateCache.get();
+  
+  if (cachedTemplates && cachedTemplates.length > 0) {
+    // Look in cache first
+    const template = cachedTemplates.find(t => t.id === id);
+    if (template) return template;
+  }
+  
+  // If not in cache, fetch all and find
+  try {
+    const templates = await fetchAndProcessTemplates(SHEET_URL);
+    const allTemplates = templateCache.get() || [];
+    return allTemplates.find(t => t.id === id) || null;
+  } catch (error) {
+    console.error(`Failed to get template ${id}:`, error);
+    return null;
   }
 }
 

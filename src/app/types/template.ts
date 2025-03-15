@@ -1,4 +1,5 @@
 export interface Template {
+    loadTemplate: boolean;
     id: number;
     name: string;
     categories: string[];
