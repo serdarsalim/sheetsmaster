@@ -146,7 +146,19 @@ export default function Home() {
           <div className="absolute inset-0 opacity-10 dark:opacity-15"></div>
         </div>
 
-       
+        {/* Single motion container that slides down from navbar */}
+        <motion.div
+          className="relative z-10 max-w-4xl w-full"
+          initial={{ opacity: 0, y: -80 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            delay: 0.2,
+            duration: 0.7,
+            type: "spring",
+            stiffness: 60,
+            damping: 15,
+          }}
+        >
           {/* Header content */}
           <div className="mt-12">
             <div className="mb-2 flex items-center justify-center">
@@ -211,7 +223,7 @@ export default function Home() {
             </motion.div>
 
             {/* Feature bullets */}
-            <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 mt-4 mb-2 text-sm sm:text-base">
+            <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 mt-8 mb-2 text-sm sm:text-base">
               <motion.div
                 className="flex items-center"
                 initial={{ opacity: 0, y: 10 }}
@@ -256,8 +268,10 @@ export default function Home() {
               </motion.div>
             </div>
           </div>
+        </motion.div>
       </main>
 
+      
       {/* Templates Section with dark mode support */}
       <section id="templates" className="relative z-10 p-6 md:p-12 text-center">
         <motion.div
