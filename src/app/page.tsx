@@ -11,6 +11,7 @@ import { loadTemplates } from '@/app/utils/loadTemplates';
 
 
 export default function Home() {
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [openFaqId, setOpenFaqId] = useState<number | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -26,17 +27,33 @@ export default function Home() {
   useEffect(() => {
     async function fetchData() {
       try {
+        // 1. Try to load from localStorage first
+        const cached = localStorage.getItem('templates');
+        if (cached) {
+          const parsedCache = JSON.parse(cached);
+          setTemplates(parsedCache);
+          setLoading(false);
+          setIsInitialLoad(false);
+        }
+  
+        // 2. Fetch fresh data in background
         const data = await loadTemplates();
-        setTemplates(data);
+        
+        // 3. Update only if data is different
+        if (JSON.stringify(data) !== cached) {
+          setTemplates(data);
+          localStorage.setItem('templates', JSON.stringify(data));
+        }
       } catch (error) {
         console.error("Failed to load templates:", error);
       } finally {
         setLoading(false);
+        setIsInitialLoad(false);
       }
     }
     fetchData();
   }, []);
-
+      
   useEffect(() => {
     setIsVisible(true);
   }, []);
