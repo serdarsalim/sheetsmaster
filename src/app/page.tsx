@@ -451,9 +451,10 @@ function HomeContent() {
                 { name: "all", count: totalTemplates },
                 { name: "free", count: categoryCounts["free"] || 0 },
                 { name: "pf", count: categoryCounts["pf"] || 0 },
-                { name: "pjm", count: categoryCounts["pjm"] || 0 },
                 { name: "prod", count: categoryCounts["prod"] || 0 },
                 { name: "fit", count: categoryCounts["fit"] || 0 },
+                { name: "pjm", count: categoryCounts["pjm"] || 0 },
+
               ].map(({ name, count }) => (
                 <motion.button
                   key={name}
