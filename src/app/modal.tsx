@@ -87,13 +87,13 @@ const Modal: React.FC<TemplateProps> = ({
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
                 {template.name}
               </h2>
-              <p className="text-gray-700 dark:text-gray-300 mt-1">
+              <p className="text-gray-700 dark:text-gray-300 mt-2">
                 {template.description}
               </p>
             </div>
             <button
               onClick={onClose}
-              className="text-gray-900 dark:text-gray-300 hover:text-indigo-300 dark:hover:text-indigo-200 transition-colors bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg px-5 py-2 text-lg"
+              className="text-gray-900 dark:text-gray-300 hover:text-indigo-300 dark:hover:text-indigo-200 transition-colors bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg px-5 py-2 text-lg ml-5"
             >
               ✕
             </button>

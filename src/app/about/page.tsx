@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense } from 'react';
+import { Suspense } from "react";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import Image from "next/image";
@@ -26,8 +26,14 @@ export default function About() {
           ))}
         </div>
       </div>
-      
-      <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+
+      <Suspense
+        fallback={
+          <div className="min-h-screen flex items-center justify-center">
+            Loading...
+          </div>
+        }
+      >
         <AboutContent />
       </Suspense>
     </div>
@@ -184,13 +190,7 @@ function AboutContent() {
 
             <div className="prose prose-lg text-gray-700 dark:text-gray-300 max-w-none">
               <p>
-                Sheets Master offers thoughtfully designed Google Sheets
-                templates focused on productivity, health, personal finances,
-                and project management. Instead of overwhelming you with
-                options, we provide a carefully curated collection of templates
-                that actually solve real problems. Each template is
-                battle-tested and designed to help you focus on what matters
-                most.
+              Sheets Master offers thoughtfully designed Google Sheets templates focused on personal finances, productivity, health, and project management. We provide both free and premium templates to meet diverse needs. Instead of overwhelming you with options, we offer a carefully curated collection that actually solves real problems. Each template is battle-tested and designed to help you focus on what matters most.
               </p>
             </div>
           </div>
@@ -217,7 +217,7 @@ function AboutContent() {
               transition={{ duration: 0.6, delay: 0.4 }}
               tabIndex={0}
             >
-              What can it become?
+              What should it become?
             </motion.h2>
 
             <motion.div
@@ -237,9 +237,9 @@ function AboutContent() {
               <p className="text-gray-700 dark:text-gray-300">
                 While our collection is currently small and focused, our vision
                 is expansive: to create the most comprehensive, user-friendly
-                library of Google Sheets templates available anywhere. Think of
-                us as building the "Toolspedia for Google Sheets" — one
-                excellent template at a time.
+                library of highest-quality Google Sheets templates available
+                anywhere. Think of us as building the "Toolspedia for Google
+                Sheets" — one excellent template at a time.
               </p>
             </motion.div>
           </div>
@@ -274,9 +274,9 @@ function AboutContent() {
 
             <motion.div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
               {[
-                "Hi Friend! I'm Serdar, the creator of Sheets Master. I believe deeply in the power of spreadsheets to transform how we approach our daily challenges. My mission is simple: create highly functional Google Sheets templates that actually solve real problems people face in their work and personal lives.",
-                "Each template in our collection is one I've personally designed, tested, and refined. I'm not interested in quantity — I'm focused on creating templates that are intuitive, powerful, and immediately useful. Every formula is optimized, every layout is designed for clarity, and every template addresses a specific need.",
-                "Sheets Master began with templates I built to solve my own challenges in productivity, health tracking, personal finance, and project management. Now I'm sharing them with you, along with detailed guides and walkthroughs. Have a spreadsheet problem you can't solve? Reach out — I'd love to help create the solution!",
+       "Hi Friend! I am Serdar, the founder of Sheets Master. As someone who uses Google Sheets every day for personal finances and task tracking for over a decade, I've seen firsthand how transformative spreadsheets can be. I believe that in an era of complex software and AI tools, a well-designed spreadsheet can be a powerful tool for anyone.",
+        "Sheets Master began with templates I built to solve my own challenges in productivity, health tracking, personal finance, and project management. Now I'm sharing them with you, along with detailed guides and walkthroughs. Have a spreadsheet problem you can't solve? Reach out — I'd love to help create the solution!",
+        "Every template that we list on our platform is carefully curated and personally tested to ensure optimal functionality, clear design, and a laser-focus on solving specific challenges. We're not interested in quantity — we're focused on creating a collection of templates that are intuitive, powerful, and immediately useful. ", 
               ].map((text, i) => (
                 <motion.div
                   key={i}
@@ -334,11 +334,11 @@ function AboutContent() {
                     backgroundColor: "rgba(234, 179, 8, 0.15)",
                   }}
                 >
-                  <h3 className="font-bold text-lg mb-2">Professionals</h3>
+                  <h3 className="font-bold text-lg mb-2">Productivity Ninjas</h3>
                   <p className="text-gray-700 dark:text-gray-300">
-                    Who need effective systems for time management, project
-                    tracking, and personal organization but don't have time to
-                    build complex spreadsheets from scratch.
+                  Anyone looking to streamline their work and personal life through smart, easy-to-use spreadsheet solutions. 
+                
+
                   </p>
                 </motion.div>
 
@@ -350,7 +350,7 @@ function AboutContent() {
                   }}
                 >
                   <h3 className="font-bold text-lg  mb-2">
-                    Personal Finance Enthusiasts
+                    Financial Freedom Seekers
                   </h3>
                   <p className="text-gray-700 dark:text-gray-300">
                     Looking for better ways to budget, track expenses, plan
@@ -369,7 +369,7 @@ function AboutContent() {
                   }}
                 >
                   <h3 className="font-bold text-lg  mb-2">
-                    Health & Wellness Trackers
+                    Health & Wellness Champions
                   </h3>
                   <p className="text-gray-700 dark:text-gray-300">
                     Who want to monitor fitness progress, nutrition, habits, or
@@ -384,7 +384,7 @@ function AboutContent() {
                     backgroundColor: "rgba(234, 179, 8, 0.15)",
                   }}
                 >
-                  <h3 className="font-bold text-lg  mb-2">Project Managers</h3>
+                  <h3 className="font-bold text-lg  mb-2">Project Manager Gurus</h3>
                   <p className="text-gray-700 dark:text-gray-300">
                     Seeking lightweight but powerful tools to plan projects,
                     assign tasks, track progress, and visualize outcomes without
@@ -458,7 +458,7 @@ function AboutContent() {
             =HYPERLINK("mailto:contact@sheetsmaster.co","contact@sheetsmaster.co")
           </motion.div>
         </motion.div>
-        
+
         {/* Floating Formula - Made more subtle */}
         <motion.div
           className="absolute bottom-7 right-4 md:right-10 text-xs text-gray-500 dark:text-gray-400 font-mono hidden md:block"
@@ -471,7 +471,8 @@ function AboutContent() {
             duration: 6,
           }}
         >
-          =AYBASTIFORMULA(IF(ROW(A:A)=1,"Quality",IF(A:A="","",A:A&" Over Quantity")))
+          =AYBASTIFORMULA(IF(ROW(A:A)=1,"Quality",IF(A:A="","",A:A&" Over
+          Quantity")))
         </motion.div>
       </main>
     </>

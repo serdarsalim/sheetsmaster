@@ -129,7 +129,7 @@ export default function Navbar() {
             onClick={toggleDarkMode}
             className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
             aria-label={
-              darkMode ? "Switch to light mode" : "Switch to dark mode"
+              darkMode ? "" : ""
             }
           >
             {darkMode ? (
@@ -195,7 +195,7 @@ export default function Navbar() {
               onClick={toggleDarkMode}
               className="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition py-2"
             >
-              <span>{darkMode ? "Light Mode" : "Dark Mode"}</span>
+              <span>{darkMode ? "" : ""}</span>
               {darkMode ? (
                 <svg
                   className="w-5 h-5 text-yellow-500"
