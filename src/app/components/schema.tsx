@@ -2,7 +2,7 @@
 
 import { Suspense } from 'react';
 import Script from 'next/script';
-import { useTemplates } from '../hooks/useTemplates';
+import { useTemplates } from '../hooks/templateService';
 import { usePathname } from 'next/navigation';
 
 function SchemaContent() {
