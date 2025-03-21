@@ -6,6 +6,7 @@ import Footer from "./components/footer";
 import Analytics from "./components/analytics";
 import Schema from "./components/schema";
 import { Suspense } from "react";
+import GoogleTagManager from './components/GoogleTagManager';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -75,7 +76,8 @@ export default function RootLayout({
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
-      >
+      > {/* ADD YOUR GTM COMPONENT HERE with your ID */}
+        <GoogleTagManager gtmId="GTM-WGJVWFS5" />
         <Navbar />{" "}
         <Suspense
           fallback={
