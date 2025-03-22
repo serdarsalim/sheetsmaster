@@ -4,15 +4,15 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  // Configure for static export
-  output: "export", // Use static export for Netlify
+  // Remove the static export configuration since Vercel supports all Next.js features
+  // output: "export", 
   
-  // Fix Image Optimization API compatibility with static export
+  // Image optimization works natively on Vercel, so you can remove this or set to false
   images: {
-    unoptimized: true, // Disable the Image Optimization API for static export
+    // unoptimized: true, // Not needed for Vercel
   },
   
-  // Add configuration to handle client components properly
+  // Keep experimental features if needed
   experimental: {
     // This helps with client components that might use URL parameters
     serverActions: {
