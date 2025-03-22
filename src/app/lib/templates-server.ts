@@ -1,6 +1,15 @@
 import Papa from 'papaparse';
 import type { Template } from '@/app/types/template';
 
+// Add this type definition for Next.js fetch options
+type NextFetchRequestInit = RequestInit & {
+  next?: {
+    revalidate?: number | false;
+    tags?: string[];
+  };
+  cache?: 'force-cache' | 'no-store';
+};
+
 const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSjtzEuoELVWkFDCZ0vBsutQq5bVGoha5Valcxga9-c0DXqFdNr8fg0hI5KexsDrIigdZrerGQzDvfP/pub?gid=0&single=true&output=csv';
 const FALLBACK_URL = '/data/fallbackTemplates.csv';
 
@@ -8,7 +17,7 @@ const FALLBACK_URL = '/data/fallbackTemplates.csv';
 export async function getTemplates(): Promise<Template[]> {
   try {
     // Add cache control for production
-    const options = process.env.NODE_ENV === 'production' 
+    const options: NextFetchRequestInit = process.env.NODE_ENV === 'production' 
       ? { next: { revalidate: 3600 } } // Revalidate every hour in production
       : { cache: 'no-store' }; // No caching in development
     
